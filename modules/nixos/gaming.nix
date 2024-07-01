@@ -1,45 +1,53 @@
-{ inputs, lib, config, pkgs, ...}:
+{ inputs, lib, config, pkgs, ... }:
 {
   # Configure steam
   programs.steam = {
     enable = true;
-	extraCompatPackages = [ pkgs.proton-ge-bin ];
-	gamescopeSession = {
-	  enable = true;
-	  env = {
+    extraCompatPackages = [ pkgs.proton-ge-bin ];
+    gamescopeSession = {
+      enable = true;
+      env = {
         STEAM_DISPLAY_REFRESH_LIMITS = "40,60";
-	  };
-	  args = [
-	    "--output-width" "1920"
-	    "--output-height" "1080"
-		"--nested-width" "1280"
-		"--nested-height" "720"
-		"--max-scale" "2"
-		"--filter" "fsr"
-        "--fsr-sharpness" "0"
-		"--backend" "drm"
-		"--hide-cursor-delay" 
-	    "--steam"
-		"--force-windows-fullscreen"
-		"--adaptive-sync"
-		# End of gamescope arguments
+      };
+      args = [
+        "--output-width"
+        "1920"
+        "--output-height"
+        "1080"
+        "--nested-width"
+        "1280"
+        "--nested-height"
+        "720"
+        "--max-scale"
+        "2"
+        "--filter"
+        "fsr"
+        "--fsr-sharpness"
+        "0"
+        "--backend"
+        "drm"
+        "--hide-cursor-delay"
+        "--steam"
+        "--force-windows-fullscreen"
+        "--adaptive-sync"
+        # End of gamescope arguments
         "--"
-		"steam"
-		# Steam arguments
-		"-gamepadui" 
-		"-steamos3"
-		"-steampal"
-		"-steamdeck"
-	  ];
-	};
-	package = pkgs.steam.override {
+        "steam"
+        # Steam arguments
+        "-gamepadui"
+        "-steamos3"
+        "-steampal"
+        "-steamdeck"
+      ];
+    };
+    package = pkgs.steam.override {
       extraPkgs = pkgs: with pkgs; [
         # steamdeck first boot wizard skip
         (writeShellScriptBin "steamos-polkit-helpers/steamos-update" "exit 7")
         # switch to desktop
         (writeShellScriptBin "steamos-session-select" "kill $PPID")
-	  ];
-	};
+      ];
+    };
   };
   programs.gamescope.capSysNice = true;
 

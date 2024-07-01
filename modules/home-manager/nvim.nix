@@ -38,8 +38,8 @@
       showmatch = true;
       clipboard.register = [ "unnamed" "unnamedplus" "autoselect" ];
     };
-	plugins = {
+    plugins = {
       yanky.enable = true;
-	};
+    };
   };
 }

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, ...}:
+{ config, lib, pkgs, modulesPath, ... }:
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -7,17 +7,17 @@
   ### Boot Configuration
   boot = {
     loader = {
-	  systemd-boot.enable = true;
+      systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
-	};
+    };
     initrd = {
-	  availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usbhid" "usb_storage" "sd_mod" ];
+      availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usbhid" "usb_storage" "sd_mod" ];
       luks.devices = {
-	    "root".device = "/dev/disk/by-label/nixos-luks";
+        "root".device = "/dev/disk/by-label/nixos-luks";
         "swap".device = "/dev/disk/by-label/swap-luks";
-	  };
-	};
-	kernelModules = [ "kvm-amd" ];
+      };
+    };
+    kernelModules = [ "kvm-amd" ];
   };
   fileSystems = {
     "/boot" = {
@@ -31,13 +31,13 @@
     };
   };
   swapDevices = [
-	{ 
+    {
       device = "/dev/disk/by-label/swap";
-	}
+    }
   ];
 
   ### Graphics configuration
-  services.xserver.videoDrivers = ["amdgpu"];
+  services.xserver.videoDrivers = [ "amdgpu" ];
   hardware = {
     opengl.enable = true;
     opengl.driSupport = true;
@@ -46,10 +46,10 @@
 
   ### Wireless communication
   hardware.bluetooth = {
-	enable = true;
-	powerOnBoot = true;
+    enable = true;
+    powerOnBoot = true;
   };
- 
+
   # Audio device configuration
   #services.pipewire.wireplumber.extraConfig."50-alsa-rename" = {
   #  rule = {
@@ -68,8 +68,8 @@
   #};
 
   networking.useDHCP = lib.mkDefault true;
-																		
+
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  
+
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

@@ -1,21 +1,21 @@
-{ inputs, outputs, lib, config, pkgs, ...}:
+{ inputs, outputs, lib, config, pkgs, ... }:
 {
   imports = [
-    ./hardware.nix
+    ./hardware-configuration.nix
     outputs.nixosModules.gaming
-	outputs.nixosModules.greetd
-	outputs.nixosModules.hyprland
-	outputs.nixosModules.nixos
-	outputs.nixosModules.power
-	outputs.nixosModules.stylix
+    outputs.nixosModules.greetd
+    outputs.nixosModules.hyprland
+    outputs.nixosModules.nixos
+    outputs.nixosModules.power
+    outputs.nixosModules.stylix
   ];
-  
+
   # System name
   networking.hostName = "ixion";
-  
+
   # Time zone and locale
   time.timeZone = "Europe/Berlin";
-  i18n.defaultLocale =  "en_AU.UTF-8";
+  i18n.defaultLocale = "en_AU.UTF-8";
 
   # User account
   users.users.sebastien = {
@@ -29,21 +29,21 @@
 
   services.tailscale = {
     enable = true;
-	useRoutingFeatures = "client";
+    useRoutingFeatures = "client";
   };
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     git
-	tmux
-	wget
+    tmux
+    wget
     firefox
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   environment.sessionVariables = {
-	# Force wayland for firefox
+    # Force wayland for firefox
     MOZ_ENABLE_WAYLAND = "1";
   };
 

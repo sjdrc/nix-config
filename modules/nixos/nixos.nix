@@ -1,4 +1,4 @@
-{ inputs, outputs, lib, config, pkgs, ...}:
+{ inputs, outputs, lib, config, pkgs, ... }:
 {
   # NixOS configuration
   nixpkgs.config.allowUnfree = true;
@@ -8,11 +8,8 @@
   # Nix helper
   programs.nh = {
     enable = true;
-	flake = "/etc/nixos";
+    flake = "/etc/nixos";
     clean.enable = true;
-    clean.extraArgs = ''
-	  --keep 10
-	  --keep-since 7d
-	'';
+    clean.extraArgs = "--keep 10 --keep-since 7d";
   };
 }

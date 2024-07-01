@@ -1,8 +1,8 @@
-{ inputs, outputs, lib, config, pkgs, ...}:
+{ inputs, outputs, lib, config, pkgs, ... }:
 {
   # Allow home-manager to manage itself
   programs.home-manager.enable = true;
-  
+
   imports = [
     outputs.homeManagerModules.bash
     outputs.homeManagerModules.hyprland
@@ -16,8 +16,8 @@
 
   home.packages = with pkgs; [
     openlens
-	slack
-	systemctl-tui
+    slack
+    systemctl-tui
   ];
 
   gtk.enable = true;
@@ -25,12 +25,12 @@
 
   programs.kitty = {
     enable = true;
-	settings = {
+    settings = {
       open_url_with = "xdg-open";
-	  enable_audio_bell = false;
-	};
+      enable_audio_bell = false;
+    };
   };
-  
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
@@ -60,13 +60,13 @@
           {
             criteria = "eDP-1";
             status = "enable";
-			scale = 1.5;
+            scale = 1.5;
           }
         ];
       };
     };
   };
-  
+
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "24.05";
 }
