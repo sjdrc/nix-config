@@ -12,4 +12,8 @@
     clean.enable = true;
     clean.extraArgs = "--keep 10 --keep-since 7d";
   };
+
+  # WARNING: Do not change
+  system.stateVersion = "24.05";
 }
+

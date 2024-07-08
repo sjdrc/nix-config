@@ -4,30 +4,29 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  ### Boot Configuration
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usbhid" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-amd" ];
+  boot.extraModulePackages = [ ];
+
+  fileSystems."/" = {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "ext4";
+    options = [ "noatime" "nodiratime" "discard" ];
+  };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-label/boot";
+    fsType = "vfat";
+    options = [ "fmask=0022" "dmask=0022" ];
+  };
+
+  boot.initrd.luks.devices."root".device = "/dev/disk/by-label/nixos-luks";
+  boot.initrd.luks.devices."swap".device = "/dev/disk/by-label/swap-luks";
+
   boot = {
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
-    };
-    initrd = {
-      availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usbhid" "usb_storage" "sd_mod" ];
-      luks.devices = {
-        "root".device = "/dev/disk/by-label/nixos-luks";
-        "swap".device = "/dev/disk/by-label/swap-luks";
-      };
-    };
-    kernelModules = [ "kvm-amd" ];
-  };
-  fileSystems = {
-    "/boot" = {
-      device = "/dev/disk/by-label/boot";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
-    "/" = {
-      device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
     };
   };
   swapDevices = [
@@ -35,37 +34,6 @@
       device = "/dev/disk/by-label/swap";
     }
   ];
-
-  ### Graphics configuration
-  services.xserver.videoDrivers = [ "amdgpu" ];
-  hardware = {
-    opengl.enable = true;
-    opengl.driSupport = true;
-    opengl.driSupport32Bit = true;
-  };
-
-  ### Wireless communication
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-  };
-
-  # Audio device configuration
-  #services.pipewire.wireplumber.extraConfig."50-alsa-rename" = {
-  #  rule = {
-  #    matches = {
-  #      {
-  #        { "api.alsa.path", "equals", "hw:4" },
-  #      },
-  #    },
-  #    apply_properties = {
-  #      ["node.description"] = "Behringer",
-  #      ["node.nick"] = "Behringer",
-  #    },
-  #  }
-  #  
-  #  table.insert(alsa_monitor.rules,rule)
-  #};
 
   networking.useDHCP = lib.mkDefault true;
 

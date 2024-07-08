@@ -14,10 +14,10 @@
         "1920"
         "--output-height"
         "1080"
-        "--nested-width"
-        "1280"
-        "--nested-height"
-        "720"
+        #"--nested-width"
+        #"1280"
+        #"--nested-height"
+        #"720"
         "--max-scale"
         "2"
         "--filter"
@@ -55,39 +55,6 @@
   # See: https://github.com/ValveSoftware/SteamOS/issues/1006
   # See also: https://www.reddit.com/r/SteamDeck/comments/ymqvbz/ubisoft_connect_connection_lost_stuck/j36kk4w/?context=3
   boot.kernel.sysctl."net.ipv4.tcp_mtu_probing" = true;
-
-  ## This rule allows the user to configure Wi-Fi in Deck UI.
-  ##
-  ## Steam modifies the system network configs via
-  ## `org.freedesktop.NetworkManager.settings.modify.system`,
-  ## which normally requires being in the `networkmanager` group.
-  #security.polkit.extraConfig = ''
-  #  // Jovian-NixOS/steam: Allow users to configure Wi-Fi in Deck UI
-  #  polkit.addRule(function(action, subject) {
-  #    if (
-  #      action.id.indexOf("org.freedesktop.NetworkManager") == 0 &&
-  #      subject.isInGroup("users") &&
-  #      subject.local &&
-  #      subject.active
-  #    ) {
-  #      return polkit.Result.YES;
-  #    }
-  #  });
-  #'';
-
-  ## See: https://github.com/Jovian-Experiments/PKGBUILDs-mirror/tree/jupiter-main/bluez
-  #hardware.bluetooth.settings = {
-  #  General = {
-  #    MultiProfile = "multiple";
-  #    FastConnectable = true;
-  #    # enable experimental LL privacy, experimental offload codecs
-  #    KernelExperimental = "15c0a148-c273-11ea-b3de-0242ac130004,a6695ace-ee7f-4fb9-881a-5fac66c629af";
-  #  };
-  #  LE = {
-  #    ScanIntervalSuspend = 2240;
-  #    ScanWindowSuspend = 224;
-  #  };
-  #};
 
   # Input device configuration
   services.handheld-daemon.enable = true;
