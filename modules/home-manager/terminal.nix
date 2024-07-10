@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   programs.kitty = {
     enable = true;
@@ -9,6 +9,11 @@
   };
   
   home.packages = with pkgs; [
+    tmux
+    wget
     systemctl-tui
+    # Docker tools
+    lazydocker
+    dive
   ];
 }

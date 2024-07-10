@@ -1,5 +1,7 @@
 { inputs, outputs, lib, config, pkgs, ... }:
 {
+  networking.hostName = "ixion";
+  
   imports = [
     ./hardware-configuration.nix
     #outputs.nixosModules.audio
@@ -10,37 +12,25 @@
     outputs.nixosModules.graphics
     outputs.nixosModules.greetd
     outputs.nixosModules.hyprland
+    outputs.nixosModules.locale
+    outputs.nixosModules.networking
     outputs.nixosModules.nixos
     outputs.nixosModules.power
     outputs.nixosModules.stylix
   ];
 
-  # System name
-  networking.hostName = "ixion";
-
-  # Networking
-  networking.networkmanager.enable = true;
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
-  # User account
   users.users.sebastien = {
     isNormalUser = true;
     description = "Sebastien";
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
-  # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     git
-    tmux
-    wget
     firefox
   ];
 
   environment.sessionVariables = {
-    # Force wayland for firefox
-    MOZ_ENABLE_WAYLAND = "1";
+    MOZ_ENABLE_WAYLAND = "1";           # Force wayland for firefox
   };
 }

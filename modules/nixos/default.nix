@@ -8,6 +8,7 @@
   greetd = import ./greetd.nix;
   hyprland = import ./hyprland.nix;
   locale = import ./locale.nix;
+  networking = import ./networking.nix;
   nixos = import ./nixos.nix;
   power = import ./power.nix;
   stylix = import ./stylix.nix;

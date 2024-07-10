@@ -1,13 +1,18 @@
-{ ... }:
+{ pkgs, ... }:
 {
   home.packages = with pkgs; [
-    openlens
     slack
     google-chrome
+    # Kubernetes tools
+    kubectl
+    kubelogin-oidc
+    kubernetes-helm
+    openlens
+    stern # for @andrea-falco/lens-multi-pod-logs extension
   ];
 
   programs.vscode = {
     enable = true;
-    package = pkgs.vscode.fhs;
+    mutableExtensionsDir = true;
   };
 }

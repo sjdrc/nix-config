@@ -1,4 +1,4 @@
-{ inputs, outputs, lib, config, pkgs, ... }:
+{ pkgs, ... }:
 {
   # NixOS configuration
   nixpkgs.config.allowUnfree = true;
@@ -13,7 +13,11 @@
     clean.extraArgs = "--keep 10 --keep-since 7d";
   };
 
+  # Flake config inspection tool
+  environment.systemPackages = [
+    pkgs.nix-inspect
+  ];
+
   # WARNING: Do not change
   system.stateVersion = "24.05";
 }
-
