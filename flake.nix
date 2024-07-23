@@ -22,44 +22,48 @@
     stylix.inputs.nixpkgs.follows = "nixpkgs";
     stylix.inputs.home-manager.follows = "home-manager";
 
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-    hyprland.inputs.nixpkgs.follows = "nixpkgs";
-
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , ...
-    } @ inputs:
+    { self, nixpkgs, ... }@inputs:
     let
       inherit (self) outputs;
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      globals = {
+        user = "sebastien";
+      };
     in
     {
-      nixosModules = import ./modules/nixos;
-      homeManagerModules = import ./modules/home-manager;
+      #packages = import ./pkgs {
+      #  inherit
+      #    inputs
+      #    outputs
+      #    system
+      #    pkgs
+      #    ;
+      #};
 
       nixosConfigurations = {
-        ixion = nixpkgs.lib.nixosSystem rec {
-          specialArgs = { inherit inputs outputs; };
-          modules = [
-            ./hosts/ixion/configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs outputs; };
-              home-manager.users.sebastien = import ./hosts/ixion/home.nix;
-            }
-          ];
+        ixion = import ./hosts/ixion.nix {
+          inherit
+            inputs
+            outputs
+            globals
+            system
+            pkgs
+            ;
         };
       };
 
-      formatter.${system} = pkgs.nixpkgs-fmt;
+      homeConfigurations = {
+        ixion = self.nixosConfigurations.ixion.config.home-manager.users.${globals.user}.home;
+      };
+
+      formatter.${system} = pkgs.nixfmt-rfc-style;
+      #formatter.${system} = pkgs.alejandra;
     };
 }
