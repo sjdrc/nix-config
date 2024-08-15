@@ -37,6 +37,7 @@
         srmr = "sudo rm -r";
         srmrf = "sudo rm -rf";
         nixrb = "sudo nixos-rebuild switch --flake ~/mysystem/#\${HOSTNAME}";
+        ssh = "sshrc";
       };
     };
   };

@@ -12,6 +12,7 @@
     user = inputs.nixpkgs.lib.mkOption {
       type = inputs.nixpkgs.lib.types.str;
       description = "Primary user of the system";
+      default = "sebastien";
     };
   };
 }

@@ -1,17 +1,10 @@
-{
-  inputs,
-  globals,
-  system,
-  pkgs,
-  ...
-}:
+{ inputs, system, ... }:
 inputs.nixpkgs.lib.nixosSystem rec {
   inherit system;
   specialArgs = {
-    inherit inputs globals;
+    inherit inputs system;
   };
   modules = [
-    globals
     ../modules
     ../modules/devices/gpd-win-4.nix
     ../modules/targets/gaming.nix

@@ -5,7 +5,7 @@
       systemdTarget = "graphical-session.target";
       enable = true;
       profiles = {
-        docked = {
+        desk = {
           outputs = [
             {
               criteria = "eDP-1";
@@ -13,6 +13,18 @@
             }
             {
               criteria = "DP-1";
+              status = "enable";
+            }
+          ];
+        };
+        couch = {
+          outputs = [
+            {
+              criteria = "eDP-1";
+              status = "disable";
+            }
+            {
+              criteria = "DP-8";
               status = "enable";
             }
           ];

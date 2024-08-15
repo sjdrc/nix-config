@@ -1,16 +1,5 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 {
-  imports = [ inputs.chaotic.nixosModules.default ];
-
-  #chaotic.mesa-git.enable = true;
-  #chaotic.mesa-git.extraPackages = with pkgs; [ amdvlk ];
-  #chaotic.mesa-git.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
-
-  # Configure steam
-  #chaotic.steam.extraCompatPackages = with pkgs; [
-  #  proton-ge-custom
-  #  steamtinkerlaunch
-  #];
   programs.steam = {
     enable = true;
     extraCompatPackages = [ pkgs.proton-ge-bin ];
@@ -59,16 +48,6 @@
     };
   };
   programs.gamescope.capSysNice = true;
-  programs.gamescope.package = pkgs.gamescope.overrideAttrs (oldAttrs: {
-    version = "3.14.22";
-    src = pkgs.fetchFromGitHub {
-      owner = "ValveSoftware";
-      repo = "gamescope";
-      rev = "refs/tags/3.14.22";
-      fetchSubmodules = true;
-      hash = "sha256-/muitEE3LCU6Xnjbpczb/zy2JRvUbBPT5L13T/v3MvE=";
-    };
-  });
 
   environment.systemPackages = with pkgs; [ steamtinkerlaunch ];
 

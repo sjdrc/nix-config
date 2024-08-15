@@ -1,27 +1,32 @@
 {
-  lib,
   fetchFromGitHub,
-  cmake,
   hyprland,
   hyprlandPlugins,
 }:
 hyprlandPlugins.mkHyprlandPlugin hyprland {
   pluginName = "hyprWorkspaceLayouts";
-  version = "0.39.1";
+  version = "0-unstable-2024-07-21";
 
   src = fetchFromGitHub {
     owner = "zakk4223";
     repo = "hyprWorkspaceLayouts";
-    rev = "1.0.0";
-    hash = "sha256=1yzwma2fzs1w4fyg5nvsbv7sy74pa1ap6hng2ydz7cys7mj0yc8d";
+    rev = "2490e24048185840f0314306a10d64c16bff7857";
+    hash = "sha256-pUYB2rDOpnxEbIQmj1R0WbfVhdbgxE8UKXtHi5/B59c=";
   };
 
-  nativeBuildInputs = [ cmake ];
+  installPhase = ''
+    runHook preInstall
+
+    mkdir -p $out/lib
+    mv workspaceLayoutPlugin.so $out/lib/libhyprWorkspaceLayouts.so
+
+    runHook postInstall
+  '';
 
   meta = {
-    homepage = "https://github.com/zakk4223/hyprWorkspaceLayouts/tree/main";
     description = "Per Workspace Layouts";
-    license = lib.license.bsd3;
-    platforms = lib.platforms.linux;
+    homepage = "https://github.com/zakk4223/hyprWorkspaceLayouts/tree/main";
+    #license = lib.license.bsd3;
+    #platforms = lib.platforms.linux;
   };
 }

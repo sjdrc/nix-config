@@ -44,7 +44,7 @@
       };
       plugins = {
         yanky.enable = true;
-        treesitter.enable = true;
+        #treesitter.enable = true;
       };
     };
   };

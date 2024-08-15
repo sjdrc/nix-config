@@ -1,21 +1,16 @@
-{
-  outputs,
-  config,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
 {
   imports = [
+    # General plugins
     ./hyprland-plugins/hypr-dynamic-cursor.nix
-    ./hyprland-plugins/hyprscroller.nix
-    #./hyprland-plugins/hycov.nix
-    #./hyprland-plugins/hyprexpo.nix
-    #./hyprland-plugins/hyprgrass.nix
-    #./hyprland-plugins/hyprspace.nix
-    #./hyprland-plugins/hy3.nix
+
+    # Layouts
+    ./hyprland-plugins/hy3.nix
   ];
 
   programs.hyprland.enable = true;
+
+  environment.systemPackages = with pkgs; [ hyprshot ];
 
   environment.sessionVariables = {
     # Force wayland for electron applications
@@ -31,11 +26,11 @@
       # Fix issue with running systemd services https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#programs-dont-work-in-systemd-services-but-do-on-the-terminal
       systemd.variables = [ "--all" ];
 
-      plugins = [ outputs.packages.hypr-workspace-layouts ];
-
       settings = {
         # Default applications
         "$fileManager" = "dolphin";
+
+        debug.disable_logs = false;
 
         exec-once = [ "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &" ];
 
@@ -76,11 +71,23 @@
           swallow_regex = [ "^(kitty)$" ];
         };
 
-        workspace = [ "name:personal, " ];
+        # Screen sharing settings
+        # bitdepth needs to be set to 10 to get screensharing to work for some reason
+        # Visit https://mozilla.github.io/webrtc-landing/gum_test.html to test
+        #monitor = [ ", preferred, auto, 1, bitdepth, 10" ];
+        windowrule = [ "float,title:^(MainPicker)$" ];
+
+        workspace = [
+          "1,               defaultName:main"
+          "2,               defaultName:work"
+          "10,              defaultName:comms"
+        ];
 
         # Modifier key combos
         "$m1" = "SUPER";
         "$m2" = "SUPER SHIFT";
+        "$m3" = "SUPER CTRL";
+        "$m4" = "SUPER ALT";
 
         bind = [
           # Application shortcuts
@@ -88,38 +95,30 @@
           "$m1, Return,         exec, $terminal"
           "$m2, N,              exec, $fileManager"
 
-          # Window manager controls
+          # Window controls
           "$m1, F,              fullscreen, 1"
           "$m2, Q,              killactive,"
           "$m2, F,              togglefloating, active"
           "$m2, P,              pin, active"
 
+          # Workspace controls
           "$m1, 1,              workspace, 1"
           "$m1, 2,              workspace, 2"
-          "$m1, 3,              workspace, 3"
-          "$m1, 4,              workspace, 4"
-          "$m1, 5,              workspace, 5"
-          "$m1, 6,              workspace, 6"
-          "$m1, 7,              workspace, 7"
-          "$m1, 8,              workspace, 8"
-          "$m1, 9,              workspace, 9"
-
+          "$m1, 0,              workspace, 10"
           "$m2, 1,              movetoworkspacesilent, 1"
           "$m2, 2,              movetoworkspacesilent, 2"
-          "$m2, 3,              movetoworkspacesilent, 3"
-          "$m2, 4,              movetoworkspacesilent, 4"
-          "$m2, 5,              movetoworkspacesilent, 5"
-          "$m2, 6,              movetoworkspacesilent, 6"
-          "$m2, 7,              movetoworkspacesilent, 7"
-          "$m2, 8,              movetoworkspacesilent, 8"
-          "$m2, 9,              movetoworkspacesilent, 9"
           "$m2, 0,              movetoworkspacesilent, 10"
+
+          # Scrach workspace
+          "$m1, S,              togglespecialworkspace"
+          "$m2, S,              movetoworkspacesilent, special"
+          "$m3, S,              movetoworkspacesilent, e+0"
         ];
-        #bindm = [
-        #  # Move/resize windows with mod + LMB/RMB and dragging
-        #  "$m1, mouse:272, movewindow"
-        #  "$m1, mouse:273, movewindow"
-        #];
+        bindm = [
+          # Move/resize windows with mod + LMB/RMB and dragging
+          "$m1, mouse:272, movewindow"
+          "$m1, mouse:273, movewindow"
+        ];
       };
     };
   };

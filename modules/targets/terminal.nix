@@ -2,6 +2,7 @@
 {
   imports = [
     ../applications/bash.nix
+    ../applications/sshrc.nix
     ../applications/nvim.nix
   ];
 

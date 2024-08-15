@@ -3,7 +3,7 @@
   imports = [
     ../applications/hypr-de
     ../applications/firefox.nix
-    ../applications/regreet.nix
+    ../applications/sddm.nix
     ../applications/kitty.nix
   ];
 
