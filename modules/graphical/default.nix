@@ -1,10 +1,11 @@
 { config, ... }:
 {
   imports = [
-    ../applications/hypr-de
-    ../applications/firefox.nix
-    ../applications/sddm.nix
-    ../applications/kitty.nix
+    ./hypr-de
+    ./applications.nix
+    ./firefox.nix
+    ./kitty.nix
+    ./sddm.nix
   ];
 
   services.gvfs.enable = true;

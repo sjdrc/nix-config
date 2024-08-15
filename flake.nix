@@ -31,6 +31,15 @@
     let
       system = "x86_64-linux";
 
+      mkNixosSystem =
+        modules:
+        nixpkgs.lib.nixosSystem {
+          inherit system modules;
+          specialArgs = {
+            inherit inputs;
+          };
+        };
+
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
@@ -42,9 +51,7 @@
     {
       overlays = import ./overlays { };
 
-      nixosConfigurations = {
-        ixion = import ./hosts/ixion.nix { inherit inputs system pkgs; };
-      };
+      nixosConfigurations.ixion = mkNixosSystem [ ./hosts/ixion.nix ];
 
       homeConfigurations = with self.nixosConfigurations.ixion.config; {
         ixion = home-manager.users.${user}.home;

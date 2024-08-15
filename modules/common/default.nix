@@ -1,18 +1,10 @@
-{ config, pkgs, ... }:
+{ ... }:
 {
   imports = [
+    ./catppuccin.nix
     ./home-manager.nix
     ./locale.nix
     ./nixos.nix
-    #./stylix.nix
-    ./catppuccin.nix
+    ./user.nix
   ];
-
-  home-manager.users.${config.user} = {
-    home.packages = with pkgs; [
-      bambu-studio
-      orca-slicer
-      signal-desktop
-    ];
-  };
 }

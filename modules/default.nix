@@ -1,16 +1,15 @@
-{ inputs, ... }:
+{ lib, ... }:
 {
   imports = [
     ./common
+    ./graphical
     ./hardware
-    ./users
-    ./targets/graphical.nix
-    ./targets/terminal.nix
+    ./terminal
   ];
 
   options = {
-    user = inputs.nixpkgs.lib.mkOption {
-      type = inputs.nixpkgs.lib.types.str;
+    user = lib.mkOption {
+      type = lib.types.str;
       description = "Primary user of the system";
       default = "sebastien";
     };

@@ -1,9 +1,9 @@
 { config, pkgs, ... }:
 {
   imports = [
-    ../applications/bash.nix
-    ../applications/sshrc.nix
-    ../applications/nvim.nix
+    ./bash.nix
+    ./sshrc.nix
+    ./nvim.nix
   ];
 
   home-manager.users.${config.user} = {
