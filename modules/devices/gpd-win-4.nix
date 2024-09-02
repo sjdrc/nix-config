@@ -5,6 +5,9 @@
   ...
 }:
 {
+  # CPU is x86
+  nixpkgs.hostPlatform = "x86_64-linux";
+
   # Use latest kernel to solve shutdown/suspend hang issue
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -20,34 +23,42 @@
   # Do not enable - it fucks gpd win 4 mouse after 5 secs of idle
   powerManagement.powertop.enable = lib.mkForce false;
 
-  home-manager.users.${config.user} = {
-    services.kanshi = {
-      systemdTarget = "graphical-session.target";
+  # Monitor config
+  home-manager.users.${config.user}.services.kanshi =
+    let
+      internalDisplay = "eDP-1";
+      dellMonitor = "Dell Inc. DELL P3424WEB 210SDP3";
+    in
+    {
       enable = true;
-      profiles = {
-        handheld = {
-          outputs = [
+      settings = [
+        {
+          output.criteria = internalDisplay;
+          output.scale = 1.5;
+        }
+        {
+          profile.name = "docked";
+          profile.outputs = [
             {
-              criteria = "eDP-1";
+              criteria = dellMonitor;
               status = "enable";
-              scale = 1.5;
             }
-          ];
-        };
-        docked = {
-          outputs = [
             {
-              criteria = "eDP-1";
+              criteria = internalDisplay;
               status = "disable";
             }
+          ];
+        }
+        {
+          profile.name = "undocked";
+          profile.outputs = [
             {
-              criteria = "*";
+              criteria = internalDisplay;
               status = "enable";
             }
           ];
-        };
-      };
+        }
+      ];
     };
-  };
 
 }

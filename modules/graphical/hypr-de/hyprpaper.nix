@@ -6,9 +6,9 @@ let
   };
 in
 {
-  home-manager.users.${config.user} = {
-    services.hyprpaper.enable = true;
-    services.hyprpaper.settings = {
+  home-manager.users.${config.user}.services.hyprpaper = {
+    enable = true;
+    settings = {
       splash = false;
       preload = [ (builtins.toString wallpaper) ];
 

@@ -1,16 +1,8 @@
 { config, pkgs, ... }:
 {
-  imports = [
-    # General plugins
-    ./hyprland-plugins/hypr-dynamic-cursor.nix
-
-    # Layouts
-    ./hyprland-plugins/hy3.nix
-  ];
-
-  programs.hyprland.enable = true;
-
-  environment.systemPackages = with pkgs; [ hyprshot ];
+  programs.hyprland = {
+    enable = true;
+  };
 
   environment.sessionVariables = {
     # Force wayland for electron applications
@@ -20,10 +12,12 @@
   home-manager.users.${config.user} = {
     home.packages = with pkgs; [ polkit_gnome ];
 
+    services.kanshi.systemdTarget = "hyprland-session.target";
+
     # Window Manager
     wayland.windowManager.hyprland = {
       enable = true;
-      # Fix issue with running systemd services https://wiki.hyprland.org/Nix/Hyprland-on-Home-Manager/#programs-dont-work-in-systemd-services-but-do-on-the-terminal
+
       systemd.variables = [ "--all" ];
 
       settings = {
@@ -69,6 +63,8 @@
           animate_mouse_windowdragging = true;
           enable_swallow = true;
           swallow_regex = [ "^(kitty)$" ];
+          mouse_move_enables_dpms = true;
+          key_press_enables_dpms = true;
         };
 
         # Screen sharing settings

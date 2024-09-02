@@ -2,7 +2,7 @@
 {
   home-manager.users.${config.user} = {
     wayland.windowManager.hyprland = {
-      plugins = with pkgs; [ hyprlandPlugins.hy3 ];
+      plugins = [ pkgs.hyprlandPlugins.hy3 ];
       settings = {
         general = {
           layout = "hy3";

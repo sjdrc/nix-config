@@ -5,7 +5,7 @@
     ./applications.nix
     ./firefox.nix
     ./kitty.nix
-    ./sddm.nix
+    ./regreet.nix
   ];
 
   services.gvfs.enable = true;

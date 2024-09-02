@@ -2,18 +2,7 @@
 {
   home-manager.users.${config.user} = {
     wayland.windowManager.hyprland = {
-      plugins = with pkgs; [
-        (hyprlandPlugins.hypr-dynamic-cursors.overrideAttrs (oldAttrs: {
-          installPhase = ''
-            runHook preInstall
-
-            mkdir -p $out/lib
-            mv out/dynamic-cursors.so $out/lib/libhypr-dynamic-cursors.so
-
-            runHook postInstall
-          '';
-        }))
-      ];
+      plugins = [ pkgs.hyprlandPlugins.hypr-dynamic-cursors ];
       settings = {
         plugin.dynamic-cursors = {
           enabled = true;

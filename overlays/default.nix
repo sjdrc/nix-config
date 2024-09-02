@@ -1,6 +1,25 @@
-{ ... }:
+{ inputs, ... }:
 {
-  modifications = final: prev: { };
+  nixpkgs.overlays = [
+    inputs.hyprland.overlays.default
+    inputs.hypridle.overlays.default
+    inputs.hyprlock.overlays.default
+    inputs.hyprpaper.overlays.default
 
-  additions = final: prev: import ../pkgs { pkgs = final; };
+    (
+      final: prev:
+      let
+        system = prev.stdenv.hostPlatform.system;
+      in
+      {
+        hyprlandPlugins = {
+          hy3 = inputs.hy3.packages.${system}.default.override { hlversion = "git"; };
+          hypr-dynamic-cursors = inputs.hypr-dynamic-cursors.packages.${system}.default;
+          hyprscroller = inputs.hyprscroller.packages.${system}.default;
+        };
+      }
+    )
+
+    (final: prev: import ../pkgs { pkgs = final; })
+  ];
 }

@@ -1,9 +1,14 @@
 { config, pkgs, ... }:
+let
+  lock = "loginctl lock-session";
+  screenOn = "hyprctl dispatch dpms on";
+  screenOff = "hyprctl dispatch dpms off";
+in
 {
   home-manager.users.${config.user} = {
     wayland.windowManager.hyprland = {
       settings = {
-        bind = [ "$m1, Escape, exec, loginctl lock-session" ];
+        bind = [ "$m1, Escape, exec, ${lock}" ];
       };
     };
 
@@ -13,29 +18,25 @@
         general = {
           ignore_dbus_inhibit = false;
           lock_cmd = "pidof hyprlock || ${pkgs.hyprlock}/bin/hyprlock";
-          before_sleep_cmd = "loginctl lock-session";
-          after_sleep_cmd = "hyprctl dispatch dpms on";
+          before_sleep_cmd = lock;
+          after_sleep_cmd = screenOn;
         };
         listener = [
           {
-            # 2m: Dim the screen
             timeout = 120;
             on-timeout = "brightnessctl -s set 10";
             on-resume = "brightnessctl -r";
           }
           {
-            # 5m: Lock the system
             timeout = 300;
-            on-timeout = "loginctl lock-session";
+            on-timeout = lock;
           }
           {
-            # 6m: Turn off display
             timeout = 360;
-            on-timeout = "hyprctl dispatch dpms off";
-            on-resume = "hyprctl dispatch dpms on";
+            on-timeout = screenOff;
+            on-resume = screenOn;
           }
           {
-            # 10m: Sleep the system
             timeout = 600;
             on-timeout = "systemctl suspend";
           }

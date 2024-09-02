@@ -2,7 +2,7 @@
 {
   home-manager.users.${config.user} = {
     wayland.windowManager.hyprland = {
-      plugins = with pkgs; [ hyprlandPlugins.hyprscroller ];
+      plugins = [ pkgs.hyprlandPlugins.hyprscroller ];
       settings = {
         plugin.scroller = {
           column_default_width = "onehalf";

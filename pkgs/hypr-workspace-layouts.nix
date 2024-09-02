@@ -1,4 +1,5 @@
 {
+  lib,
   fetchFromGitHub,
   hyprland,
   hyprlandPlugins,
@@ -26,7 +27,7 @@ hyprlandPlugins.mkHyprlandPlugin hyprland {
   meta = {
     description = "Per Workspace Layouts";
     homepage = "https://github.com/zakk4223/hyprWorkspaceLayouts/tree/main";
-    #license = lib.license.bsd3;
-    #platforms = lib.platforms.linux;
+    license = lib.license.bsd3;
+    platforms = lib.platforms.linux;
   };
 }
