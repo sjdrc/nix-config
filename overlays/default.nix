@@ -13,10 +13,11 @@
       in
       {
         hyprlandPlugins = {
-          hy3 = inputs.hy3.packages.${system}.default.override { hlversion = "git"; };
+          hy3 = inputs.hy3.packages.${system}.default;
           hypr-dynamic-cursors = inputs.hypr-dynamic-cursors.packages.${system}.default;
           hyprscroller = inputs.hyprscroller.packages.${system}.default;
         };
+        openlens = inputs.nixpkgs-stable.legacyPackages.${system}.openlens;
       }
     )
 

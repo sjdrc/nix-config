@@ -1,10 +1,23 @@
 {
   inputs,
+  lib,
   config,
   ...
 }:
 {
-  imports = [ inputs.home-manager.nixosModules.home-manager ];
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    (lib.mkAliasOptionModule
+      [
+        "hmConfig"
+      ]
+      [
+        "home-manager"
+        "users"
+        "${config.user}"
+      ]
+    )
+  ];
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
@@ -13,7 +26,7 @@
   };
   home-manager.backupFileExtension = "backup";
 
-  home-manager.users.${config.user} = {
+  hmConfig = {
     # Allow home-manager to manage itself
     programs.home-manager.enable = true;
 

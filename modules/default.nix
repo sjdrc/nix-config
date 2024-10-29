@@ -1,17 +1,10 @@
-{ lib, ... }:
+{ ... }:
 {
   imports = [
+    ./applications
     ./common
-    ./graphical
-    ./hardware
-    ./terminal
+    ./targets/personal.nix
+    ./targets/blackai.nix
   ];
 
-  options = {
-    user = lib.mkOption {
-      type = lib.types.str;
-      description = "Primary user of the system";
-      default = "sebastien";
-    };
-  };
 }

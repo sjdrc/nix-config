@@ -1,9 +1,9 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   # Enable tailscale VPN
   services.tailscale.enable = true;
 
-  home-manager.users.${config.user} = {
+  hmConfig = {
     home.packages = with pkgs; [
       slack
       google-chrome
@@ -11,13 +11,16 @@
       kubectl
       kubelogin-oidc
       kubernetes-helm
+      fluxcd
       openlens
+      seabird
       stern # for @andrea-falco/lens-multi-pod-logs extension
+      coder
+      bruno
+      vscode-fhs
+      cilium-cli
+      vultr-cli
+      omnictl
     ];
-
-    programs.vscode = {
-      enable = true;
-      mutableExtensionsDir = true;
-    };
   };
 }

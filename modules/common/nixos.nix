@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   # NixOS configuration
   nixpkgs.config.allowUnfree = true;
@@ -16,13 +16,14 @@
   # Flake config inspection tool
   environment.systemPackages = [ pkgs.nix-inspect ];
 
-  home-manager.users.${config.user} = {
+  hmConfig = {
     programs.nix-index = {
       enable = true;
       enableBashIntegration = true;
     };
     home.packages = with pkgs; [
       nixd
+      nil
       nixfmt-rfc-style
     ];
   };

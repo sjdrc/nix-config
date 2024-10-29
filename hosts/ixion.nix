@@ -1,36 +1,49 @@
-{ lib, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
-    # Include default configuration
+    inputs.nixos-hardware.nixosModules.gpd-win-4-2024
+    inputs.gpd-fan-driver.nixosModules.default
     ../modules
-
-    # Configuration for this device
-    ../modules/devices/gpd-win-4.nix
-
-    # Steam + Gamescope
-    ../modules/targets/gaming.nix
-
-    # Work setup
-    ../modules/targets/blackai.nix
   ];
 
-  networking.hostName = "ixion";
-  time.timeZone = "Europe/Berlin";
+  #### Options #################################################################
+  greeter = "sddm";
+  desktop.hyprland.layout = "hy3";
+  steam.enable = true;
 
+  #### System Configuration ####################################################
+
+  # Hardware config
+  nixpkgs.hostPlatform = "x86_64-linux";
   hardware.enableRedistributableFirmware = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  hardware.gpd-fan.enable = true;
+  hardware.fancontrol = {
+    enable = true;
+    config = ''
+      INTERVAL=10
+      FCTEMPS=/sys/class/hwmon/hwmon6/pwm1=/sys/class/hwmon/hwmon4/temp1_input
+      FCFANS=/sys/class/hwmon/hwmon6/pwm1=/sys/class/hwmon/hwmon6/fan1_input
+      MINTEMP=/sys/class/hwmon/hwmon6/pwm1=50
+      MAXTEMP=/sys/class/hwmon/hwmon6/pwm1=85
+      MINSTART=/sys/class/hwmon/hwmon6/pwm1=23
+      MINSTOP=/sys/class/hwmon/hwmon6/pwm1=13
+      MAXPWM=/sys/class/hwmon/hwmon6/pwm=128
+    '';
+  };
+
+  # Device config
+  networking.hostName = "ixion";
+  networking.useDHCP = lib.mkDefault true;
+  time.timeZone = "Australia/Melbourne";
 
   # Bootloader configuration
   boot.loader.systemd-boot.enable = true;
-  boot.plymouth.enable = true;
-  boot.initrd.verbose = false;
-  boot.consoleLogLevel = 0;
-  boot.initrd.systemd.enable = true;
-  boot.kernelParams = [
-    "quiet"
-    "splash"
-    "systemd.show_status=auto"
-    "rd.udev.log_level=3"
-  ];
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.availableKernelModules = [
     "nvme"
@@ -63,9 +76,40 @@
   };
   swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
 
-  networking.useDHCP = lib.mkDefault true;
-
-  programs.captive-browser.enable = true;
-  programs.captive-browser.interface = "wlp1s0";
-
+  hmConfig.services.kanshi =
+    let
+      internalDisplay = "eDP-1";
+      dellMonitor = "Dell Inc. DELL P3424WEB 210SDP3";
+    in
+    {
+      enable = true;
+      settings = [
+        {
+          output.criteria = internalDisplay;
+          output.scale = 1.5;
+        }
+        {
+          profile.name = "docked";
+          profile.outputs = [
+            {
+              criteria = "*";
+              status = "enable";
+            }
+            {
+              criteria = internalDisplay;
+              status = "disable";
+            }
+          ];
+        }
+        {
+          profile.name = "undocked";
+          profile.outputs = [
+            {
+              criteria = internalDisplay;
+              status = "enable";
+            }
+          ];
+        }
+      ];
+    };
 }

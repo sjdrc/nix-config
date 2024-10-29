@@ -3,6 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+
+    nixos-hardware.url = "github:sjdrc/nixos-hardware";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -23,33 +27,39 @@
 
     # Hyprland and friends #############
     hyprland = {
-      type = "git";
       url = "https://github.com/hyprwm/Hyprland";
+      type = "git";
       submodules = true;
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.aquamarine.url = "github:hyprwm/aquamarine";
+      #inputs.aquamarine.url = "github:hyprwm/aquamarine";
     };
 
     hypridle = {
       url = "github:hyprwm/hyprlock";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.hyprutils.follows = "hyprland";
-      inputs.hyprlang.follows = "hyprland";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        hyprutils.follows = "hyprland";
+        hyprlang.follows = "hyprland";
+      };
     };
 
     hyprlock = {
       url = "github:hyprwm/hyprlock";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.hyprutils.follows = "hyprland";
-      inputs.hyprlang.follows = "hyprland";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        hyprutils.follows = "hyprland";
+        hyprlang.follows = "hyprland";
+      };
     };
 
     hyprpaper = {
       url = "github:hyprwm/hyprpaper";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.hyprutils.follows = "hyprland";
-      inputs.hyprlang.follows = "hyprland";
-      inputs.hyprwayland-scanner.follows = "hyprland";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        hyprutils.follows = "hyprland";
+        hyprlang.follows = "hyprland";
+        hyprwayland-scanner.follows = "hyprland";
+      };
     };
 
     hy3 = {
@@ -66,13 +76,16 @@
       url = "github:dawsers/hyprscroller";
       inputs.hyprland.follows = "hyprland";
     };
+
+    gpd-fan-driver = {
+      url = "github:Cryolitia/gpd-fan-driver";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     { self, nixpkgs, ... }@inputs:
     {
-      overlays = import ./overlays { inherit inputs; };
-
       nixosConfigurations.ixion = nixpkgs.lib.nixosSystem {
         modules = [
           ./hosts/ixion.nix
@@ -86,7 +99,5 @@
       homeConfigurations = with self.nixosConfigurations.ixion.config; {
         ixion = home-manager.users.${user}.home;
       };
-
-      #formatter =.nixfmt-rfc-style;
     };
 }

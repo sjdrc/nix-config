@@ -1,10 +1,12 @@
 { ... }:
 {
   imports = [
+    ./desktop.nix
     ./home-manager.nix
-    ./locale.nix
     ./nixos.nix
-    ./user.nix
     ./stylix.nix
+    ./system.nix
+    ./terminal.nix
+    ./user.nix
   ];
 }
