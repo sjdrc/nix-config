@@ -1,11 +1,4 @@
 {lib, ...}: {
-  options = {
-    greeter = lib.mkOption {
-      description = "Display manager to use";
-      type = with lib.types; nullOr (enum []);
-    };
-  };
-
   config = {
     services.fprintd = {
       enable = true;
@@ -38,5 +31,42 @@
     services.logind.powerKey = "suspend";
     services.upower.enable = true;
     services.upower.criticalPowerAction = "Hibernate";
+
+    # Common host
+    networking.useDHCP = lib.mkDefault true;
+    hardware.enableRedistributableFirmware = true;
+
+    # Bootloader configuration
+    boot.loader.systemd-boot.enable = true;
+    boot.loader.efi.canTouchEfiVariables = true;
+    boot.initrd.systemd.enable = true;
+
+    boot.plymouth.enable = true;
+    boot.initrd.verbose = false;
+    boot.consoleLogLevel = 0;
+    boot.kernelParams = [
+      "quiet"
+      "splash"
+      "systemd.show_status=auto"
+      "rd.udev.log_level=3"
+    ];
+    boot.initrd.availableKernelModules = [
+      "nvme"
+      "xhci_pci"
+      "thunderbolt"
+      "usbhid"
+    ];
+    fileSystems = {
+      "/" = {
+        #device = "/dev/disk/by-label/nixos";
+        fsType = "ext4";
+        options = ["noatime" "nodiratime" "discard"];
+      };
+      "/boot" = {
+        #device = "/dev/disk/by-label/boot";
+        fsType = "vfat";
+        options = ["fmask=0022" "dmask=0022"];
+      };
+    };
   };
 }

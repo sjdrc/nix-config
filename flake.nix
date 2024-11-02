@@ -88,18 +88,42 @@
     nixpkgs,
     ...
   } @ inputs: {
-    nixosConfigurations.hyperion = nixpkgs.lib.nixosSystem {
-      modules = [
-        ./hosts/hyperion.nix
-        (import ./overlays)
-      ];
-      specialArgs = {
-        inherit inputs;
+    overlays = import ./overlays {inherit inputs;};
+
+    nixosConfigurations = {
+      hyperion = nixpkgs.lib.nixosSystem {
+        modules = [
+          ./hosts/hyperion.nix
+          (import ./overlays)
+        ];
+        specialArgs = {
+          inherit inputs;
+        };
+      };
+      ixion = nixpkgs.lib.nixosSystem {
+        modules = [
+          ./hosts/ixion.nix
+          (import ./overlays)
+        ];
+        specialArgs = {
+          inherit inputs;
+        };
+      };
+      ariel = nixpkgs.lib.nixosSystem {
+        modules = [
+          ./hosts/ariel.nix
+          (import ./overlays)
+        ];
+        specialArgs = {
+          inherit inputs;
+        };
       };
     };
 
-    homeConfigurations = with self.nixosConfigurations.ixion.config; {
-      hyperion = home-manager.users.${user}.home;
+    homeConfigurations = {
+      hyperion = self.nixosConfigurations.hyperion.config.home-manager.users.sebastien.home;
+      ixion = self.nixosConfigurations.ixion.config.home-manager.users.sebastien.home;
+      ariel = self.nixosConfigurations.ariel.config.home-manager.users.sebastien.home;
     };
   };
 }
