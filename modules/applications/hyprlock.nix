@@ -1,8 +1,7 @@
-{ config, ... }:
-{
-  security.pam.services.hyprlock = { };
+{config, ...}: {
+  security.pam.services.hyprlock = {};
 
-  hmConfig = {
+  home-manager.users.sebastien = {
     programs.hyprlock = {
       enable = true;
       settings = {

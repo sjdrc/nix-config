@@ -1,6 +1,5 @@
-{ ... }:
-{
-  hmConfig = {
+{...}: {
+  home-manager.users.sebastien = {
     services.swaync = {
       enable = true;
       settings = {

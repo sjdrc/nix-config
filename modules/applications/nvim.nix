@@ -1,7 +1,6 @@
-{ inputs, ... }:
-{
-  hmConfig = {
-    imports = [ inputs.nixvim.homeManagerModules.nixvim ];
+{inputs, ...}: {
+  home-manager.users.sebastien = {
+    imports = [inputs.nixvim.homeManagerModules.nixvim];
 
     programs.nixvim = {
       enable = true;

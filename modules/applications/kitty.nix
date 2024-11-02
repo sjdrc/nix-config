@@ -1,6 +1,5 @@
-{ pkgs, ... }:
-{
-  hmConfig = {
+{pkgs, ...}: {
+  home-manager.users.sebastien = {
     programs.kitty = {
       enable = true;
       settings = {

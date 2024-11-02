@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    
+
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
     nixos-hardware.url = "github:sjdrc/nixos-hardware";
@@ -26,56 +26,56 @@
     };
 
     # Hyprland and friends #############
-    hyprland = {
-      url = "https://github.com/hyprwm/Hyprland";
-      type = "git";
-      submodules = true;
-      inputs.nixpkgs.follows = "nixpkgs";
-      #inputs.aquamarine.url = "github:hyprwm/aquamarine";
-    };
+    #hyprland = {
+    #  url = "https://github.com/hyprwm/Hyprland";
+    #  type = "git";
+    #  submodules = true;
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #  #inputs.aquamarine.url = "github:hyprwm/aquamarine";
+    #};
 
-    hypridle = {
-      url = "github:hyprwm/hyprlock";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        hyprutils.follows = "hyprland";
-        hyprlang.follows = "hyprland";
-      };
-    };
+    #hypridle = {
+    #  url = "github:hyprwm/hypridle";
+    #  inputs = {
+    #    nixpkgs.follows = "nixpkgs";
+    #    hyprutils.follows = "hyprland";
+    #    hyprlang.follows = "hyprland";
+    #  };
+    #};
 
-    hyprlock = {
-      url = "github:hyprwm/hyprlock";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        hyprutils.follows = "hyprland";
-        hyprlang.follows = "hyprland";
-      };
-    };
+    #hyprlock = {
+    #  url = "github:hyprwm/hyprlock";
+    #  inputs = {
+    #    nixpkgs.follows = "nixpkgs";
+    #    hyprutils.follows = "hyprland";
+    #    hyprlang.follows = "hyprland";
+    #  };
+    #};
 
-    hyprpaper = {
-      url = "github:hyprwm/hyprpaper";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        hyprutils.follows = "hyprland";
-        hyprlang.follows = "hyprland";
-        hyprwayland-scanner.follows = "hyprland";
-      };
-    };
+    #hyprpaper = {
+    #  url = "github:hyprwm/hyprpaper";
+    #  inputs = {
+    #    nixpkgs.follows = "nixpkgs";
+    #    hyprutils.follows = "hyprland";
+    #    hyprlang.follows = "hyprland";
+    #    hyprwayland-scanner.follows = "hyprland";
+    #  };
+    #};
 
-    hy3 = {
-      url = "github:outfoxxed/hy3";
-      inputs.hyprland.follows = "hyprland";
-    };
+    #hy3 = {
+    #  url = "github:outfoxxed/hy3";
+    #  inputs.hyprland.follows = "hyprland";
+    #};
 
-    hypr-dynamic-cursors = {
-      url = "github:VirtCode/hypr-dynamic-cursors";
-      inputs.hyprland.follows = "hyprland";
-    };
+    #hypr-dynamic-cursors = {
+    #  url = "github:VirtCode/hypr-dynamic-cursors";
+    #  inputs.hyprland.follows = "hyprland";
+    #};
 
-    hyprscroller = {
-      url = "github:dawsers/hyprscroller";
-      inputs.hyprland.follows = "hyprland";
-    };
+    #hyprscroller = {
+    #  url = "github:dawsers/hyprscroller";
+    #  inputs.hyprland.follows = "hyprland";
+    #};
 
     gpd-fan-driver = {
       url = "github:Cryolitia/gpd-fan-driver";
@@ -83,21 +83,23 @@
     };
   };
 
-  outputs =
-    { self, nixpkgs, ... }@inputs:
-    {
-      nixosConfigurations.ixion = nixpkgs.lib.nixosSystem {
-        modules = [
-          ./hosts/ixion.nix
-          (import ./overlays)
-        ];
-        specialArgs = {
-          inherit inputs;
-        };
-      };
-
-      homeConfigurations = with self.nixosConfigurations.ixion.config; {
-        ixion = home-manager.users.${user}.home;
+  outputs = {
+    self,
+    nixpkgs,
+    ...
+  } @ inputs: {
+    nixosConfigurations.hyperion = nixpkgs.lib.nixosSystem {
+      modules = [
+        ./hosts/hyperion.nix
+        (import ./overlays)
+      ];
+      specialArgs = {
+        inherit inputs;
       };
     };
+
+    homeConfigurations = with self.nixosConfigurations.ixion.config; {
+      hyperion = home-manager.users.${user}.home;
+    };
+  };
 }

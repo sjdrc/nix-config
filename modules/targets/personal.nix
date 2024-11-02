@@ -1,6 +1,5 @@
-{ pkgs, ... }:
-{
-  hmConfig = {
+{pkgs, ...}: {
+  home-manager.users.sebastien = {
     home.packages = with pkgs; [
       bambu-studio
       orca-slicer
@@ -16,7 +15,7 @@
       ];
       userSettings = {
         "extensions.experimental.affinity" = {
-          "asvetliakov.vscode-neovim" = 1;        
+          "asvetliakov.vscode-neovim" = 1;
         };
       };
     };

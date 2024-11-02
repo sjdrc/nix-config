@@ -17,7 +17,7 @@
       ];
     };
 
-    hmConfig = {
+    home-manager.users.${config.user} = {
       home = {
         username = "${config.user}";
         homeDirectory = "/home/${config.user}";

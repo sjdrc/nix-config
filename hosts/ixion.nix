@@ -3,8 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
     inputs.nixos-hardware.nixosModules.gpd-win-4-2024
     inputs.gpd-fan-driver.nixosModules.default
@@ -74,42 +73,5 @@
       ];
     };
   };
-  swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
-
-  hmConfig.services.kanshi =
-    let
-      internalDisplay = "eDP-1";
-      dellMonitor = "Dell Inc. DELL P3424WEB 210SDP3";
-    in
-    {
-      enable = true;
-      settings = [
-        {
-          output.criteria = internalDisplay;
-          output.scale = 1.5;
-        }
-        {
-          profile.name = "docked";
-          profile.outputs = [
-            {
-              criteria = "*";
-              status = "enable";
-            }
-            {
-              criteria = internalDisplay;
-              status = "disable";
-            }
-          ];
-        }
-        {
-          profile.name = "undocked";
-          profile.outputs = [
-            {
-              criteria = internalDisplay;
-              status = "enable";
-            }
-          ];
-        }
-      ];
-    };
+  swapDevices = [{device = "/dev/disk/by-label/swap";}];
 }

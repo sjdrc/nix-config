@@ -3,16 +3,15 @@
   lib,
   pkgs,
   ...
-}:
-{
+}: {
   options = {
     desktop.launcher = lib.mkOption {
-      type = with lib.types; nullOr (enum [ "rofi" ]);
+      type = with lib.types; nullOr (enum ["rofi"]);
     };
   };
 
   config = lib.mkIf (config.desktop.launcher == "rofi") {
-    hmConfig = {
+    home-manager.users.sebastien = {
       programs.rofi = {
         enable = true;
         package = pkgs.rofi-wayland;

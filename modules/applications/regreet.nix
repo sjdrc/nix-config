@@ -2,14 +2,12 @@
   config,
   lib,
   ...
-}:
-let
+}: let
   home = "/run/greeter";
-in
-{
+in {
   options = {
     greeter = lib.mkOption {
-      type = with lib.types; nullOr (enum [ "regreet" ]);
+      type = with lib.types; nullOr (enum ["regreet"]);
     };
   };
 
@@ -21,7 +19,7 @@ in
 
     programs.regreet = {
       enable = true;
-      theme = with config.hmConfig.gtk.theme; {
+      theme = with config.home-manager.users.sebastien.gtk.theme; {
         name = name;
         package = package;
       };

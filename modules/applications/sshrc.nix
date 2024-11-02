@@ -1,6 +1,5 @@
-{ pkgs, ... }:
-{
-  hmConfig = {
+{pkgs, ...}: {
+  home-manager.users.sebastien = {
     home.file = {
       ".sshrc".text = ''
         HISTFILESIZE=100000

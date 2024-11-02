@@ -3,18 +3,17 @@
   lib,
   pkgs,
   ...
-}:
-{
+}: {
   options = {
     desktop.hyprland.layout = lib.mkOption {
-      type = with lib.types; nullOr (enum [ "hy3" ]);
+      type = with lib.types; nullOr (enum ["hy3"]);
     };
   };
 
   config = lib.mkIf (config.desktop.hyprland.layout == "hy3") {
-    hmConfig = {
+    home-manager.users.sebastien = {
       wayland.windowManager.hyprland = {
-        plugins = [ pkgs.hyprlandPlugins.hy3 ];
+        plugins = [pkgs.hyprlandPlugins.hy3];
         settings = {
           general = {
             layout = "hy3";

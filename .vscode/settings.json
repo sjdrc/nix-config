@@ -1,6 +1,5 @@
 {
     "[nix]": {
-        "editor.defaultFormatter": "brettm12345.nixfmt-vscode",
         "editor.formatOnPaste": true,
         "editor.formatOnSave": true,
         "editor.formatOnType": true
@@ -8,36 +7,24 @@
     "nix.enableLanguageServer": true,
     "nix.serverPath": "nixd",
     "nix.serverSettings": {
-        "nil": {
-            "formatting": {
-                "command": [
-                    "nixfmt"
-                ]
-            },
-            "options": {
-                "nixos": {
-                    "expr" : "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.ixion.options"
-                },
-                "home-manager": {
-                    "expr" : "(builtins.getFlake \"/etc/nixos\").homeConfigurations.ixion.options"
-                }
-            }
-        },
         "nixd": {
+            "nixpkgs": {
+                "expr": "import <nixpkgs> { }"
+            },
             "formatting": {
                 "command": [
-                    "nixfmt"
+                    "alejandra"
                 ]
             },
             "options": {
                 "nixos": {
-                    "expr" : "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.ixion.options"
+                    "expr" : "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.hyperion.options"
                 },
                 "home-manager": {
-                    "expr" : "(builtins.getFlake \"/etc/nixos\").homeConfigurations.ixion.options"
+                    "expr" : "(builtins.getFlake \"/etc/nixos\").homeConfigurations.hyperion.options"
                 }
             }
         }
     },
-    "nix.formatterPath": "nixfmt"
+    "nix.formatterPath": "alejandra"
 }

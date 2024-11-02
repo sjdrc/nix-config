@@ -1,5 +1,8 @@
-{ pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.hyprland = {
     enable = true;
   };
@@ -9,8 +12,8 @@
     NIXOS_OZONE_WL = "1";
   };
 
-  hmConfig = {
-    home.packages = with pkgs; [ polkit_gnome ];
+  home-manager.users.sebastien = {
+    home.packages = with pkgs; [polkit_gnome];
 
     services.kanshi.systemdTarget = "hyprland-session.target";
 
@@ -18,7 +21,7 @@
     wayland.windowManager.hyprland = {
       enable = true;
 
-      systemd.variables = [ "--all" ];
+      systemd.variables = ["--all"];
 
       settings = {
         # Default applications
@@ -26,7 +29,7 @@
 
         debug.disable_logs = false;
 
-        exec-once = [ "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &" ];
+        exec-once = ["${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &"];
 
         general = {
           border_size = 2;
@@ -62,18 +65,20 @@
           animate_manual_resizes = true;
           animate_mouse_windowdragging = true;
           enable_swallow = true;
-          swallow_regex = [ "^(kitty)$" ];
+          swallow_regex = ["^(kitty)$"];
           mouse_move_enables_dpms = true;
           key_press_enables_dpms = true;
         };
 
-        monitor = [ "FALLBACK, 1920x1080@60, auto, 1" ];
+        monitor = [", preferred, auto, 1.25"];
+
+        #monitor = [ "FALLBACK, 1920x1080@60, auto, 1" ];
 
         # Screen sharing settings
         # bitdepth needs to be set to 10 to get screensharing to work for some reason
         # Visit https://mozilla.github.io/webrtc-landing/gum_test.html to test
         #monitor = [ ", preferred, auto, 1, bitdepth, 10" ];
-        windowrule = [ "float,title:^(MainPicker)$" ];
+        windowrule = ["float,title:^(MainPicker)$"];
 
         workspace = [
           "1,               defaultName:main"
@@ -116,6 +121,10 @@
           # Move/resize windows with mod + LMB/RMB and dragging
           "$m1, mouse:272, movewindow"
           "$m1, mouse:273, movewindow"
+        ];
+        bindl = [
+          ", switch:on:Lid Switch, exec, hyprctl keyword monitor 'eDP-1, disable'"
+          ", switch:off:Lid Switch, exec, hyprctl keyword monitor 'eDP-1, preferred, auto, auto'"
         ];
       };
     };

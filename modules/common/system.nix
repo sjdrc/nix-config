@@ -1,13 +1,16 @@
-{ lib, ... }:
-{
+{lib, ...}: {
   options = {
     greeter = lib.mkOption {
       description = "Display manager to use";
-      type = with lib.types; nullOr (enum [ ]);
+      type = with lib.types; nullOr (enum []);
     };
   };
 
   config = {
+    services.fprintd = {
+      enable = true;
+    };
+
     # Audio configuration
     security.rtkit.enable = true;
     services.pipewire = {
@@ -19,6 +22,7 @@
     };
 
     # Bluetooth management
+    hardware.bluetooth.enable = true;
     services.blueman.enable = true;
 
     # Localisation

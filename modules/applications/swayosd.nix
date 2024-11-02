@@ -1,6 +1,5 @@
-{ ... }:
-{
-  hmConfig = {
+{...}: {
+  home-manager.users.sebastien = {
     services.swayosd = {
       enable = true;
       topMargin = 0.1;

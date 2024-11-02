@@ -1,20 +1,23 @@
-{ lib, ... }:
 {
+  lib,
+  pkgs,
+  ...
+}: {
   options = {
     desktop = {
       hyprland.layout = lib.mkOption {
         description = "Hyprland layout to use";
-        type = with lib.types; nullOr (enum [ ]);
+        type = with lib.types; nullOr (enum []);
         default = "hy3";
       };
       bar = lib.mkOption {
         description = "Status bar to use";
-        type = with lib.types; nullOr (enum [ ]);
+        type = with lib.types; nullOr (enum []);
         default = "waybar";
       };
       launcher = lib.mkOption {
         description = "Launcher to use";
-        type = with lib.types; nullOr (enum [ ]);
+        type = with lib.types; nullOr (enum []);
         default = "rofi";
       };
     };
@@ -29,9 +32,11 @@
       binfmt = true;
     };
 
-    hmConfig = {
+    home-manager.users.sebastien = {
       gtk.enable = true;
       qt.enable = true;
     };
+
+    environment.systemPackages = with pkgs; [wdisplays shikane];
   };
 }

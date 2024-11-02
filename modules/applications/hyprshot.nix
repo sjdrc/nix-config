@@ -1,11 +1,10 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     hyprshot
     hyprpicker
   ];
 
-  hmConfig = {
+  home-manager.users.sebastien = {
     wayland.windowManager.hyprland = {
       settings = {
         bind = [

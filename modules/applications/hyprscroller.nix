@@ -3,18 +3,17 @@
   lib,
   pkgs,
   ...
-}:
-{
+}: {
   options = {
     desktop.hyprland.layout = lib.mkOption {
-      type = with lib.types; nullOr (enum [ "hyprscroller" ]);
+      type = with lib.types; nullOr (enum ["hyprscroller"]);
     };
   };
 
   config = lib.mkIf (config.desktop.hyprland.layout == "hyprscroller") {
-    hmConfig = {
+    home-manager.users.sebastien = {
       wayland.windowManager.hyprland = {
-        plugins = [ pkgs.hyprlandPlugins.hyprscroller ];
+        plugins = [pkgs.hyprlandPlugins.hyprscroller];
         settings = {
           plugin.scroller = {
             column_default_width = "onehalf";

@@ -1,9 +1,8 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   # Enable tailscale VPN
   services.tailscale.enable = true;
 
-  hmConfig = {
+  home-manager.users.sebastien = {
     home.packages = with pkgs; [
       slack
       google-chrome

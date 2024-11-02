@@ -1,14 +1,12 @@
-{ pkgs, ... }:
-let
+{pkgs, ...}: let
   lock = "loginctl lock-session";
   screenOn = "hyprctl dispatch dpms on";
   screenOff = "hyprctl dispatch dpms off";
-in
-{
-  hmConfig = {
+in {
+  home-manager.users.sebastien = {
     wayland.windowManager.hyprland = {
       settings = {
-        bind = [ "$m1, Escape, exec, ${lock}" ];
+        bind = ["$m1, Escape, exec, ${lock}"];
       };
     };
 

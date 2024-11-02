@@ -1,9 +1,13 @@
-{ pkgs, ... }:
 {
+  inputs,
+  pkgs,
+  ...
+}: {
   # NixOS configuration
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = "nix-command flakes repl-flake";
   nix.settings.auto-optimise-store = true;
+  nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"];
 
   # Nix helper
   programs.nh = {
@@ -14,17 +18,17 @@
   };
 
   # Flake config inspection tool
-  environment.systemPackages = [ pkgs.nix-inspect ];
+  environment.systemPackages = [pkgs.nix-inspect];
 
-  hmConfig = {
+  home-manager.users.sebastien = {
     programs.nix-index = {
       enable = true;
       enableBashIntegration = true;
     };
     home.packages = with pkgs; [
       nixd
-      nil
       nixfmt-rfc-style
+      alejandra
     ];
   };
 

@@ -1,6 +1,5 @@
-{ ... }:
-{
-  hmConfig = {
+{...}: {
+  home-manager.users.sebastien = {
     programs.bash = {
       enable = true;
       enableCompletion = true;

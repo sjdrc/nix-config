@@ -1,8 +1,7 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   boot.plymouth.enable = true;
-  boot.plymouth.themePackages = [ pkgs.nixos-bgrt-plymouth ];
-  boot.plymouth.theme = "nixos-bgrt";
+  #boot.plymouth.themePackages = [ pkgs.nixos-bgrt-plymouth ];
+  #boot.plymouth.theme = "nixos-bgrt";
 
   # Make boot messages as quiet as possible
   boot.initrd.verbose = false;

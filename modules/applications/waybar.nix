@@ -3,18 +3,17 @@
   lib,
   pkgs,
   ...
-}:
-{
+}: {
   options = {
     desktop.bar = lib.mkOption {
-      type = with lib.types; nullOr (enum [ "waybar" ]);
+      type = with lib.types; nullOr (enum ["waybar"]);
     };
   };
 
   config = lib.mkIf (config.desktop.bar == "waybar") {
-    fonts.packages = [ pkgs.font-awesome ];
+    fonts.packages = [pkgs.font-awesome];
 
-    hmConfig = {
+    home-manager.users.sebastien = {
       services.blueman-applet.enable = true;
       services.network-manager-applet.enable = true;
       services.pasystray.enable = true;
