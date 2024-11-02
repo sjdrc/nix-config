@@ -86,18 +86,32 @@
   outputs =
     { self, nixpkgs, ... }@inputs:
     {
-      nixosConfigurations.ixion = nixpkgs.lib.nixosSystem {
-        modules = [
-          ./hosts/ixion.nix
-          (import ./overlays)
-        ];
-        specialArgs = {
-          inherit inputs;
+      overlays = import ./overlays { inherit inputs; };
+
+      nixosConfigurations = {
+        ixion = nixpkgs.lib.nixosSystem {
+          modules = [
+            ./hosts/ixion.nix
+            (import ./overlays)
+          ];
+          specialArgs = {
+            inherit inputs;
+          };
+        };
+        ariel = nixpkgs.lib.nixosSystem {
+          modules = [
+            ./hosts/ariel.nix
+            (import ./overlays)
+          ];
+          specialArgs = {
+            inherit inputs;
+          };
         };
       };
 
-      homeConfigurations = with self.nixosConfigurations.ixion.config; {
-        ixion = home-manager.users.${user}.home;
+      homeConfigurations = {
+        ixion = self.nixosConfigurations.ixion.config.home-manager.users.sebastien.home;
+        ariel = self.nixosConfigurations.ariel.config.home-manager.users.sebastien.home;
       };
     };
 }

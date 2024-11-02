@@ -1,9 +1,7 @@
 { ... }:
 {
   imports = [
-    ./regreet.nix
-    ./sddm.nix
-    ./tuigreet.nix
+    ./greeter
     ./hyprland.nix
     ./hy3.nix
     ./hyprscroller.nix
