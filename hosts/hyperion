@@ -16,5 +16,6 @@
   time.timeZone = "Australia/Melbourne";
 
   # Host options
+  steam.enable = true;
   services.fprintd.enable = true;
 }

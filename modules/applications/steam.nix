@@ -13,9 +13,6 @@
       enable = true;
       extraCompatPackages = [pkgs.proton-ge-bin];
     };
-
-    environment.systemPackages = with pkgs; [steamcmd steam-tui];
-
     services.udev.packages = [pkgs.game-devices-udev-rules];
     hardware.uinput.enable = true;
   };

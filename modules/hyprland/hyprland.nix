@@ -70,8 +70,6 @@
           key_press_enables_dpms = true;
         };
 
-        monitor = [", preferred, auto, 1.25"];
-
         #monitor = [ "FALLBACK, 1920x1080@60, auto, 1" ];
 
         # Screen sharing settings
@@ -121,10 +119,6 @@
           # Move/resize windows with mod + LMB/RMB and dragging
           "$m1, mouse:272, movewindow"
           "$m1, mouse:273, movewindow"
-        ];
-        bindl = [
-          ", switch:on:Lid Switch, exec, hyprctl keyword monitor 'eDP-1, disable'"
-          ", switch:off:Lid Switch, exec, hyprctl keyword monitor 'eDP-1, preferred, auto, auto'"
         ];
       };
     };
