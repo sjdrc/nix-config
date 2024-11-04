@@ -18,10 +18,10 @@
             },
             "options": {
                 "nixos": {
-                    "expr" : "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.ariel.options"
+                    "expr" : "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.(builtins.getEnv HOSTNAME).options"
                 },
                 "home-manager": {
-                    "expr" : "(builtins.getFlake \"/etc/nixos\").homeConfigurations.ariel.options"
+                    "expr" : "(builtins.getFlake \"/etc/nixos\").homeConfigurations.(builtins.getEnv HOSTNAME).options"
                 }
             }
         }

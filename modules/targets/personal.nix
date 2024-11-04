@@ -12,6 +12,7 @@
       package = pkgs.vscodium;
       extensions = with pkgs.vscode-extensions; [
         asvetliakov.vscode-neovim
+        mhutchie.git-graph
       ];
       userSettings = {
         "extensions.experimental.affinity" = {
