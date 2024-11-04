@@ -36,7 +36,7 @@
     nixpkgs,
     ...
   } @ inputs: let
-    hosts = builtins.attrNames (builtins.readDir ./hosts);
+    hosts = map (host: builtins.replaceStrings [".nix"] [""] host) (builtins.attrNames (builtins.readDir ./hosts));
   in {
     overlays = import ./overlays {inherit inputs;};
 
@@ -45,12 +45,10 @@
         inputs.nixpkgs.lib.nixosSystem {
           modules = [
             ./modules
-            ./hosts/${host}
+            ./hosts/${host}.nix
             self.overlays
           ];
-          specialArgs = {
-            inherit inputs;
-          };
+          specialArgs = {inherit inputs;};
         }
     );
 
