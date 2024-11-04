@@ -34,10 +34,6 @@ in {
             on-timeout = screenOff;
             on-resume = screenOn;
           }
-          {
-            timeout = 600;
-            on-timeout = "systemctl suspend";
-          }
         ];
       };
     };

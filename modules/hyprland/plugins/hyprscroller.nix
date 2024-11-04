@@ -5,12 +5,12 @@
   ...
 }: {
   options = {
-    desktop.hyprland.layout = lib.mkOption {
+    hyprland.layout = lib.mkOption {
       type = with lib.types; nullOr (enum ["hyprscroller"]);
     };
   };
 
-  config = lib.mkIf (config.desktop.hyprland.layout == "hyprscroller") {
+  config = lib.mkIf (config.hyprland.layout == "hyprscroller") {
     home-manager.users.sebastien = {
       wayland.windowManager.hyprland = {
         plugins = [pkgs.hyprlandPlugins.hyprscroller];

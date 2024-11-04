@@ -1,42 +1,16 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
-  options = {
-    desktop = {
-      hyprland.layout = lib.mkOption {
-        description = "Hyprland layout to use";
-        type = with lib.types; nullOr (enum []);
-        default = "hy3";
-      };
-      bar = lib.mkOption {
-        description = "Status bar to use";
-        type = with lib.types; nullOr (enum []);
-        default = "waybar";
-      };
-      launcher = lib.mkOption {
-        description = "Launcher to use";
-        type = with lib.types; nullOr (enum []);
-        default = "rofi";
-      };
-    };
+{pkgs, ...}: {
+  services.gvfs.enable = true;
+  programs.thunar.enable = true;
+
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
   };
 
-  config = {
-    services.gvfs.enable = true;
-    programs.thunar.enable = true;
-
-    programs.appimage = {
-      enable = true;
-      binfmt = true;
-    };
-
-    home-manager.users.sebastien = {
-      gtk.enable = true;
-      qt.enable = true;
-    };
-
-    environment.systemPackages = with pkgs; [wdisplays shikane];
+  home-manager.users.sebastien = {
+    gtk.enable = true;
+    qt.enable = true;
   };
+
+  environment.systemPackages = with pkgs; [wdisplays shikane];
 }

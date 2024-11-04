@@ -18,10 +18,10 @@
             },
             "options": {
                 "nixos": {
-                    "expr" : "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.hyperion.options"
+                    "expr" : "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.ariel.options"
                 },
                 "home-manager": {
-                    "expr" : "(builtins.getFlake \"/etc/nixos\").homeConfigurations.hyperion.options"
+                    "expr" : "(builtins.getFlake \"/etc/nixos\").homeConfigurations.ariel.options"
                 }
             }
         }

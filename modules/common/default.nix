@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ./boot.nix
     ./desktop.nix
     ./home-manager.nix
     ./nixos.nix

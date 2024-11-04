@@ -5,12 +5,12 @@
   ...
 }: {
   options = {
-    desktop.bar = lib.mkOption {
+    hyprland.statusbar = lib.mkOption {
       type = with lib.types; nullOr (enum ["waybar"]);
     };
   };
 
-  config = lib.mkIf (config.desktop.bar == "waybar") {
+  config = lib.mkIf (config.hyprland.statusbar == "waybar") {
     fonts.packages = [pkgs.font-awesome];
 
     home-manager.users.sebastien = {

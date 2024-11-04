@@ -5,12 +5,12 @@
   ...
 }: {
   options = {
-    desktop.launcher = lib.mkOption {
+    hyprland.launcher = lib.mkOption {
       type = with lib.types; nullOr (enum ["rofi"]);
     };
   };
 
-  config = lib.mkIf (config.desktop.launcher == "rofi") {
+  config = lib.mkIf (config.hyprland.launcher == "rofi") {
     home-manager.users.sebastien = {
       programs.rofi = {
         enable = true;

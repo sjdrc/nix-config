@@ -5,12 +5,12 @@
   ...
 }: {
   options = {
-    desktop.hyprland.layout = lib.mkOption {
+    hyprland.layout = lib.mkOption {
       type = with lib.types; nullOr (enum ["hy3"]);
     };
   };
 
-  config = lib.mkIf (config.desktop.hyprland.layout == "hy3") {
+  config = lib.mkIf (config.hyprland.layout == "hy3") {
     home-manager.users.sebastien = {
       wayland.windowManager.hyprland = {
         plugins = [pkgs.hyprlandPlugins.hy3];

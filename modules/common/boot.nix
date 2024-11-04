@@ -1,9 +1,18 @@
-{pkgs, ...}: {
-  boot.plymouth.enable = true;
-  #boot.plymouth.themePackages = [ pkgs.nixos-bgrt-plymouth ];
-  #boot.plymouth.theme = "nixos-bgrt";
+{...}: {
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  # Make boot messages as quiet as possible
+  boot.initrd.availableKernelModules = [
+    "nvme"
+    "xhci_pci"
+    "thunderbolt"
+    "usbhid"
+  ];
+
+  # Graphical boot
+  boot.plymouth.enable = true;
+
+  # Quiet boot
   boot.initrd.verbose = false;
   boot.consoleLogLevel = 0;
   boot.initrd.systemd.enable = true;
