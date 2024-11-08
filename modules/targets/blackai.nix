@@ -20,6 +20,7 @@
       cilium-cli
       vultr-cli
       omnictl
+      direnv
     ];
   };
 }

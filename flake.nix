@@ -30,7 +30,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    inputs.vscode-server.url = "github:nix-community/nixos-vscode-server";
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
 
   outputs = {
