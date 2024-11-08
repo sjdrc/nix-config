@@ -2,6 +2,7 @@
   imports = [
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
+    inputs.vscode-server.nixosModules.default
   ];
 
   # Partition config
@@ -18,4 +19,5 @@
 
   # Device options
   hardware.nvidia.open = true;
+  services.vscode-server.enable = true;
 }
