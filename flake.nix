@@ -49,6 +49,7 @@
             ./modules
             ./hosts/${host}.nix
             self.overlays
+            {networking.hostName = "${host}";}
           ];
           specialArgs = {inherit inputs;};
         }

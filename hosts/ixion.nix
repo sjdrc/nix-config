@@ -16,7 +16,6 @@
   swapDevices = [{device = "/dev/disk/by-label/swap";}];
 
   # Device config
-  networking.hostName = "ixion";
   nixpkgs.hostPlatform = "x86_64-linux";
   time.timeZone = "Australia/Melbourne";
 

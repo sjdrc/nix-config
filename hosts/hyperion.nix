@@ -11,7 +11,6 @@
   swapDevices = [{device = "/dev/disk/by-uuid/ce05be93-2bfb-4e1d-8fd6-f7721458fb7a";}];
 
   # Device config
-  networking.hostName = "hyperion";
   nixpkgs.hostPlatform = "x86_64-linux";
   time.timeZone = "Australia/Melbourne";
 

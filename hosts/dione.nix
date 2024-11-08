@@ -13,7 +13,6 @@
   swapDevices = [{device = "/dev/disk/by-uuid/0d428da7-82de-488c-bdd4-19efb78e8db9";}];
 
   # Device config
-  networking.hostName = "dione";
   nixpkgs.hostPlatform = "x86_64-linux";
   time.timeZone = "Australia/Melbourne";
 
