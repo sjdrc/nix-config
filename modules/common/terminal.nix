@@ -12,7 +12,7 @@
         "--header"
       ];
       git = true;
-      icons = "auto";
+      icons = true;
     };
     programs.atuin = {
       enable = true;
