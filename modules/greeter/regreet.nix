@@ -19,19 +19,6 @@ in {
 
     programs.regreet = {
       enable = true;
-      theme = with config.home-manager.users.sebastien.gtk.theme; {
-        name = name;
-        package = package;
-      };
-      font = with config.stylix.fonts; {
-        name = sansSerif.name;
-        package = sansSerif.package;
-        size = sizes.applications;
-      };
-      cursorTheme = with config.stylix.cursor; {
-        name = name;
-        package = package;
-      };
       cageArgs = [
         # Allow TTY switching
         "-s"
