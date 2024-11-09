@@ -12,5 +12,9 @@
     qt.enable = true;
   };
 
-  environment.systemPackages = with pkgs; [wdisplays shikane];
+  environment.systemPackages = with pkgs; [
+    wdisplays
+    shikane
+    wl-clipboard
+  ];
 }

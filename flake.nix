@@ -6,6 +6,10 @@
 
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
+
+    nur.url = "github:nix-community/NUR";
+
     nixos-hardware.url = "github:sjdrc/nixos-hardware";
 
     home-manager = {
@@ -49,6 +53,7 @@
             ./modules
             ./hosts/${host}.nix
             self.overlays
+            inputs.nur.nixosModules.nur
             {networking.hostName = "${host}";}
           ];
           specialArgs = {inherit inputs;};

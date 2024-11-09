@@ -1,10 +1,8 @@
 {pkgs, ...}: {
   home-manager.users.sebastien = {
     home.packages = with pkgs; [
-      bambu-studio
       orca-slicer
       signal-desktop
-      wl-clipboard
     ];
 
     programs.vscode = {
