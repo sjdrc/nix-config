@@ -19,4 +19,7 @@
   # Device options
   hardware.nvidia.open = true;
   services.vscode-server.enable = true;
+  environment.sessionVariables = {
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+  };
 }
