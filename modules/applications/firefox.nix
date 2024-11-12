@@ -31,6 +31,9 @@
         old-reddit-redirect
         re-enable-right-click
         terms-of-service-didnt-read
+        faststream
+        localcdn
+        linkwarden
       ];
     };
   };

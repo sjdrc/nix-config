@@ -1,10 +1,5 @@
 {pkgs, ...}: {
   home-manager.users.sebastien = {
-    home.packages = with pkgs; [
-      orca-slicer
-      signal-desktop
-    ];
-
     programs.vscode = {
       enable = true;
       package = pkgs.vscodium;
