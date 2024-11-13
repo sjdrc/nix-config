@@ -49,6 +49,11 @@
     };
 
     vscode-server.url = "github:nix-community/nixos-vscode-server";
+
+    kolide-launcher = {
+      url = "github:/kolide/nix-agent/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
