@@ -348,6 +348,27 @@
         "type": "github"
       }
     },
+    "kolide-launcher": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1727884248,
+        "narHash": "sha256-2BNKYcgwvf8Y82COp5hKA29GqEgNEkebxeiqNWzMx28=",
+        "owner": "kolide",
+        "repo": "nix-agent",
+        "rev": "3eefae85fad746c7da3cc9e250fc320b15e0c722",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kolide",
+        "ref": "main",
+        "repo": "nix-agent",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -518,6 +539,7 @@
       "inputs": {
         "gpd-fan-driver": "gpd-fan-driver",
         "home-manager": "home-manager",
+        "kolide-launcher": "kolide-launcher",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "nixpkgs-master": "nixpkgs-master",

@@ -20,9 +20,6 @@
   networking.useDHCP = lib.mkDefault true;
   networking.networkmanager.enable = true;
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
   # Power actions
   services.logind.powerKey = "suspend";
   services.upower.enable = true;
