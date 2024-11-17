@@ -28,4 +28,6 @@
   services.ollama.enable = true;
   services.nextjs-ollama-llm-ui.enable = true;
   services.ollama.acceleration = "cuda";
+
+  services.factorio.enable = true;
 }
