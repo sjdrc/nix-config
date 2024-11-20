@@ -15,6 +15,10 @@
   };
   services.kolide-launcher.enable = true;
 
+  services.clamav.daemon.enable = true;
+  services.clamav.updater.enable = true;
+  services.clamav.scanner.enable = true;
+
   home-manager.users.sebastien = {
     home.packages = with pkgs; [
       slack
