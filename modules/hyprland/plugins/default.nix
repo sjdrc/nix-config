@@ -1,5 +1,5 @@
 {...}: {
   imports = [
-    #./hypr-dynamic-cursors.nix
+    ./hypr-dynamic-cursors.nix
   ];
 }
