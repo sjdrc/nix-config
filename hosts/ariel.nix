@@ -22,10 +22,10 @@
   # Device options
   steam.enable = true;
   hardware.nvidia.open = true;
-  home-manager.users.sebastien.home.packages = with pkgs; [
-    orca-slicer
-  ];
+  #home-manager.users.sebastien.home.packages = with pkgs; [
+  #  orca-slicer
+  #];
   services.ollama.enable = true;
-  services.nextjs-ollama-llm-ui.enable = true;
   services.ollama.acceleration = "cuda";
+  services.nextjs-ollama-llm-ui.enable = true;
 }
