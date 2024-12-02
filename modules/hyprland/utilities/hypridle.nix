@@ -26,13 +26,17 @@ in {
             on-resume = "brightnessctl -r";
           }
           {
+            timeout = 240;
+            on-timeout = screenOff;
+            on-resume = screenOn;
+          }
+          {
             timeout = 300;
             on-timeout = lock;
           }
           {
-            timeout = 360;
-            on-timeout = screenOff;
-            on-resume = screenOn;
+            timeout = 600;
+            on-timeout = "systemctl suspend";
           }
         ];
       };
