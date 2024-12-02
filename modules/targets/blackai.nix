@@ -19,6 +19,8 @@
   services.clamav.updater.enable = true;
   services.clamav.scanner.enable = true;
 
+  programs._1password-gui.enable = true;
+
   home-manager.users.sebastien = {
     home.packages = with pkgs; [
       slack
