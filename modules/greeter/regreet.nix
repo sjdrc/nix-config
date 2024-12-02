@@ -2,9 +2,8 @@
   config,
   lib,
   ...
-}: let
-  home = "/run/greeter";
-in {
+}:
+{
   options = {
     greeter = lib.mkOption {
       type = with lib.types; nullOr (enum ["regreet"]);
@@ -26,17 +25,6 @@ in {
         "-m"
         "last"
       ];
-    };
-
-    users.users.greeter = {
-      home = home;
-      createHome = true;
-    };
-
-    home-manager.users.greeter.home = {
-      username = "greeter";
-      homeDirectory = home;
-      stateVersion = "24.05";
     };
   };
 }

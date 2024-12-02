@@ -1,29 +1,24 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   programs.hyprland = {
     enable = true;
   };
 
-  environment.sessionVariables = {
-    # Force wayland for electron applications
-    NIXOS_OZONE_WL = "1";
-  };
-
   home-manager.users.sebastien = {
-    home.packages = with pkgs; [polkit_gnome];
-
-    services.kanshi.systemdTarget = "hyprland-session.target";
-
-    # Window Manager
     wayland.windowManager.hyprland = {
       enable = true;
 
       systemd.variables = ["--all"];
 
       settings = {
+        env = [
+          # Force wayland for electron applications
+          "NIXOS_OZONE_WL,1"
+          "LIBVA_DRIVER_NAME,nvidia"
+          "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+        ];
+
+        cursor.no_hardware_cursors = true;
+
         # Default applications
         "$fileManager" = "dolphin";
 

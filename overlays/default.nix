@@ -15,8 +15,6 @@
         #  hyprscroller = inputs.hyprscroller.packages.${system}.default;
         #};
         openlens = inputs.nixpkgs-stable.legacyPackages.${system}.openlens;
-        bambu-studio = inputs.nixpkgs-master.legacyPackages.${system}.bambu-studio;
-        orca-slicer = inputs.nixpkgs-master.legacyPackages.${system}.orca-slicer;
       }
     )
 

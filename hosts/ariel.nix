@@ -29,8 +29,10 @@
   services.nextjs-ollama-llm-ui.enable = true;
   services.ollama.acceleration = "cuda";
 
-  services.factorio.enable = true;
   environment.sessionVariables = {
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
   };
+
+  services.factorio.enable = true;
+  services.factorio.package = pkgs.factorio-headless-experimental;
 }
