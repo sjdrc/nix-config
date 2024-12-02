@@ -16,10 +16,11 @@
   # Nix helper
   programs.nh = {
     enable = true;
-    flake = "/etc/nixos";
     clean.enable = true;
     clean.extraArgs = "--keep 10 --keep-since 7d";
   };
+
+  environment.sessionVariables.FLAKE = "git+ssh://git@github.com/sjdrc/nix-config";
 
   # Flake config inspection tool
   environment.systemPackages = [pkgs.nix-inspect];
