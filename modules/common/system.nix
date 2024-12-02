@@ -1,4 +1,6 @@
 {lib, ...}: {
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
   # Audio configuration
   security.rtkit.enable = true;
   services.pipewire = {
@@ -29,6 +31,7 @@
   hardware.enableRedistributableFirmware = true;
 
   # Root filesystem
+  # lsblk -o name,mountpoint,label,size,uuid
   # sudo cryptsetup config <disk> --label nixos-luks
   boot.initrd.luks.devices."nixos".device = "/dev/disk/by-label/nixos-luks";
   fileSystems = {
@@ -51,7 +54,6 @@
   boot.initrd.luks.devices."swap".device = "/dev/disk/by-label/swap-luks";
   swapDevices = [
     {
-      # sudo e2label <disk> swap
       device = "/dev/disk/by-label/swap";
     }
   ];

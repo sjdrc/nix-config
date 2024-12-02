@@ -8,19 +8,10 @@
     inputs.gpd-fan-driver.nixosModules.default
   ];
 
-  # Partition configuration
-  boot.initrd.luks.devices."root".device = "/dev/disk/by-label/nixos-luks";
-  fileSystems ."/".device = "/dev/disk/by-label/nixos";
-  fileSystems."/boot".device = "/dev/disk/by-label/boot";
-  boot.initrd.luks.devices."swap".device = "/dev/disk/by-label/swap-luks";
-  swapDevices = [{device = "/dev/disk/by-label/swap";}];
-
   # Device config
-  nixpkgs.hostPlatform = "x86_64-linux";
   time.timeZone = "Australia/Melbourne";
 
-  # Device options
-  steam.enable = true;
+  # Device hardware
   boot.kernelPackages = pkgs.linuxPackages_latest;
   hardware.gpd-fan.enable = true;
   hardware.fancontrol = {
@@ -36,4 +27,7 @@
       MAXPWM=/sys/class/hwmon/hwmon6/pwm=128
     '';
   };
+
+  # Device programs
+  steam.enable = true;
 }
