@@ -28,16 +28,31 @@
   # Common host
   hardware.enableRedistributableFirmware = true;
 
+  # Root filesystem
+  # sudo cryptsetup config <disk> --label nixos-luks
+  boot.initrd.luks.devices."nixos".device = "/dev/disk/by-label/nixos-luks";
   fileSystems = {
     "/" = {
-      #device = "/dev/disk/by-label/nixos";
+      # sudo e2label <disk> nixos
+      device = "/dev/disk/by-label/nixos";
       fsType = "ext4";
       options = ["noatime" "nodiratime" "discard"];
     };
     "/boot" = {
-      #device = "/dev/disk/by-label/boot";
+      # sudo fatlabel <disk> boot
+      device = "/dev/disk/by-label/boot";
       fsType = "vfat";
       options = ["fmask=0022" "dmask=0022"];
     };
   };
+
+  # Swap
+  # sudo cryptsetup config <disk> --label swap-luks
+  boot.initrd.luks.devices."swap".device = "/dev/disk/by-label/swap-luks";
+  swapDevices = [
+    {
+      # sudo e2label <disk> swap
+      device = "/dev/disk/by-label/swap";
+    }
+  ];
 }
