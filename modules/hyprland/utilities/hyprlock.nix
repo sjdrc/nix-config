@@ -1,4 +1,4 @@
-{config, ...}: {
+{...}: {
   security.pam.services.hyprlock = {};
 
   home-manager.users.sebastien = {

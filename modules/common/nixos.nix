@@ -9,17 +9,9 @@
   nix.settings.auto-optimise-store = true;
   nix.settings.allowed-users = ["sebastien"];
   nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"];
-
-  nix.settings = {
-    trusted-substituters = [
-      "https://nix-community.cachix.org"
-      "https://ai.cachix.org"
-    ];
-    trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "ai.cachix.org-1:N9dzRK+alWwoKXQlnn0H6aUx0lU/mspIoz8hMvGvbbc="
-    ];
-  };
+  nix.extraOptions = ''
+    accept-flake-config = true
+  '';
 
   # Nix helper
   programs.nh = {
