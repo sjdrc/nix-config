@@ -9,6 +9,7 @@
 
   # Device hardware
   hardware.nvidia.open = true;
+  hardware.nvidia.powerManagement.enable = true;
 
   # Device programs
   steam.enable = true;
