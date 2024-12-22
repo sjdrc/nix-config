@@ -25,6 +25,12 @@
   # Fix remote development on nix host
   services.vscode-server.enable = true;
 
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    enableBashIntegration = true;
+  };
+
   home-manager.users.sebastien = {
     home.packages = with pkgs; [
       slack
@@ -44,6 +50,7 @@
       vultr-cli
       omnictl
       direnv
+      sops
     ];
   };
 }
