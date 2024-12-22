@@ -23,5 +23,6 @@
 
   environment.systemPackages = with pkgs; [
     orca-slicer
+    zen-browser
   ];
 }
