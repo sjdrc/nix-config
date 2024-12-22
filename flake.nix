@@ -19,7 +19,10 @@
 
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
 
-    nur.url = "github:nix-community/NUR";
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixos-hardware.url = "github:sjdrc/nixos-hardware";
 
@@ -72,7 +75,6 @@
             ./modules
             ./hosts/${host}.nix
             self.overlays
-            inputs.nur.nixosModules.nur
             {networking.hostName = "${host}";}
           ];
           specialArgs = {inherit inputs;};

@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
@@ -16,4 +20,8 @@
   services.ollama.enable = true;
   services.ollama.acceleration = "cuda";
   services.nextjs-ollama-llm-ui.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    orca-slicer
+  ];
 }

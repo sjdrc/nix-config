@@ -1,4 +1,10 @@
-{config, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: let
+  addons = pkgs.callPackage inputs.firefox-addons {};
+in {
   environment.sessionVariables = {
     # Force wayland for firefox
     MOZ_ENABLE_WAYLAND = "1";
@@ -10,7 +16,7 @@
         settings = {
           "extensions.autoDisableScopes" = 0;
         };
-        extensions = with config.nur.repos.rycee.firefox-addons; [
+        extensions = with addons; [
           ublock-origin
           sponsorblock
           bitwarden
