@@ -7,7 +7,7 @@
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.settings.auto-optimise-store = true;
-  nix.settings.allowed-users = ["sebastien"];
+  nix.settings.trusted-users = ["sebastien"];
   nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"];
   nix.extraOptions = ''
     accept-flake-config = true
