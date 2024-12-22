@@ -15,6 +15,8 @@
         #  hyprscroller = inputs.hyprscroller.packages.${system}.default;
         #};
         openlens = inputs.nixpkgs-stable.legacyPackages.${system}.openlens;
+
+        zen-browser = inputs.zen-browser.packages.${system}.default;
       }
     )
 

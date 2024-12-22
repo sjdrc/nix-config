@@ -17,9 +17,9 @@
 
   # Device programs
   steam.enable = true;
-  services.ollama.enable = true;
-  services.ollama.acceleration = "cuda";
-  services.nextjs-ollama-llm-ui.enable = true;
+  #services.ollama.enable = true;
+  #services.ollama.acceleration = "cuda";
+  #services.nextjs-ollama-llm-ui.enable = true;
 
   environment.systemPackages = with pkgs; [
     orca-slicer
