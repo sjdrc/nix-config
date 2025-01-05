@@ -12,11 +12,11 @@
   hardware.nvidia.powerManagement.enable = true;
 
   services.code-server = {
-	enable = true;
-	disableTelemetry = true;
-	auth = "none";
-	host = "0.0.0.0";
-	user = "sebastien";
-	group = "users";
+    enable = true;
+    disableTelemetry = true;
+    auth = "none";
+    host = "0.0.0.0";
+    user = "sebastien";
+    group = "users";
   };
 }
