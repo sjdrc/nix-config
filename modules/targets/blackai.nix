@@ -20,8 +20,6 @@
   services.clamav.updater.enable = true;
   services.clamav.scanner.enable = true;
 
-  programs._1password-gui.enable = true;
-
   # Fix remote development on nix host
   services.vscode-server.enable = true;
 
