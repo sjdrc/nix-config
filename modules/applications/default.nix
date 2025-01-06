@@ -2,7 +2,7 @@
   imports = [
     ./1password.nix
     ./bash.nix
-    ./firefox.nix
+    #./firefox.nix
     ./kitty.nix
     ./nvim.nix
     ./sshrc.nix

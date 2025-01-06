@@ -32,8 +32,6 @@
   home-manager.users.sebastien = {
     home.packages = with pkgs; [
       slack
-      google-chrome
-      # Kubernetes tools
       kubectl
       kubelogin-oidc
       kubernetes-helm
