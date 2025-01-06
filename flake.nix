@@ -5,10 +5,12 @@
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://ai.cachix.org"
+      "https://hyprland.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "ai.cachix.org-1:N9dzRK+alWwoKXQlnn0H6aUx0lU/mspIoz8hMvGvbbc="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     ];
   };
 
@@ -57,6 +59,57 @@
       url = "github:/kolide/nix-agent/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Hyprland and friends #############
+    hyprland = {
+      url = "https://github.com/hyprwm/Hyprland";
+      type = "git";
+      submodules = true;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    hypridle = {
+      url = "github:hyprwm/hyprlock";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        hyprutils.follows = "hyprland";
+        hyprlang.follows = "hyprland";
+      };
+    };
+
+    hyprlock = {
+      url = "github:hyprwm/hyprlock";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        hyprutils.follows = "hyprland";
+        hyprlang.follows = "hyprland";
+      };
+    };
+
+    hyprpaper = {
+      url = "github:hyprwm/hyprpaper";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        hyprutils.follows = "hyprland";
+        hyprlang.follows = "hyprland";
+        hyprwayland-scanner.follows = "hyprland";
+      };
+    };
+
+    hy3 = {
+      url = "github:outfoxxed/hy3";
+      inputs.hyprland.follows = "hyprland";
+    };
+
+    hypr-dynamic-cursors = {
+      url = "github:VirtCode/hypr-dynamic-cursors";
+      inputs.hyprland.follows = "hyprland";
+    };
+
+    #hyprscroller = {
+    #  url = "github:dawsers/hyprscroller";
+    #  inputs.hyprland.follows = "hyprland";
+    #};
   };
 
   outputs = {
