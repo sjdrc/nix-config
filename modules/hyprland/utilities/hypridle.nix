@@ -6,7 +6,7 @@ in {
   home-manager.users.sebastien = {
     wayland.windowManager.hyprland = {
       settings = {
-        bind = ["$m1, Escape, exec, ${lock}"];
+        bind = ["SUPER       , Escape, exec, ${lock}"];
       };
     };
 

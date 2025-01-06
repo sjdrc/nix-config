@@ -65,55 +65,49 @@
           key_press_enables_dpms = true;
         };
 
-        #monitor = [ "FALLBACK, 1920x1080@60, auto, 1" ];
-
-        # Screen sharing settings
-        # bitdepth needs to be set to 10 to get screensharing to work for some reason
-        # Visit https://mozilla.github.io/webrtc-landing/gum_test.html to test
-        #monitor = [ ", preferred, auto, 1, bitdepth, 10" ];
         windowrule = ["float,title:^(MainPicker)$"];
 
         workspace = [
           "1,               defaultName:main"
           "2,               defaultName:work"
-          "10,              defaultName:comms"
+          "3,               defaultName:comms"
         ];
 
         # Modifier key combos
-        "$m1" = "SUPER";
-        "$m2" = "SUPER SHIFT";
-        "$m3" = "SUPER CTRL";
-        "$m4" = "SUPER ALT";
+        "$MOD" = "SUPER";
+        "$MOD+SHIFT" = "SUPER SHIFT";
+        "$MOD+CTRL" = "SUPER CTRL";
+        "$MOD+ALT" = "SUPER ALT";
 
         bind = [
           # Application shortcuts
-          "$m1, Space,          exec, $launcher"
-          "$m1, Return,         exec, $terminal"
-          "$m2, N,              exec, $fileManager"
+          "$MOD,             Space,            exec, $launcher"
+          "$MOD,             Return,           exec, $terminal"
+          "$MOD+SHIFT,       N,                exec, $fileManager"
 
           # Window controls
-          "$m1, F,              fullscreen, 1"
-          "$m2, Q,              killactive,"
-          "$m2, F,              togglefloating, active"
-          "$m2, P,              pin, active"
+          "$MOD,             F,                fullscreen, 1"
+          "$MOD+SHIFT,       Q,                killactive,"
+          "$MOD+SHIFT,       F,                togglefloating, active"
+          "$MOD+SHIFT,       P,                pin, active"
 
           # Workspace controls
-          "$m1, 1,              workspace, 1"
-          "$m1, 2,              workspace, 2"
-          "$m1, 0,              workspace, 10"
-          "$m2, 1,              movetoworkspacesilent, 1"
-          "$m2, 2,              movetoworkspacesilent, 2"
-          "$m2, 0,              movetoworkspacesilent, 10"
+          "$MOD,             1,                workspace, 1"
+          "$MOD,             2,                workspace, 2"
+          "$MOD,             3,                workspace, 3"
+          "$MOD+SHIFT,       1,                movetoworkspacesilent, 1"
+          "$MOD+SHIFT,       2,                movetoworkspacesilent, 2"
+          "$MOD+SHIFT,       3,                movetoworkspacesilent, 3"
 
           # Scrach workspace
-          "$m1, S,              togglespecialworkspace"
-          "$m2, S,              movetoworkspacesilent, special"
-          "$m3, S,              movetoworkspacesilent, e+0"
+          "$MOD,             S,                togglespecialworkspace"
+          "$MOD+SHIFT,       S,                movetoworkspacesilent, special"
+          "$MOD+CTRL,        S,                movetoworkspacesilent, e+0"
         ];
         bindm = [
           # Move/resize windows with mod + LMB/RMB and dragging
-          "$m1, mouse:272, movewindow"
-          "$m1, mouse:273, movewindow"
+          "$MOD,             mouse:272,        movewindow"
+          "$MOD,             mouse:273,        movewindow"
         ];
       };
     };

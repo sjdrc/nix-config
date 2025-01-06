@@ -9,11 +9,11 @@
       settings = {
         bind = [
           # Screenshot a monitor
-          "   , PRINT,          exec, hyprshot -m output"
+          ",                 PRINT,            exec, hyprshot -m output"
           # Screenshot a window
-          "$m1, PRINT,          exec, hyprshot -m window"
+          "$MOD,             PRINT,            exec, hyprshot -m window"
           # Screenshot a region
-          "$m2, PRINT,          exec, hyprshot -m region"
+          "$MOD+SHIFT,       PRINT,            exec, hyprshot -m region"
         ];
       };
     };

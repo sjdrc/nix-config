@@ -21,42 +21,42 @@
           };
           bind = [
             # Move focus with m1 + arrow keys
-            "$m1, left,           scroller:movefocus, l"
-            "$m1, right,          scroller:movefocus, r"
-            "$m1, up,             scroller:movefocus, u"
-            "$m1, down,           scroller:movefocus, d"
-            "$m1, home,           scroller:movefocus, begin"
-            "$m1, end,            scroller:movefocus, end"
+            "SUPER       , left,           scroller:movefocus, l"
+            "SUPER       , right,          scroller:movefocus, r"
+            "SUPER       , up,             scroller:movefocus, u"
+            "SUPER       , down,           scroller:movefocus, d"
+            "SUPER       , home,           scroller:movefocus, begin"
+            "SUPER       , end,            scroller:movefocus, end"
 
             # Movement
-            "$m2, left,           scroller:movewindow, l"
-            "$m2, right,          scroller:movewindow, r"
-            "$m2, up,             scroller:movewindow, u"
-            "$m2, down,           scroller:movewindow, d"
-            "$m2, home,           scroller:movewindow, begin"
-            "$m2, end,            scroller:movewindow, end"
+            "SUPER SHIFT , left,           scroller:movewindow, l"
+            "SUPER SHIFT , right,          scroller:movewindow, r"
+            "SUPER SHIFT , up,             scroller:movewindow, u"
+            "SUPER SHIFT , down,           scroller:movewindow, d"
+            "SUPER SHIFT , home,           scroller:movewindow, begin"
+            "SUPER SHIFT , end,            scroller:movewindow, end"
 
             # Modes
-            "$m1, bracketleft,    scroller:setmode, row"
-            "$m1, bracketright,   scroller:setmode, col"
+            "SUPER       , bracketleft,    scroller:setmode, row"
+            "SUPER       , bracketright,   scroller:setmode, col"
 
             # Sizing keys
-            "$m1, equal,          scroller:cyclesize, next"
-            "$m1, minus,          scroller:cyclesize, prev"
-            "$m3, left,           scroller:setmode, row"
-            "$m3, left,           scroller:fitsize, tobeg"
-            "$m3, right,          scroller:setmode, row"
-            "$m3, right,          scroller:fitsize, toend"
-            "$m3, up,             scroller:setmode, col"
-            "$m3, up,             scroller:fitsize, tobeg"
-            "$m3, down,           scroller:setmode, col"
-            "$m3, down,           scroller:fitsize, toend"
+            "SUPER       , equal,          scroller:cyclesize, next"
+            "SUPER       , minus,          scroller:cyclesize, prev"
+            "SUPER CTRL   , left,           scroller:setmode, row"
+            "SUPER CTRL   , left,           scroller:fitsize, tobeg"
+            "SUPER CTRL   , right,          scroller:setmode, row"
+            "SUPER CTRL   , right,          scroller:fitsize, toend"
+            "SUPER CTRL   , up,             scroller:setmode, col"
+            "SUPER CTRL   , up,             scroller:fitsize, tobeg"
+            "SUPER CTRL   , down,           scroller:setmode, col"
+            "SUPER CTRL   , down,           scroller:fitsize, toend"
           ];
         };
         extraConfig = ''
           # Fit size submap
           # will switch to a submap called fitsize
-          bind = $m1, W, submap, fitsize
+          bind = SUPER       , W, submap, fitsize
           # will start a submap called "fitsize"
           submap = fitsize
           # sets binds for fitting columns/windows in the screen
@@ -77,10 +77,10 @@
 
           # overview keys
           # bind key to toggle overview (normal)
-          bind = $m1, tab, scroller:toggleoverview
+          bind = SUPER       , tab, scroller:toggleoverview
           # overview submap
           # will switch to a submap called overview
-          bind = $m1, tab, submap, overview
+          bind = SUPER       , tab, submap, overview
           # will start a submap called "overview"
           submap = overview
           bind = , right, scroller:movefocus, right
@@ -92,8 +92,8 @@
           bind = , escape, submap, reset
           bind = , return, scroller:toggleoverview,
           bind = , return, submap, reset
-          bind = $m1, tab, scroller:toggleoverview,
-          bind = $m1, tab, submap, reset
+          bind = SUPER       , tab, scroller:toggleoverview,
+          bind = SUPER       , tab, submap, reset
           # will reset the submap, meaning end the current one and return to the global one
           submap = reset
 
