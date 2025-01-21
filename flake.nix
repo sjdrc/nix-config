@@ -24,11 +24,6 @@
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nixos-hardware.url = "github:sjdrc/nixos-hardware";
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
@@ -51,12 +46,12 @@
       inputs.home-manager.follows = "home-manager";
     };
 
-    gpd-fan-driver = {
-      url = "github:Cryolitia/gpd-fan-driver";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #gpd-fan-driver = {
+    #  url = "github:Cryolitia/gpd-fan-driver";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
 
-    vscode-server.url = "github:nix-community/nixos-vscode-server";
+    #vscode-server.url = "github:nix-community/nixos-vscode-server";
 
     kolide-launcher = {
       url = "github:/kolide/nix-agent/main";
@@ -64,52 +59,52 @@
     };
 
     # Hyprland and friends #############
-    hyprland = {
-      url = "https://github.com/hyprwm/Hyprland";
-      type = "git";
-      submodules = true;
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #hyprland = {
+    #  url = "https://github.com/hyprwm/Hyprland";
+    #  type = "git";
+    #  submodules = true;
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
 
-    hypridle = {
-      url = "github:hyprwm/hyprlock";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        hyprutils.follows = "hyprland";
-        hyprlang.follows = "hyprland";
-      };
-    };
+    #hypridle = {
+    #  url = "github:hyprwm/hyprlock";
+    #  inputs = {
+    #    nixpkgs.follows = "nixpkgs";
+    #    hyprutils.follows = "hyprland";
+    #    hyprlang.follows = "hyprland";
+    #  };
+    #};
 
-    hyprlock = {
-      url = "github:hyprwm/hyprlock";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        hyprutils.follows = "hyprland";
-        hyprlang.follows = "hyprland";
-      };
-    };
+    #hyprlock = {
+    #  url = "github:hyprwm/hyprlock";
+    #  inputs = {
+    #    nixpkgs.follows = "nixpkgs";
+    #    hyprutils.follows = "hyprland";
+    #    hyprlang.follows = "hyprland";
+    #  };
+    #};
 
-    hyprpaper = {
-      url = "github:hyprwm/hyprpaper";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        hyprutils.follows = "hyprland";
-        hyprlang.follows = "hyprland";
-        hyprwayland-scanner.follows = "hyprland";
-      };
-    };
+    #hyprpaper = {
+    #  url = "github:hyprwm/hyprpaper";
+    #  inputs = {
+    #    nixpkgs.follows = "nixpkgs";
+    #    hyprutils.follows = "hyprland";
+    #    hyprlang.follows = "hyprland";
+    #    hyprwayland-scanner.follows = "hyprland";
+    #  };
+    #};
 
-    hy3 = {
-      url = "github:outfoxxed/hy3";
-      inputs.hyprland.follows = "hyprland";
-    };
+    #hy3 = {
+    #  url = "github:outfoxxed/hy3";
+    #  inputs.hyprland.follows = "hyprland";
+    #};
 
-    hypr-dynamic-cursors = {
-      url = "github:VirtCode/hypr-dynamic-cursors";
-      inputs.hyprland.follows = "hyprland";
-    };
+    #hypr-dynamic-cursors = {
+    #  url = "github:VirtCode/hypr-dynamic-cursors";
+    #  inputs.hyprland.follows = "hyprland";
+    #};
 
-    #hyprscroller = {
+    ##hyprscroller = {
     #  url = "github:dawsers/hyprscroller";
     #  inputs.hyprland.follows = "hyprland";
     #};

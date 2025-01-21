@@ -5,7 +5,7 @@
 }: {
   imports = [
     inputs.kolide-launcher.nixosModules.kolide-launcher
-    inputs.vscode-server.nixosModules.default
+    #inputs.vscode-server.nixosModules.default
   ];
 
   services.tailscale.enable = true;
@@ -21,7 +21,7 @@
   services.clamav.scanner.enable = true;
 
   # Fix remote development on nix host
-  services.vscode-server.enable = true;
+  #services.vscode-server.enable = true;
 
   programs.direnv = {
     enable = true;

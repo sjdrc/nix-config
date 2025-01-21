@@ -18,6 +18,8 @@
 
   services.openvscode-server = {
     enable = true;
+    port = 3000;
+    host = "0.0.0.0";
     user = "sebastien";
     group = "users";
     telemetryLevel = "off";
