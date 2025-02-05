@@ -47,6 +47,7 @@
       omnictl
       direnv
       sops
+      ffmpeg-full
     ];
   };
 }

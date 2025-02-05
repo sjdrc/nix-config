@@ -1,5 +1,8 @@
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     user = lib.mkOption {
       type = lib.types.str;
@@ -14,6 +17,7 @@
       extraGroups = [
         "networkmanager"
         "wheel"
+        "video"
       ];
     };
 
