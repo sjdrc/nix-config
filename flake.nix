@@ -46,11 +46,6 @@
       inputs.home-manager.follows = "home-manager";
     };
 
-    #gpd-fan-driver = {
-    #  url = "github:Cryolitia/gpd-fan-driver";
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #};
-
     #vscode-server.url = "github:nix-community/nixos-vscode-server";
 
     kolide-launcher = {
