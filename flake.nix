@@ -27,9 +27,9 @@
 
     zen-browser.url = "github:youwen5/zen-browser-flake";
 
-    nixvim.url = "github:nix-community/nixvim";
+    nixvim.url = "https://flakehub.com/f/nix-community/nixvim/0.1.*";
 
-    stylix.url = "github:danth/stylix";
+    stylix.url = "https://flakehub.com/f/danth/stylix/0.1.*";
 
     kolide-launcher.url = "github:kolide/nix-agent/main";
 
