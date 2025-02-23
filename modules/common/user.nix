@@ -28,6 +28,7 @@
       };
 
       xdg = {
+        configFile."mimeapps.list".force = true;
         mimeApps.enable = true;
 
         # Set directories for application defaults

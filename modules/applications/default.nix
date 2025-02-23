@@ -4,7 +4,7 @@
     ./bash.nix
     #./firefox.nix
     ./kitty.nix
-    ./nvim.nix
+    #./nvim.nix
     ./sshrc.nix
     ./steam.nix
     ./vscode.nix

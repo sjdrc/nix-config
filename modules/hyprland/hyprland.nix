@@ -26,6 +26,10 @@
 
         exec-once = ["${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &"];
 
+        ecosystem = {
+          no_update_news = true;
+        };
+
         general = {
           border_size = 2;
           gaps_in = 5;

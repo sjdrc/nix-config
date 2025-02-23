@@ -3,15 +3,17 @@
     programs.vscode = {
       enable = true;
       package = pkgs.openvscode-server;
-      extensions = with pkgs.vscode-extensions; [
-        asvetliakov.vscode-neovim
-        mhutchie.git-graph
-      ];
-      userSettings = {
-        "extensions.experimental.affinity" = {
-          "asvetliakov.vscode-neovim" = 1;
+      profiles.default = {
+        extensions = with pkgs.vscode-extensions; [
+          asvetliakov.vscode-neovim
+          mhutchie.git-graph
+        ];
+        userSettings = {
+          "extensions.experimental.affinity" = {
+            "asvetliakov.vscode-neovim" = 1;
+          };
+          "git.confirmSync" = true;
         };
-        "git.confirmSync" = true;
       };
     };
   };
