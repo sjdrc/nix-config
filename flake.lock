@@ -1087,15 +1087,14 @@
       "locked": {
         "lastModified": 1739222645,
         "narHash": "sha256-6FsTAjrO0TN5+gVxx3hmWqEJWs1sJ1p3E8DKWHdlN6M=",
-        "owner": "youwen5",
-        "repo": "zen-browser-flake",
         "rev": "7e60ade066a54797b376ebaf554bc2efa255ff8a",
-        "type": "github"
+        "revCount": 131,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/youwen5/zen-browser/0.1.131%2Brev-7e60ade066a54797b376ebaf554bc2efa255ff8a/0194f1c1-7551-7d12-837f-539fb2156dfe/source.tar.gz"
       },
       "original": {
-        "owner": "youwen5",
-        "repo": "zen-browser-flake",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://flakehub.com/f/youwen5/zen-browser/0.1.%2A"
       }
     }
   },

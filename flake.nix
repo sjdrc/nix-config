@@ -25,7 +25,7 @@
 
     nixos-hardware.url = "https://flakehub.com/f/NixOS/nixos-hardware/0.1.*";
 
-    zen-browser.url = "github:youwen5/zen-browser-flake";
+    zen-browser.url = "https://flakehub.com/f/youwen5/zen-browser/0.1.*";
 
     nixvim.url = "https://flakehub.com/f/nix-community/nixvim/0.1.*";
 
