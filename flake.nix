@@ -46,81 +46,21 @@
       inputs.home-manager.follows = "home-manager";
     };
 
-    #vscode-server.url = "github:nix-community/nixos-vscode-server";
-
     kolide-launcher = {
       url = "github:/kolide/nix-agent/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Hyprland and friends #############
-    #hyprland = {
-    #  url = "https://github.com/hyprwm/Hyprland";
-    #  type = "git";
-    #  submodules = true;
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #};
-
-    #hypridle = {
-    #  url = "github:hyprwm/hyprlock";
-    #  inputs = {
-    #    nixpkgs.follows = "nixpkgs";
-    #    hyprutils.follows = "hyprland";
-    #    hyprlang.follows = "hyprland";
-    #  };
-    #};
-
-    #hyprlock = {
-    #  url = "github:hyprwm/hyprlock";
-    #  inputs = {
-    #    nixpkgs.follows = "nixpkgs";
-    #    hyprutils.follows = "hyprland";
-    #    hyprlang.follows = "hyprland";
-    #  };
-    #};
-
-    #hyprpaper = {
-    #  url = "github:hyprwm/hyprpaper";
-    #  inputs = {
-    #    nixpkgs.follows = "nixpkgs";
-    #    hyprutils.follows = "hyprland";
-    #    hyprlang.follows = "hyprland";
-    #    hyprwayland-scanner.follows = "hyprland";
-    #  };
-    #};
-
-    #hy3 = {
-    #  url = "github:outfoxxed/hy3";
-    #  inputs.hyprland.follows = "hyprland";
-    #};
-
-    #hypr-dynamic-cursors = {
-    #  url = "github:VirtCode/hypr-dynamic-cursors";
-    #  inputs.hyprland.follows = "hyprland";
-    #};
-
-    ##hyprscroller = {
-    #  url = "github:dawsers/hyprscroller";
-    #  inputs.hyprland.follows = "hyprland";
-    #};
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    ...
-  } @ inputs: let
+  outputs = {self, ...} @ inputs: let
     hosts = map (host: builtins.replaceStrings [".nix"] [""] host) (builtins.attrNames (builtins.readDir ./hosts));
   in {
-    overlays = import ./overlays {inherit inputs;};
-
-    nixosConfigurations = nixpkgs.lib.genAttrs hosts (
+    nixosConfigurations = inputs.nixpkgs.lib.genAttrs hosts (
       host:
         inputs.nixpkgs.lib.nixosSystem {
           modules = [
             ./modules
             ./hosts/${host}.nix
-            self.overlays
             {networking.hostName = "${host}";}
           ];
           specialArgs = {inherit inputs;};
