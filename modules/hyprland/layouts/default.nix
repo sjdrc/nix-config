@@ -3,7 +3,7 @@
     hyprland.layout = lib.mkOption {
       description = "Hyprland layout to use";
       type = with lib.types; nullOr (enum []);
-      default = "hy3";
+      default = "hyprscroller";
     };
   };
 
