@@ -25,4 +25,14 @@
     telemetryLevel = "off";
     withoutConnectionToken = true;
   };
+
+  services.code-server = {
+    enable = true;
+    disableTelemetry = true;
+    disableUpdateCheck = true;
+    auth = "none";
+    host = "0.0.0.0";
+    user = "sebastien";
+    group = "users";
+  };
 }
