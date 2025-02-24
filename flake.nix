@@ -37,12 +37,15 @@
     stylix.url = "https://flakehub.com/f/danth/stylix/0.1.*";
 
     kolide-launcher.url = "github:kolide/nix-agent/main";
-
   };
 
-  outputs = {self, ...}@inputs: let
+  outputs = {self, ...} @ inputs: let
     hosts = map (host: builtins.replaceStrings [".nix"] [""] host) (builtins.attrNames (builtins.readDir ./hosts));
   in {
+    packages = {
+      openlens = inputs.pkgs.callPackage ./packages/openlens.nix {};
+    };
+
     nixosConfigurations = inputs.nixpkgs.lib.genAttrs hosts (
       host:
         inputs.nixpkgs.lib.nixosSystem {

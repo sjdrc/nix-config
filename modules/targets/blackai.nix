@@ -49,6 +49,7 @@
       direnv
       sops
       ffmpeg-full
+      devenv
     ];
   };
 }
