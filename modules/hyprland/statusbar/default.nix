@@ -10,7 +10,6 @@
     };
   };
 
-  imports = [
-    ./waybar.nix
-  ];
+  imports = lib.custom.scanPaths ./.;
+
 }

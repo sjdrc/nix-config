@@ -1,10 +1,5 @@
-{ lib, ... }:
-{
-  imports = [
-    ./regreet.nix
-    ./sddm.nix
-    ./tuigreet.nix
-  ];
+{lib, ...}: {
+  imports = lib.custom.scanPaths ./.;
 
   options = {
     greeter = lib.mkOption {

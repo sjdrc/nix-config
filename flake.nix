@@ -21,9 +21,11 @@
 
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*";
+
     home-manager.url = "https://flakehub.com/f/nix-community/home-manager/0.1.*";
 
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    
     fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*";
 
     nix-index-database.url = "github:nix-community/nix-index-database";
@@ -39,27 +41,31 @@
     kolide-launcher.url = "github:kolide/nix-agent/main";
   };
 
-  outputs = {self, ...} @ inputs: let
+  outputs = {self, nixpkgs, home-manager, ...} @ inputs: let
     hosts = map (host: builtins.replaceStrings [".nix"] [""] host) (builtins.attrNames (builtins.readDir ./hosts));
+    lib = nixpkgs.lib.extend (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
   in {
-    packages = {
-      openlens = inputs.pkgs.callPackage ./packages/openlens.nix {};
-    };
-
-    nixosConfigurations = inputs.nixpkgs.lib.genAttrs hosts (
+    nixosConfigurations = nixpkgs.lib.genAttrs hosts (
       host:
-        inputs.nixpkgs.lib.nixosSystem {
+        nixpkgs.lib.nixosSystem {
           modules = [
             ./modules
             ./hosts/${host}.nix
             {networking.hostName = "${host}";}
           ];
-          specialArgs = {inherit inputs;};
+          specialArgs = {inherit inputs lib;};
         }
     );
 
-    homeConfigurations = inputs.nixpkgs.lib.genAttrs hosts (
-      host: self.nixosConfigurations.${host}.config.home-manager.users.sebastien.home
-    );
+    #homeConfigurations."sebastien@ariel" = self.nixosConfigurations.ariel.config.home-manager.users.sebastien.home;
+
+    homeConfigurations."sebastien" = home-manager.lib.homeManagerConfiguration {      
+      inherit (self.nixosConfigurations.ariel) pkgs;
+      modules = [
+        #inputs.stylix.homeManagerModules.stylix
+        self.nixosConfigurations.ariel.config.home-manager.users.sebastien
+      ];
+      extraSpecialArgs = {inherit inputs;};
+    };
   };
 }

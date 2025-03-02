@@ -7,8 +7,5 @@
     };
   };
 
-  imports = [
-    ./hy3.nix
-    ./hyprscroller.nix
-  ];
+  imports = lib.custom.scanPaths ./.;
 }

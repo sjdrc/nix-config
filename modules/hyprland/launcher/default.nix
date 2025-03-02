@@ -9,8 +9,5 @@
       };
     };
   };
-
-  imports = [
-    ./rofi.nix
-  ];
+  imports = lib.custom.scanPaths ./.;
 }

@@ -1,5 +1,3 @@
-{...}: {
-  imports = [
-    #./hypr-dynamic-cursors.nix
-  ];
+{lib, ...}: {
+  imports = lib.custom.scanPaths ./.;
 }
