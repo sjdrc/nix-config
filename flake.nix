@@ -34,7 +34,7 @@
 
     zen-browser.url = "https://flakehub.com/f/youwen5/zen-browser/0.1.*";
 
-    nixvim.url = "https://flakehub.com/f/nix-community/nixvim/0.1.*";
+    nvf.url = "github:notashelf/nvf";
 
     stylix.url = "https://flakehub.com/f/danth/stylix/0.1.*";
 
@@ -45,9 +45,7 @@
     hosts = map (host: builtins.replaceStrings [".nix"] [""] host) (builtins.attrNames (builtins.readDir ./hosts));
     lib = nixpkgs.lib.extend (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
   in {
-    packages = {
-      openlens = inputs.pkgs.callPackage ./packages/openlens.nix {};
-    };
+    packages = import ./packages {inherit lib;};
 
     nixosConfigurations = nixpkgs.lib.genAttrs hosts (
       host:
@@ -62,14 +60,5 @@
     );
 
     homeConfigurations."sebastien@ariel".config = self.nixosConfigurations.ariel.config.home-manager.users.sebastien;
-
-    #homeConfigurations."sebastien" = home-manager.lib.homeManagerConfiguration {      
-    #  inherit (self.nixosConfigurations.ariel) pkgs;
-    #  modules = [
-    #    inputs.stylix.homeManagerModules.stylix
-    #    self.nixosConfigurations.ariel.config.home-manager.users.sebastien
-    #  ];
-    #  extraSpecialArgs = {inherit inputs;};
-    #};
   };
 }
