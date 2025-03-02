@@ -41,10 +41,14 @@
     kolide-launcher.url = "github:kolide/nix-agent/main";
   };
 
-  outputs = {self, nixpkgs, home-manager, ...} @ inputs: let
+  outputs = {self, nixpkgs, ...} @ inputs: let
     hosts = map (host: builtins.replaceStrings [".nix"] [""] host) (builtins.attrNames (builtins.readDir ./hosts));
     lib = nixpkgs.lib.extend (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
   in {
+    packages = {
+      openlens = inputs.pkgs.callPackage ./packages/openlens.nix {};
+    };
+
     nixosConfigurations = nixpkgs.lib.genAttrs hosts (
       host:
         nixpkgs.lib.nixosSystem {
@@ -57,15 +61,15 @@
         }
     );
 
-    #homeConfigurations."sebastien@ariel" = self.nixosConfigurations.ariel.config.home-manager.users.sebastien.home;
+    homeConfigurations."sebastien@ariel".config = self.nixosConfigurations.ariel.config.home-manager.users.sebastien;
 
-    homeConfigurations."sebastien" = home-manager.lib.homeManagerConfiguration {      
-      inherit (self.nixosConfigurations.ariel) pkgs;
-      modules = [
-        #inputs.stylix.homeManagerModules.stylix
-        self.nixosConfigurations.ariel.config.home-manager.users.sebastien
-      ];
-      extraSpecialArgs = {inherit inputs;};
-    };
+    #homeConfigurations."sebastien" = home-manager.lib.homeManagerConfiguration {      
+    #  inherit (self.nixosConfigurations.ariel) pkgs;
+    #  modules = [
+    #    inputs.stylix.homeManagerModules.stylix
+    #    self.nixosConfigurations.ariel.config.home-manager.users.sebastien
+    #  ];
+    #  extraSpecialArgs = {inherit inputs;};
+    #};
   };
 }
