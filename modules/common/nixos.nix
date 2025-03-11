@@ -32,11 +32,6 @@
       enable = true;
       enableBashIntegration = true;
     };
-    home.packages = with pkgs; [
-      nixd
-      nixfmt-rfc-style
-      alejandra
-    ];
   };
 
   # WARNING: Do not change

@@ -8,4 +8,7 @@
 
   # Device hardware
   services.fprintd.enable = true;
+
+  programs.captive-browser.enable = true;
+  programs.captive-browser.interface = "wlp1s0";
 }

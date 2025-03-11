@@ -3,15 +3,13 @@
   lib,
   pkgs,
   ...
-}:
-{
-  options = {
-    greeter = lib.mkOption {
-      type = with lib.types; nullOr (enum [ "sddm" ]);
-    };
-  };
+}: let
+  cfg = config.desktop.greeter;
+  opt = "sddm";
+in {
+  options.desktop.greeter = lib.custom.mkChoice opt;
 
-  config = lib.mkIf (config.greeter == "sddm") {
+  config = lib.custom.mkIfChosen cfg opt {
     environment.systemPackages = [
       (pkgs.where-is-my-sddm-theme.override {
         themeConfig.General = {
@@ -25,7 +23,7 @@
     services.displayManager.sddm = {
       enable = true;
       package = pkgs.kdePackages.sddm;
-      extraPackages = [ pkgs.qt6.qt5compat ];
+      extraPackages = [pkgs.qt6.qt5compat];
       wayland.enable = true;
       theme = "where_is_my_sddm_theme";
     };

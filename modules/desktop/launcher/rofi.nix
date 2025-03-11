@@ -3,14 +3,13 @@
   lib,
   pkgs,
   ...
-}: {
-  options = {
-    hyprland.launcher = lib.mkOption {
-      type = with lib.types; nullOr (enum ["rofi"]);
-    };
-  };
+}: let
+  cfg = config.desktop.launcher;
+  opt = "rofi";
+in {
+  options.desktop.launcher = lib.custom.mkChoice opt;
 
-  config = lib.mkIf (config.hyprland.launcher == "rofi") {
+  config = lib.custom.mkIfChosen cfg opt {
     home-manager.users.sebastien = {
       programs.rofi = {
         enable = true;

@@ -2,15 +2,13 @@
   config,
   lib,
   ...
-}:
-{
-  options = {
-    greeter = lib.mkOption {
-      type = with lib.types; nullOr (enum ["regreet"]);
-    };
-  };
+}: let
+  cfg = config.desktop.greeter;
+  opt = "regreet";
+in {
+  options.desktop.greeter = lib.custom.mkChoice opt;
 
-  config = lib.mkIf (config.greeter == "regreet") {
+  config = lib.custom.mkIfChosen cfg opt {
     services.greetd = {
       enable = true;
       greeterManagesPlymouth = true;

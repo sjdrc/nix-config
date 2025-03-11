@@ -3,14 +3,13 @@
   lib,
   pkgs,
   ...
-}: {
-  options = {
-    hyprland.statusbar = lib.mkOption {
-      type = with lib.types; nullOr (enum ["waybar"]);
-    };
-  };
+}: let
+  cfg = config.desktop.launcher;
+  opt = "rofi";
+in {
+  options.desktop.statusbar = lib.custom.mkChoice opt;
 
-  config = lib.mkIf (config.hyprland.statusbar == "waybar") {
+  config = lib.custom.mkIfChosen cfg opt {
     fonts.packages = [pkgs.font-awesome];
 
     home-manager.users.sebastien = {

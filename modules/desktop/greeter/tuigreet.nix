@@ -3,15 +3,13 @@
   lib,
   pkgs,
   ...
-}:
-{
-  options = {
-    greeter = lib.mkOption {
-      type = with lib.types; nullOr (enum [ "tuigreet" ]);
-    };
-  };
+}: let
+  cfg = config.desktop.greeter;
+  opt = "tuigreet";
+in {
+  options.desktop.greeter = lib.custom.mkChoice opt;
 
-  config = lib.mkIf (config.greeter == "tuigreet") {
+  config = lib.custom.mkIfChosen cfg opt {
     services.greetd.settings = {
       default_session = {
         command = "${pkgs.greetd.tuigreet}/bin/tuigreet --user-menu --time --remember --asterisks --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions";

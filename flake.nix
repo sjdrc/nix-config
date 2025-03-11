@@ -25,7 +25,7 @@
     home-manager.url = "https://flakehub.com/f/nix-community/home-manager/0.1.*";
 
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-    
+
     fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*";
 
     nix-index-database.url = "github:nix-community/nix-index-database";
@@ -38,22 +38,25 @@
 
     stylix.url = "https://flakehub.com/f/danth/stylix/0.1.*";
 
-    kolide-launcher.url = "github:kolide/nix-agent/main";
+    blackai.url = "./blackai";
+    blackai.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = {self, nixpkgs, ...} @ inputs: let
-    hosts = map (host: builtins.replaceStrings [".nix"] [""] host) (builtins.attrNames (builtins.readDir ./hosts));
-    lib = nixpkgs.lib.extend (self: super: { custom = import ./lib { inherit (nixpkgs) lib; }; });
+  outputs = {
+    self,
+    nixpkgs,
+    ...
+  } @ inputs: let
+    lib = nixpkgs.lib.extend (self: super: {custom = import ./lib {inherit (nixpkgs) lib;};});
   in {
-    packages = import ./packages {inherit lib;};
-
-    nixosConfigurations = nixpkgs.lib.genAttrs hosts (
+    nixosConfigurations = nixpkgs.lib.genAttrs lib.custom.getHostsList (
       host:
         nixpkgs.lib.nixosSystem {
           modules = [
             ./modules
             ./hosts/${host}.nix
             {networking.hostName = "${host}";}
+            inputs.blackai.nixosModules.blackai
           ];
           specialArgs = {inherit inputs lib;};
         }

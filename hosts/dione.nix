@@ -10,13 +10,4 @@
   # Device hardware
   hardware.nvidia.open = true;
   hardware.nvidia.powerManagement.enable = true;
-
-  services.code-server = {
-    enable = true;
-    disableTelemetry = true;
-    auth = "none";
-    host = "0.0.0.0";
-    user = "sebastien";
-    group = "users";
-  };
 }

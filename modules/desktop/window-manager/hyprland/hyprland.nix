@@ -24,7 +24,10 @@
 
         debug.disable_logs = false;
 
-        exec-once = ["${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &"];
+        exec-once = [
+          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &"
+          "${pkgs.wayvnc}/wayvnc &"
+        ];
 
         ecosystem = {
           no_update_news = true;
