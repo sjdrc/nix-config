@@ -38,7 +38,7 @@
 
     stylix.url = "https://flakehub.com/f/danth/stylix/0.1.*";
 
-    blackai.url = "./blackai";
+    blackai.url = "github:sjdrc/blackai-nix";
     blackai.inputs.nixpkgs.follows = "nixpkgs";
   };
 
