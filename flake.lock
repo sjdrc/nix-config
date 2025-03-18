@@ -77,11 +77,11 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-YYb2irWUeYp8Ark5LsoB1OLjzwGP0eOQtJpLJLnblrg=",
-        "path": "/nix/store/7rk1iiqfw83nwm1frpx8dn9mbd076s6a-source/blackai",
+        "path": "/nix/store/0s71h9g9vnwfm1sr0sxdgrh3qc7mnq17-source/blackai",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/7rk1iiqfw83nwm1frpx8dn9mbd076s6a-source/blackai",
+        "path": "/nix/store/0s71h9g9vnwfm1sr0sxdgrh3qc7mnq17-source/blackai",
         "type": "path"
       }
     },

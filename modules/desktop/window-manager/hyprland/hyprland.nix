@@ -1,13 +1,21 @@
 {pkgs, ...}: {
   programs.hyprland = {
     enable = true;
+    xwayland.enable = true;
+    withUWSM = true;
+  };
+
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+    extraPortals = with pkgs; [xdg-desktop-portal-gtk xdg-desktop-portal-hyprland];
   };
 
   home-manager.users.sebastien = {
     wayland.windowManager.hyprland = {
       enable = true;
 
-      systemd.variables = ["--all"];
+      systemd.enable = false;
 
       settings = {
         env = [
