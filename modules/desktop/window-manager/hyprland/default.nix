@@ -12,6 +12,8 @@
     withUWSM = true;
   };
 
+  services.gnome.sushi.enable = true;
+  environment.systemPackages = [pkgs.nautilus];
   xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
 
   services.hyprpolkitagent.enable = true;
@@ -28,7 +30,7 @@
             # Force wayland for electron applications
             "NIXOS_OZONE_WL,1"
           ]
-          ++ lib.optional config.hardware.nvidia.enabled [
+          ++ lib.optionals config.hardware.nvidia.enabled [
             "LIBVA_DRIVER_NAME,nvidia"
             "__GLX_VENDOR_LIBRARY_NAME,nvidia"
           ];
