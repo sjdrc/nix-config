@@ -34,6 +34,9 @@
 
     zen-browser.url = "https://flakehub.com/f/youwen5/zen-browser/0.1.*";
 
+    firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+    firefox-addons.inputs.nixpkgs.follows = "nixpkgs";
+
     nvf.url = "github:notashelf/nvf";
 
     stylix.url = "https://flakehub.com/f/danth/stylix/0.1.*";
