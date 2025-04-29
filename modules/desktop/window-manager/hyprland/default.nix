@@ -42,10 +42,6 @@
 
         debug.disable_logs = false;
 
-        #exec-once = [
-        #  "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &"
-        #];
-
         ecosystem = {
           no_update_news = true;
         };
@@ -65,6 +61,14 @@
             size = 3;
           };
         };
+
+        xwayland = {
+          force_zero_scaling = true;
+        };
+
+        monitor = [
+          ", preferred, auto, 1"
+        ];
 
         animations = {
           bezier = "snap, 0.05, 0.95, 0.1, 1";

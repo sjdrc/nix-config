@@ -13,44 +13,43 @@ in {
     programs.zen-browser = {
       enable = true;
       profiles.sebastien = {
-        profiles.default = {
-          id = 0;
-          settings = {
-            "extensions.autoDisableScopes" = 0;
-          };
-          extensions = with addons; [
-            ublock-origin
-            sponsorblock
-            behind-the-overlay-revival
-            #bypass-paywalls-clean
-            consent-o-matic
-            decentraleyes
-            dark-mode-website-switcher
-            gaoptout
-            #floccus
-            multi-account-containers
-            no-pdf-download
-            old-reddit-redirect
-            re-enable-right-click
-            terms-of-service-didnt-read
-            faststream
-            localcdn
-            linkwarden
-          ];
-          containers = {
-            Personal = {
-              id = 0;
-              color = "orange";
-              icon = "chill";
-            };
-            Work = {
-              id = 1;
-              color = "blue";
-              icon = "briefcase";
-            };
-          };
-          containersForce = true;
+        id = 0;
+        settings = {
+          "extensions.autoDisableScopes" = 0;
+          "zen.welcome-screen.seen" = true;
         };
+        extensions.packages = with addons; [
+          ublock-origin
+          sponsorblock
+          behind-the-overlay-revival
+          bypass-paywalls-clean
+          consent-o-matic
+          decentraleyes
+          dark-mode-website-switcher
+          gaoptout
+          #floccus
+          multi-account-containers
+          no-pdf-download
+          old-reddit-redirect
+          re-enable-right-click
+          terms-of-service-didnt-read
+          faststream
+          localcdn
+          linkwarden
+        ];
+        containers = {
+          Personal = {
+            id = 0;
+            color = "orange";
+            icon = "chill";
+          };
+          Work = {
+            id = 1;
+            color = "blue";
+            icon = "briefcase";
+          };
+        };
+        containersForce = true;
       };
     };
   };
