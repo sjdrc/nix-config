@@ -57,6 +57,9 @@ in {
           "zen.workspaces.force-container-workspace" = true;
           "zen.workspaces.hide-deactivated-workspaces" = true;
           "zen.workspaces.hide-default-container-indicator" = false;
+          "zen.workspaces.show-workspace-indicator" = false;
+          "zen.workspaces.individual-pinned-tabs" = true;
+          "zen.workspaces.show-icon-strip" = true;
           # Reduce File IO / SSD abuse
           # Otherwise, Zen bombards the HD with writes. Not so nice for SSDs.
           # This forces it to write every 30 minutes, rather than 15 seconds.
@@ -106,12 +109,12 @@ in {
         };
         containers = {
           Personal = {
-            id = 0;
+            id = 1;
             color = "orange";
             icon = "chill";
           };
           Work = {
-            id = 1;
+            id = 2;
             color = "blue";
             icon = "briefcase";
           };
