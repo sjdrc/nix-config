@@ -7,7 +7,6 @@
 
   config = {
     environment.systemPackages = with pkgs; [
-      zen-browser
       mpv
     ];
 
