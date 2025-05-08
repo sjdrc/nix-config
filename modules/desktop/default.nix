@@ -5,8 +5,6 @@
 }: {
   imports = lib.custom.scanPaths ./.;
 
-  services.gvfs.enable = true;
-
   programs.appimage = {
     enable = true;
     binfmt = true;

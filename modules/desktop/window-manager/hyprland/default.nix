@@ -12,8 +12,6 @@
     withUWSM = true;
   };
 
-  services.gnome.sushi.enable = true;
-  environment.systemPackages = [pkgs.nautilus];
   xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
 
   services.hyprpolkitagent.enable = true;
@@ -37,13 +35,11 @@
 
         cursor.no_hardware_cursors = true;
 
-        # Default applications
-        "$fileManager" = "dolphin";
-
         debug.disable_logs = false;
 
         ecosystem = {
           no_update_news = true;
+          no_donation_nag = true;
         };
 
         general = {
