@@ -60,6 +60,7 @@ in {
           "zen.workspaces.show-workspace-indicator" = false;
           "zen.workspaces.individual-pinned-tabs" = true;
           "zen.workspaces.show-icon-strip" = true;
+          "zen.splitView.change-on-hover" = true;
           # Reduce File IO / SSD abuse
           # Otherwise, Zen bombards the HD with writes. Not so nice for SSDs.
           # This forces it to write every 30 minutes, rather than 15 seconds.
