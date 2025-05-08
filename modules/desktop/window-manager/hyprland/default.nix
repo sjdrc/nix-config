@@ -93,7 +93,10 @@
           key_press_enables_dpms = true;
         };
 
-        windowrule = ["float,title:^(MainPicker)$"];
+        windowrulev2 = [
+          "float, class:^(org.gnome.NautilusPreviewer)$"
+          "float, class:(xdg-desktop-portal-gtk) title:^(.*)(Open|Save)(.*)$"
+        ];
 
         workspace = [
           "1,               defaultName:main"
