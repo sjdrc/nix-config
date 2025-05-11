@@ -6,7 +6,6 @@
         "nix"
       ];
       extraPackages = with pkgs; [
-        direnv
         postgres-lsp
         cmake-language-server
         nixd
