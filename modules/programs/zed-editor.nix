@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   home-manager.users.sebastien = {
     programs.zed-editor = {
       enable = true;
@@ -26,9 +30,13 @@
         };
         vim_mode = true;
         assistant.enabled = false;
-        lsp = {
-          nixd.options.nixos.expr = "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.(builtins.getEnv HOSTNAME).options";
-          nixd.options.home-manager.expr = "(builtins.getFlake \"/etc/nixos\").homeConfigurations.(builtins.getEnv HOSTNAME).options";
+        lsp = let
+          nixosConfig = ''
+            (with builtins; "/etc/nixos" |> toString |> getFlake).nixosConfigurations."${config.networking.hostName}"
+          '';
+        in {
+          nixd.options.nixos.expr = "${nixosConfig}.options";
+          nixd.options.home-manager.expr = "${nixosConfig}.options.home-manager.users.type.getSubOptions []";
         };
         languages = {
           Nix = {
