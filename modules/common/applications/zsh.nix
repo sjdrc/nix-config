@@ -1,25 +1,19 @@
 {...}: {
   home-manager.users.sebastien = {
-    programs.bash = {
-      enable = false;
+    programs.zsh = {
+      enable = true;
       enableCompletion = true;
       enableVteIntegration = true;
 
-      initExtra = ''
-        col="''$(echo -n ''${HOSTNAME} | od | awk '{total = total + ''$1}END{print 31 + (total % 7)}')"
-        PS1="\u@\[\e[''${col}m\]\h\[\e[m\]:\w\n\''$ "
-        bind '"\e[A": history-search-backward'
-        bind '"\e[B": history-search-forward'
-      '';
-
-      shellOptions = [
-        "autocd"
-        "cdspell"
-        "expand_aliases"
-      ];
+      autocd = true;
+      autosuggestion.enable = true;
+      oh-my-zsh.enable = true;
+      syntaxHighliting.enable = true;
 
       shellAliases = {
+        ls = "ls -lh --color";
         l = "ls";
+        la = "ls -a";
         s = "sudo";
         sc = "systemctl-tui";
         ssc = "systemctl-tui";

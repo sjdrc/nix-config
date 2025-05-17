@@ -30,7 +30,6 @@
   home-manager.users.sebastien = {
     programs.nix-index = {
       enable = true;
-      enableBashIntegration = true;
     };
   };
 

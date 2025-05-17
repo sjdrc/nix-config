@@ -1,22 +1,15 @@
 {pkgs, ...}: {
   home-manager.users.sebastien = {
-    programs.fzf = {
-      enable = true;
-      enableBashIntegration = true;
-    };
+    programs.fzf.enable = true;
+    programs.atuin.enable = true;
     programs.eza = {
       enable = true;
-      enableBashIntegration = true;
       extraOptions = [
         "--group-directories-first"
         "--header"
       ];
       git = true;
       icons = "auto";
-    };
-    programs.atuin = {
-      enable = true;
-      enableBashIntegration = true;
     };
     home.packages = with pkgs; [
       tmux
