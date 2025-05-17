@@ -1,4 +1,5 @@
 {...}: {
+  programs.zsh.enable = true;
   home-manager.users.sebastien = {
     programs.zsh = {
       enable = true;
@@ -8,12 +9,10 @@
       autocd = true;
       autosuggestion.enable = true;
       oh-my-zsh.enable = true;
-      syntaxHighliting.enable = true;
+      syntaxHighlighting.enable = true;
 
       shellAliases = {
-        ls = "ls -lh --color";
         l = "ls";
-        la = "ls -a";
         s = "sudo";
         sc = "systemctl-tui";
         ssc = "systemctl-tui";
