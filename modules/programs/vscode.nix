@@ -5,6 +5,7 @@
       profiles.default = {
         extensions = with pkgs.vscode-extensions; [
           asvetliakov.vscode-neovim
+          vadimcn.vscode-lldb
           mhutchie.git-graph
         ];
         userSettings = {
