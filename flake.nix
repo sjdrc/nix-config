@@ -62,6 +62,7 @@
             ./hosts/${host}.nix
             {networking.hostName = "${host}";}
             inputs.blackai.nixosModules.blackai
+            inputs.determinate.nixosModules.default
           ];
           specialArgs = {inherit inputs lib;};
         }
