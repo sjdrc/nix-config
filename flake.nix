@@ -2,7 +2,7 @@
   description = "NixOS configuration";
 
   nixConfig = {
-    extra-trusted-substituters = [
+    extra-substituters = [
       "https://cache.flakehub.com/"
       "https://nix-community.cachix.org"
     ];
@@ -45,8 +45,8 @@
 
     blackai.url = "github:sjdrc/blackai-nix";
     blackai.inputs.nixpkgs.follows = "nixpkgs";
+    nixarr.url = "github:rasmus-kirk/nixarr";
   };
-
   outputs = {
     self,
     nixpkgs,
