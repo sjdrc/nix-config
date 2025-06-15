@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   fonts.packages = with pkgs.nerd-fonts; [fira-code];
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
+  users.defaultUserShell = pkgs.bash;
   environment.systemPackages = with pkgs; [
     systemctl-tui
     bluetuith

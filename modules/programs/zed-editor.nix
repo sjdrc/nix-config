@@ -29,7 +29,6 @@
           copy_on_select = true;
         };
         vim_mode = true;
-        assistant.enabled = false;
         lsp = let
           nixosConfig = ''
             (with builtins; "/etc/nixos" |> toString |> getFlake).nixosConfigurations."${config.networking.hostName}"

@@ -1,7 +1,7 @@
 {...}: {
   home-manager.users.sebastien = {
     programs.bash = {
-      enable = false;
+      enable = true;
       enableCompletion = true;
       enableVteIntegration = true;
 

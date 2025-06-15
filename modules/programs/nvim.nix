@@ -8,7 +8,6 @@
           viAlias = true;
           vimAlias = true;
           lsp.enable = false;
-          useSystemClipboard = true;
           searchCase = "ignore";
           options = {
             wrap = false;
