@@ -12,6 +12,7 @@ in {
     imports = [inputs.zen-browser.homeModules.default];
     programs.zen-browser = {
       enable = true;
+      nativeMessagingHosts = [pkgs.firefoxpwa];
       policies = {
         AppAutoUpdate = false;
         AutofillAddressEnabled = true;
@@ -43,9 +44,9 @@ in {
         settings = {
           "browser.aboutConfig.showWarning" = false;
           "browser.download.start_downloads_in_tmp_dir" = true;
+          "browser.fullscreen.autohide" = false;
           "cookiebanners.service.mode" = 2;
           "cookiebanners.service.mode.privateBrowsing" = 2;
-          "browser.fullscreen.autohide" = false;
           "extensions.autoDisableScopes" = 0;
           "zen.theme.color-prefs.use-workspace-colors" = true;
           "zen.view.compact.hide-tabbar" = true;
@@ -65,6 +66,7 @@ in {
           # Otherwise, Zen bombards the HD with writes. Not so nice for SSDs.
           # This forces it to write every 30 minutes, rather than 15 seconds.
           "browser.sessionstore.interval" = "1800000";
+          "browser.tabs.hoverPreview.enabled" = true;
         };
         extensions = {
           force = true;
