@@ -33,7 +33,7 @@
     home.packages = [
       (pkgs.writeScriptBin "sshrc" ''
         #/usr/bin/env bash
-        [ -z "''${SSHRC}" ] && SSHRC="$(base64 < .sshrc)"
+        [ -z "''${SSHRC}" ] && SSHRC="$(base64 < ''${HOME}/.sshrc)"
         exec ssh -t $@ "$(cat <<-EOF
           export TERM="xterm-256color"
           export SSHRC="''${SSHRC}"
