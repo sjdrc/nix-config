@@ -18,5 +18,6 @@
   environment.systemPackages = with pkgs; [
     wdisplays
     wl-clipboard
+    signal-desktop-bin
   ];
 }

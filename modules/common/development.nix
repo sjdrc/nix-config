@@ -17,4 +17,6 @@
   hardware.nvidia-container-toolkit.enable = config.hardware.nvidia.enabled;
   virtualisation.docker.enable = true;
   users.users.sebastien.extraGroups = ["docker"];
+
+  environment.systemPackages = [pkgs.glab];
 }

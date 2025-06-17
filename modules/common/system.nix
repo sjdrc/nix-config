@@ -1,6 +1,8 @@
 {lib, ...}: {
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
+  boot.kernelModules = ["zfs"];
+  boot.supportedFilesystems = ["zfs"];
   # Audio configuration
   security.rtkit.enable = true;
   services.pipewire = {
