@@ -1,8 +1,8 @@
 {...}: {
-  programs.zsh.enable = true;
+  programs.zsh.enable = false;
   home-manager.users.sebastien = {
     programs.zsh = {
-      enable = true;
+      enable = false;
       enableCompletion = true;
       enableVteIntegration = true;
 

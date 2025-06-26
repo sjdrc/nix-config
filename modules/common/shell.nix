@@ -7,13 +7,6 @@
     lnav
   ];
   home-manager.users.sebastien.programs = {
-    zsh = {
-      enable = true;
-      enableVteIntegration = true;
-      autosuggestion.enable = true;
-      oh-my-zsh.enable = true;
-      syntaxHighlighting.enable = true;
-    };
     fzf.enable = true;
     atuin.enable = true;
     tmux.enable = true;
