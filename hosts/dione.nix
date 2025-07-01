@@ -6,7 +6,6 @@
 
   # Device config
   time.timeZone = "Australia/Melbourne";
-  networking.hostId = "0e977c20";
 
   # Device hardware
   hardware.nvidia.open = true;
