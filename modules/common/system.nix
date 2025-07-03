@@ -1,6 +1,7 @@
 {lib, ...}: {
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
+  boot.supportedFilesystems = ["xfs"];
   # Audio configuration
   security.rtkit.enable = true;
   services.pipewire = {
@@ -37,13 +38,13 @@
   fileSystems = {
     "/" = {
       # sudo e2label <disk> nixos
-      device = "/dev/disk/by-label/nixos";
+      label = "nixos";
       fsType = "ext4";
       options = ["noatime" "nodiratime" "discard"];
     };
     "/boot" = {
       # sudo fatlabel <disk> boot
-      device = "/dev/disk/by-label/boot";
+      label = "boot";
       fsType = "vfat";
       options = ["fmask=0022" "dmask=0022"];
     };
@@ -54,7 +55,7 @@
   boot.initrd.luks.devices."swap".device = "/dev/disk/by-label/swap-luks";
   swapDevices = [
     {
-      device = "/dev/disk/by-label/swap";
+      label = "swap";
     }
   ];
 }
