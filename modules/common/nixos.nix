@@ -24,6 +24,12 @@
     clean.extraArgs = "--keep 10 --keep-since 7d";
   };
 
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    # Add any missing dynamic libraries for unpackaged programs
+    # here, NOT in environment.systemPackages
+  ];
+
   # Flake config inspection tool
   environment.systemPackages = [pkgs.nix-inspect];
 
