@@ -23,15 +23,14 @@
       systemd.enable = false;
 
       settings = {
-        env =
-          [
-            # Force wayland for electron applications
-            "NIXOS_OZONE_WL,1"
-          ]
-          ++ lib.optionals config.hardware.nvidia.enabled [
-            "LIBVA_DRIVER_NAME,nvidia"
-            "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-          ];
+        env = [
+          # Force wayland for electron applications
+          "NIXOS_OZONE_WL,1"
+          #]
+          #++ lib.optionals config.hardware.nvidia.enabled [
+          #  "LIBVA_DRIVER_NAME,nvidia"
+          #  "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+        ];
 
         cursor.no_hardware_cursors = true;
 
