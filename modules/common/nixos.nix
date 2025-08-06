@@ -15,8 +15,9 @@
   # NixOS configuration
   nix.settings.experimental-features = ["nix-command" "flakes" "pipe-operators"];
   nix.settings.auto-optimise-store = true;
-  nix.settings.trusted-users = ["sebastien"];
+  nix.settings.trusted-users = ["@wheel" "root"];
   nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"];
+  nix.registry.nixpkgs.flake = inputs.nixpkgs;
   nix.extraOptions = ''
     accept-flake-config = true
   '';
@@ -34,14 +35,16 @@
     # Add any missing dynamic libraries for unpackaged programs
     # here, NOT in environment.systemPackages
   ];
-
   # Flake config inspection tool
-  environment.systemPackages = [pkgs.nix-inspect];
+  environment.systemPackages = [
+    pkgs.nix-inspect
+    pkgs.nix-output-monitor
+  ];
 
   home-manager.users.sebastien = {
-    programs.nix-index = {
-      enable = true;
-    };
+    imports = [inputs.nix-index-database.hmModules.nix-index];
+    programs.nix-index-database.comma.enable = true;
+    programs.nix-index.enable = true;
   };
 
   # WARNING: Do not change
