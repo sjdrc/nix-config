@@ -11,7 +11,7 @@
   services.nix-serve.enable = true;
   services.nix-serve.package = pkgs.nix-serve-ng;
   services.nix-serve.secretKeyFile = "/var/cache-priv-key.pem";
-  networking.firewall.allowedTCPPorts = [5000];
+  services.nix-serve.openFirewall = true;
 
   # NixOS configuration
   nix.settings.experimental-features = ["nix-command" "flakes" "pipe-operators"];
