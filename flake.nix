@@ -5,6 +5,7 @@
     extra-substituters = [
       "https://cache.flakehub.com/"
       "https://nix-community.cachix.org"
+      "http://dione.liger-owl.ts.net:5000"
     ];
     extra-trusted-public-keys = [
       "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="

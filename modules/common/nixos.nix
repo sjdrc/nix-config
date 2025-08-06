@@ -7,6 +7,11 @@
     inputs.nix-index-database.nixosModules.nix-index
   ];
 
+  # Nix cache
+  services.nix-serve.enable = true;
+  services.nix-serve.package = pkgs.nix-serve-ng;
+  networking.firewall.allowedTCPPorts = [5000];
+
   # NixOS configuration
   nix.settings.experimental-features = ["nix-command" "flakes" "pipe-operators"];
   nix.settings.auto-optimise-store = true;
