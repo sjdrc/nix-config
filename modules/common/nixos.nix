@@ -10,6 +10,7 @@
   # Nix cache
   services.nix-serve.enable = true;
   services.nix-serve.package = pkgs.nix-serve-ng;
+  services.nix-serve.secretKeyFile = "/var/cache-priv-key.pem";
   networking.firewall.allowedTCPPorts = [5000];
 
   # NixOS configuration
