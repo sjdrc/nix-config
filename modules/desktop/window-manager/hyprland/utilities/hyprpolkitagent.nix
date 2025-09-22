@@ -18,21 +18,21 @@ in {
   in {
     # Based on https://github.com/hyprwm/hyprpolkitagent/blob/615efd49303cb164bbf4ad065792e02d8f652a36/assets/hyprpolkitagent-service.in
     systemd.user.services.hyprpolkitagent = {
-      Install = {
-        WantedBy = [target];
-      };
       Unit = {
         ConditionEnvironment = "WAYLAND_DISPLAY";
         Description = "Hyprland Polkit Authentication Agent";
         After = [target];
         PartOf = [target];
       };
-
       Service = {
-        ExecStart = "${cfg.package}/libexec/hyprpolkitagent";
+        #ExecStart = "${cfg.package}/libexec/hyprpolkitagent";
+        ExecStart = "${lib.getExe cfg.package}";
         Slice = "session.slice";
         TimeoutStopSec = "5sec";
         Restart = "on-failure";
+      };
+      Install = {
+        WantedBy = [target];
       };
     };
   };

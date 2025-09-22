@@ -8,6 +8,7 @@
           viAlias = true;
           vimAlias = true;
           lsp.enable = false;
+          clipboard.registers = ["unnamedplus"];
           searchCase = "ignore";
           options = {
             wrap = false;

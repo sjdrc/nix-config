@@ -4,6 +4,8 @@
   ...
 }: {
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowBroken = true;
+
   nixpkgs.overlays = lib.mkForce [
     (
       final: prev: let

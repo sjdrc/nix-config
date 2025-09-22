@@ -47,6 +47,11 @@
     blackai.url = "github:sjdrc/blackai-nix";
     blackai.inputs.nixpkgs.follows = "nixpkgs";
     nixarr.url = "github:rasmus-kirk/nixarr";
+
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = {
     self,
