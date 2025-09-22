@@ -7,12 +7,6 @@
     inputs.nix-index-database.nixosModules.nix-index
   ];
 
-  # Nix cache
-  services.nix-serve.enable = true;
-  services.nix-serve.package = pkgs.nix-serve-ng;
-  services.nix-serve.secretKeyFile = "/var/cache-priv-key.pem";
-  services.nix-serve.openFirewall = true;
-
   # NixOS configuration
   nix.settings.experimental-features = ["nix-command" "flakes" "pipe-operators"];
   nix.settings.auto-optimise-store = true;
@@ -43,7 +37,7 @@
   ];
 
   home-manager.users.sebastien = {
-    imports = [inputs.nix-index-database.hmModules.nix-index];
+    imports = [inputs.nix-index-database.homeModules.nix-index];
     programs.nix-index-database.comma.enable = true;
     programs.nix-index.enable = true;
   };

@@ -17,7 +17,7 @@
 
   # Device programs
   steam.enable = true;
-  piracy.enable = true;
+  #piracy.enable = true;
   orca-slicer.enable = true;
 
   #services.ollama.enable = true;
