@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.nixos-hardware.nixosModules.gpd-pocket-3
   ];
@@ -17,6 +21,9 @@
 
   # Device hardware
   services.fprintd.enable = true;
+  environment.systemPackages = [
+    pkgs.libfprint-focaltech-2808-a658
+  ];
 
   programs.captive-browser.enable = true;
   programs.captive-browser.interface = "wlp174s0";

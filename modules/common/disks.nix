@@ -36,9 +36,6 @@ in {
                 type = "luks";
                 name = "crypted";
                 settings = {
-                  cipher = "aes-xts-plain64";
-                  keySize = 512;
-                  hash = "sha512";
                   allowDiscards = true;
                   bypassWorkqueues = true;
                 };
