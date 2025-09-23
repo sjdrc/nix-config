@@ -27,4 +27,8 @@
 
   programs.captive-browser.enable = true;
   programs.captive-browser.interface = "wlp174s0";
+  home-manager.users.sebastien.programs.niri.settings.layout.preset-column-widths = [
+    {proportion = 1. / 2.;}
+    {proportion = 1.;}
+  ];
 }

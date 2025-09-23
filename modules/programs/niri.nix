@@ -60,44 +60,54 @@
         size = 16;
       };
       layout = {
-        preset-column-widths = [
-          {proportion = 1. / 3.;}
-          {proportion = 1. / 2.;}
-          {proportion = 2. / 3.;}
-          {proportion = 1.;}
-        ];
+        # Put this in host, varies with monitor
+        #preset-column-widths = [
+        #  {proportion = 1. / 3.;}
+        #  {proportion = 1. / 2.;}
+        #  {proportion = 2. / 3.;}
+        #  {proportion = 1.;}
+        #];
         always-center-single-column = true;
       };
       binds = with config.lib.niri.actions; {
+        # Program Hotkeys
         "Mod+Space".action.spawn = ["rofi" "-show" "drun" "-show-icons"];
         "Mod+Return".action.spawn = ["kitty"];
+        "Mod+Escape".action.spawn = ["loginctl" "lock-session"];
+
+        # Utility Keys
         "XF86AudioLowerVolume".action.spawn = ["swayosd-client" "--output-volume" "lower"];
         "XF86AudioRaiseVolume".action.spawn = ["swayosd-client" "--output-volume" "raise"];
         "XF86AudioMute".action.spawn = ["swayosd-client" "--output-volume" "mute-toggle"];
         "XF86AudioMicMute".action.spawn = ["swayosd-client" "--input-volume" "mute-toggle"];
         "XF86MonBrightnessDown".action.spawn = ["swayosd-client" "--brightness" "lower"];
         "XF86MonBrightnessUp".action.spawn = ["swayosd-client" "--brightness" "raise"];
+        "Mod+Print".action = screenshot-window;
+        "Mod+Shift+Print".action = screenshot;
+
+        # General Keycombos
         "Mod+F".action = fullscreen-window;
         "Mod+R".action = switch-preset-column-width;
         "Mod+Tab".action = toggle-overview;
         "Mod+Shift+Q".action = close-window;
         "Mod+Shift+F".action = toggle-window-floating;
+        "Mod+Shift+Escape".action = quit;
+
+        # Focus Navigation
+        "Mod+Up".action = focus-workspace-up;
+        "Mod+Down".action = focus-workspace-down;
         "Mod+Left".action = focus-column-left;
         "Mod+Right".action = focus-column-right;
+        "Mod+Alt+Up".action = focus-window-up;
+        "Mod+Alt+Down".action = focus-window-down;
+
+        # Moving
+        "Mod+Shift+Up".action = move-window-to-workspace-up;
+        "Mod+Shift+Down".action = move-window-to-workspace-down;
         "Mod+Shift+Left".action = move-column-left;
         "Mod+Shift+Right".action = move-column-right;
-        "Mod+Up".action = focus-window-up;
-        "Mod+Down".action = focus-window-down;
-        "Mod+Shift+Up".action = move-window-up;
-        "Mod+Shift+Down".action = move-window-down;
-        "Mod+Ctrl+Up".action = move-window-to-workspace-up;
-        "Mod+Ctrl+Down".action = move-window-to-workspace-down;
-        "Mod+Alt+Up".action = focus-workspace-up;
-        "Mod+Alt+Down".action = focus-workspace-down;
-        "Mod+Escape".action.spawn = ["loginctl" "lock-session"];
-        "Mod+Shift+Escape".action = quit;
-        "Mod+Print".action = screenshot-window;
-        "Mod+Shift+Print".action = screenshot;
+        "Mod+Shift+Alt+Up".action = move-window-up;
+        "Mod+Shift+Alt+Down".action = move-window-down;
       };
     };
   };

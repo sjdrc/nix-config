@@ -13,10 +13,10 @@
         postgres-lsp
         cmake-language-server
         nixd
-        nil
       ];
       installRemoteServer = true;
       userSettings = {
+        agent.enabled = true;
         autosave = "on_focus_change";
         restore_on_startup = "last_session";
         auto_update = false;
@@ -40,7 +40,6 @@
         languages = {
           Nix = {
             language_servers = [
-              "!nil"
               "nixd"
             ];
             formatter.external.command = "${pkgs.alejandra}/bin/alejandra";
