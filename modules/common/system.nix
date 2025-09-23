@@ -24,7 +24,6 @@
   networking.networkmanager.enable = true;
 
   # Power actions
-  services.logind.powerKey = "suspend";
   services.upower.enable = true;
   services.upower.criticalPowerAction = "Hibernate";
 
