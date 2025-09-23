@@ -1,10 +1,4 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
-  imports = lib.custom.scanPaths ./.;
-
+{pkgs, ...}: {
   programs.appimage = {
     enable = true;
     binfmt = true;
@@ -19,5 +13,7 @@
     wdisplays
     wl-clipboard
     signal-desktop-bin
+    sushi
+    nautilus
   ];
 }
