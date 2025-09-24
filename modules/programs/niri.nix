@@ -14,7 +14,7 @@
       swaync.enable = true;
       swayosd = {
         enable = true;
-        margin = 0.9;
+        topMargin = 0.9;
       };
       swayidle = {
         enable = true;
