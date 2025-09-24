@@ -36,7 +36,7 @@
   home-manager.users.sebastien = {
     programs.niri.settings = {
       outputs = {
-        eDP-1 = {
+        DSI-1 = {
           transform.rotation = 270;
           scale = 1.5;
         };
