@@ -1,0 +1,29 @@
+{
+  "lsp": {
+    "nixd": {
+      "settings": {
+        "nixpkgs": {
+          "expr": "import (./. |> builtins.toString |> builtins.getFlake).inputs.nixpkgs { }"
+        },
+        "options": {
+          "nixos": {
+            "expr": "(./. |> builtins.toString |> builtins.getFlake).nixosConfigurations.ariel.options"
+          },
+          "home-manager": {
+            "expr": "(./. |> builtins.toString |> builtins.getFlake).nixosConfigurations.ariel.options.home-manager.users.type.getSubOptions []"
+          }
+        }
+      }
+    }
+  },
+  "languages": {
+    "Nix": {
+      "language_servers": ["nixd"],
+      "formatter": {
+        "external": {
+          "command": "alejandra"
+        }
+      }
+    }
+  }
+}

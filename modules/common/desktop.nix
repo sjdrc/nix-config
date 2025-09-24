@@ -4,6 +4,7 @@
     binfmt = true;
   };
 
+
   home-manager.users.sebastien = {
     gtk.enable = true;
     qt.enable = true;

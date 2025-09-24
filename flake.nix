@@ -3,57 +3,27 @@
 
   nixConfig = {
     extra-substituters = [
-      "https://cache.flakehub.com/"
       "https://nix-community.cachix.org"
     ];
     extra-trusted-public-keys = [
-      "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
-      "cache.flakehub.com-4:Asi8qIv291s0aYLyH6IOnr5Kf6+OF14WVjkE6t3xMio="
-      "cache.flakehub.com-5:zB96CRlL7tiPtzA9/WKyPkp3A2vqxqgdgyTVNGShPDU="
-      "cache.flakehub.com-6:W4EGFwAGgBj3he7c5fNh9NkOXw0PUVaxygCVKeuvaqU="
-      "cache.flakehub.com-7:mvxJ2DZVHn/kRxlIaxYNMuDG1OvMckZu32um1TadOR8="
-      "cache.flakehub.com-8:moO+OVS0mnTjBTcOUh2kYLQEd59ExzyoW1QgQ8XAARQ= "
-      "cache.flakehub.com-9:wChaSeTI6TeCuV/Sg2513ZIM9i0qJaYsF+lZCXg0J6o="
-      "cache.flakehub.com-10:2GqeNlIp6AKp4EF2MVbE1kBOp9iBSyo0UPR9KoR0o1Y="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
 
   inputs = {
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*";
-
-    home-manager.url = "https://flakehub.com/f/nix-community/home-manager/0.1.*";
-
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-
-    fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*";
-
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager";
+    determinate.url = "github:DeterminateSystems/determinate";
     nix-index-database.url = "github:nix-community/nix-index-database";
-
-    nixos-hardware.url = "https://flakehub.com/f/NixOS/nixos-hardware/0.1.*";
-
+    nixos-hardware.url = "github:nixos/nixos-hardware";
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
-    zen-browser.inputs.nixpkgs.follows = "nixpkgs";
-    zen-browser.inputs.home-manager.follows = "home-manager";
-
     firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-    firefox-addons.inputs.nixpkgs.follows = "nixpkgs";
-
     nvf.url = "github:notashelf/nvf";
-
-    stylix.url = "https://flakehub.com/f/danth/stylix/0.1.*";
-
+    stylix.url = "github:danth/stylix";
     blackai.url = "github:sjdrc/blackai-nix";
-    blackai.inputs.nixpkgs.follows = "nixpkgs";
     nixarr.url = "github:rasmus-kirk/nixarr";
-
-    disko = {
-      url = "github:nix-community/disko/latest";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    niri = {
-      url = "github:sodiboo/niri-flake";
-    };
+    disko.url = "github:nix-community/disko/latest";
+    niri.url = "github:sodiboo/niri-flake";
   };
   outputs = {
     self,
@@ -75,7 +45,5 @@
           specialArgs = {inherit inputs lib;};
         }
     );
-
-    homeConfigurations."sebastien@ariel".config = self.nixosConfigurations.ariel.config.home-manager.users.sebastien;
   };
 }

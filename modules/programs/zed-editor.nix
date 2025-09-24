@@ -29,22 +29,6 @@
           copy_on_select = true;
         };
         vim_mode = true;
-        lsp = let
-          nixosConfig = ''
-            (with builtins; "/etc/nixos" |> toString |> getFlake).nixosConfigurations."${config.networking.hostName}"
-          '';
-        in {
-          nixd.options.nixos.expr = "${nixosConfig}.options";
-          nixd.options.home-manager.expr = "${nixosConfig}.options.home-manager.users.type.getSubOptions []";
-        };
-        languages = {
-          Nix = {
-            language_servers = [
-              "nixd"
-            ];
-            formatter.external.command = "${pkgs.alejandra}/bin/alejandra";
-          };
-        };
       };
     };
   };

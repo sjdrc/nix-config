@@ -34,10 +34,11 @@
   environment.systemPackages = [
     pkgs.nix-inspect
     pkgs.nix-output-monitor
+    pkgs.manix
   ];
 
+  home-manager.sharedModules = [inputs.nix-index-database.homeModules.nix-index];
   home-manager.users.sebastien = {
-    imports = [inputs.nix-index-database.homeModules.nix-index];
     programs.nix-index-database.comma.enable = true;
     programs.nix-index.enable = true;
   };
