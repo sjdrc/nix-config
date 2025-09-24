@@ -9,6 +9,8 @@
 
   laptop.enable = true;
 
+  boot.loader.systemd-boot.consoleMode = "5";
+
   # Power saving kernel parameters
   boot.kernelParams = [
     "i915.enable_psr=1"

@@ -38,15 +38,4 @@
       };
     };
   };
-
-  #systemd.services.greetd.serviceConfig = {
-  #  Type = "idle";
-  #  StandardInput = "tty";
-  #  StandardOutput = "tty";
-  #  StandardError = "journal";
-  #  # Without these bootlogs will spam on screen
-  #  TTYReset = true;
-  #  TTYVHangup = true;
-  #  TTYVTDisallocate = true;
-  #};
 }
