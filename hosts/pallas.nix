@@ -37,7 +37,7 @@
     programs.niri.settings = {
       outputs = {
         eDP-1 = {
-          transform = "270";
+          transform.rotation = 270;
           scaling = 1.5;
         };
       };
