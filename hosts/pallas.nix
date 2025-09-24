@@ -7,6 +7,16 @@
     inputs.nixos-hardware.nixosModules.gpd-pocket-3
   ];
 
+  laptop.enable = true;
+
+  # Power saving kernel parameters
+  boot.kernelParams = [
+    "i915.enable_psr=1"
+    "i915.enable_fbc=1"
+    "pcie_aspm=force"
+    "intel_idle.max_cstate=9"
+  ];
+
   # Device config
   time.timeZone = "Australia/Melbourne";
 
@@ -19,8 +29,22 @@
   programs.captive-browser.enable = true;
   programs.captive-browser.interface = "wlp174s0";
 
-  home-manager.users.sebastien.programs.niri.settings.layout.preset-column-widths = [
-    {proportion = 1. / 2.;}
-    {proportion = 1.;}
-  ];
+  # Enable iio-sensor-proxy for accelerometer support
+  services.udev.packages = [pkgs.iio-sensor-proxy];
+  hardware.sensor.iio.enable = true;
+
+  home-manager.users.sebastien = {
+    programs.niri.settings = {
+      outputs = {
+        eDP-1 = {
+          transform = "270";
+          scaling = 1.5;
+        };
+      };
+      layout.preset-column-widths = [
+        {proportion = 1. / 2.;}
+        {proportion = 1.;}
+      ];
+    };
+  };
 }
