@@ -38,7 +38,7 @@
       outputs = {
         eDP-1 = {
           transform.rotation = 270;
-          scaling = 1.5;
+          scale = 1.5;
         };
       };
       layout.preset-column-widths = [
