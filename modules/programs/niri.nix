@@ -12,7 +12,10 @@
   home-manager.users.sebastien = {config, ...}: {
     services = {
       swaync.enable = true;
-      swayosd.enable = true;
+      swayosd = {
+        enable = true;
+        margin = 0.9;
+      };
       swayidle = {
         enable = true;
         events = let
