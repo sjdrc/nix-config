@@ -19,8 +19,7 @@
     "intel_idle.max_cstate=9"
   ];
 
-  # Device config
-  time.timeZone = "Australia/Melbourne";
+  nixpkgs.hostPlatform = "x86_64-linux";
 
   # Device hardware
   #services.fprintd.enable = true;

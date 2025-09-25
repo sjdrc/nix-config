@@ -26,45 +26,41 @@
     disko.url = "github:nix-community/disko/latest";
     niri.url = "github:sodiboo/niri-flake";
   };
-  outputs = {
+  outputs = inputs@{
     self,
     nixpkgs,
     flake-parts,
     ...
-  } @ inputs: let
-    lib = nixpkgs.lib.extend (self: super: {custom = import ./lib {inherit (nixpkgs) lib;};});
-  in flake-parts.lib.mkFlake { inherit inputs; } ({withSystem, ...}: {
+  }: let
+    getHostsList = map (host: builtins.replaceStrings [".nix"] [""] host) (builtins.attrNames (builtins.readDir ./hosts));
+  in flake-parts.lib.mkFlake { inherit inputs; } ({ config, withSystem, ...}: {
     imports = [
       inputs.flake-parts.flakeModules.flakeModules
       inputs.flake-parts.flakeModules.modules
       inputs.home-manager.flakeModules.home-manager
-      ./flake/development.nix
-      ./flake/home-manager.nix
+      ./flake
     ];
     systems = ["x86_64-linux"];
     flake = {
-      nixosConfigurations = nixpkgs.lib.genAttrs lib.custom.getHostsList (
+      nixosConfigurations = nixpkgs.lib.genAttrs getHostsList (
         host:
         nixpkgs.lib.nixosSystem {
           modules = [
-            ./modules
             ./hosts/${host}.nix
             {networking.hostName = "${host}";}
             inputs.blackai.nixosModules.blackai
             inputs.determinate.nixosModules.default
-            self.nixosModules.development
-            self.nixosModules.home-manager
+            config.flake.nixosModules.default
+            {home-manager.sharedModules = [config.flake.homeModules.default];}
           ];
-          specialArgs = {inherit inputs lib;};
+          specialArgs = {inherit inputs;};
         }
       );
       homeConfigurations."sebastien@ariel" = withSystem "x86_64-linux" ({pkgs,...}: inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          self.homeModules.development
-          self.homeModules.home-manager
+          config.flake.homeModules.default
         ];
-        extraSpecialArgs = {inherit inputs;};
       });
     };
   });

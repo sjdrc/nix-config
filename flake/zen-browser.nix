@@ -1,15 +1,14 @@
 {
   inputs,
-  pkgs,
   ...
 }: let
-  addons = pkgs.callPackage inputs.firefox-addons {};
 in {
-  environment.sessionVariables = {
-    MOZ_ENABLE_WAYLAND = "1";
+  flake.nixosModule.default = {...}: {
+    environment.sessionVariables.MOZ_ENABLE_WAYLAND = "1";
   };
-  #home-manager.sharedModules = [inputs.zen-browser.homeModules.default];
-  home-manager.users.sebastien = {
+  flake.homeModule.default = {pkgs, ...}: let
+    addons = pkgs.callPackage inputs.firefox-addons {};
+  in {
     imports = [inputs.zen-browser.homeModules.default];
     programs.zen-browser = {
       enable = true;

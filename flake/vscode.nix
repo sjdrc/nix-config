@@ -1,5 +1,5 @@
-{pkgs, ...}: {
-  home-manager.users.sebastien = {
+{...}: {
+  flake.homeModule.default = {pkgs, ...}: {
     programs.vscode = {
       enable = true;
       profiles.default = {

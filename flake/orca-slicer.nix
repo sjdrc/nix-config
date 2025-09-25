@@ -1,9 +1,7 @@
 {
-  pkgs,
-  lib,
-  config,
   ...
-}: let
+}: {
+flake.nixosModules.orca-slicer = {pkgs, ...}: let
   orcaSlicerDesktopItem = pkgs.makeDesktopItem {
     name = "orca-slicer-dri";
     desktopName = "OrcaSlicer (DRI)";
@@ -42,11 +40,6 @@
     application/x-amf=orca-slicer-dri.desktop;
   '';
 in {
-  options = {
-    orca-slicer.enable = lib.mkEnableOption "orca-slicer";
-  };
-
-  config = lib.mkIf config.orca-slicer.enable {
     environment.systemPackages = [
       orcaSlicerDesktopItem
     ];

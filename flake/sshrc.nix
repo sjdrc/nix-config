@@ -1,5 +1,5 @@
-{pkgs, ...}: {
-  home-manager.users.sebastien = {
+{...}: {
+  flake.homeModule.default = {pkgs, ...}: {
     home.file = {
       ".sshrc".text = ''
         HISTFILESIZE=100000

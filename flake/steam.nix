@@ -1,14 +1,7 @@
 {
-  config,
-  lib,
-  pkgs,
   ...
 }: {
-  options = {
-    steam.enable = lib.mkEnableOption "steam";
-  };
-
-  config = lib.mkIf config.steam.enable {
+  flake.nixosModules.steam = {pkgs, ...}: {
     programs.steam = {
       enable = true;
       remotePlay.openFirewall = true;

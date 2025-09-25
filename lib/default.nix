@@ -1,8 +1,6 @@
 # FIXME(lib.custom): Add some stuff from hmajid2301/dotfiles/lib/module/default.nix, as simplifies option declaration
 {lib, ...}:
 with lib; {
-  relativeToRoot = path.append ../.;
-
   scanPaths = path:
     builtins.map (f: (path + "/${f}")) (
       builtins.attrNames (
@@ -18,11 +16,4 @@ with lib; {
     );
 
   getHostsList = map (host: builtins.replaceStrings [".nix"] [""] host) (builtins.attrNames (builtins.readDir ../hosts));
-
-  mkChoice = opt:
-    mkOption {
-      type = with types; nullOr (enum [opt]);
-    };
-
-  mkIfChosen = cfg: opt: config: mkIf (cfg == opt) config;
 }

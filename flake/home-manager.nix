@@ -1,20 +1,16 @@
-{ inputs, ... }: {
+{inputs, ...}: {
   flake = rec {
-    nixosModules.home-manager = {config, pkgs, ...}: {
-      imports = [
-        inputs.home-manager.nixosModules.home-manager
-      ];
+    nixosModules.default = {...}: {
+      imports = [inputs.home-manager.nixosModules.home-manager];
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.extraSpecialArgs = {
         inherit inputs;
       };
       home-manager.backupFileExtension = "backup";
-
-      home-manager.sharedModules = [homeModules.home-manager];
     };
 
-    homeModules.home-manager = {pkgs, ...}: {
+    homeModules.default = {...}: {
       # Allow home-manager to manage itself
       programs.home-manager.enable = true;
 
@@ -23,8 +19,6 @@
 
       # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
       home.stateVersion = "24.05";
-      home.username = "sebastien";
-      home.homeDirectory = "/home/sebastien";
     };
   };
 }

@@ -3,8 +3,7 @@
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-nano-gen1
   ];
 
-  # Device config
-  time.timeZone = "Australia/Melbourne";
+  nixpkgs.hostPlatform = "x86_64-linux";
 
   # Device hardware
   services.fprintd.enable = true;

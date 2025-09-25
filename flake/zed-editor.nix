@@ -1,9 +1,5 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
-  home-manager.users.sebastien = {
+{...}: {
+  flake.homeModule.default = {pkgs, ...}: {
     programs.zed-editor = {
       enable = true;
       extensions = [
