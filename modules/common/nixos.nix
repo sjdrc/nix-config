@@ -4,6 +4,7 @@
   ...
 }: {
   imports = [
+    inputs.determinate.nixosModules.default
     inputs.nix-index-database.nixosModules.nix-index
   ];
 
