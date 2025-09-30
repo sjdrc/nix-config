@@ -11,6 +11,7 @@ in {
   #home-manager.sharedModules = [inputs.zen-browser.homeModules.default];
   home-manager.users.sebastien = {
     imports = [inputs.zen-browser.homeModules.default];
+    stylix.targets.zen-browser.profileNames = ["sebastien"];
     programs.zen-browser = {
       enable = true;
       nativeMessagingHosts = [pkgs.firefoxpwa];

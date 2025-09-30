@@ -31,10 +31,11 @@
     # here, NOT in environment.systemPackages
   ];
   # Flake config inspection tool
-  environment.systemPackages = [
-    pkgs.nix-inspect
-    pkgs.nix-output-monitor
-    pkgs.manix
+  environment.systemPackages = with pkgs; [
+    nix-inspect
+    nix-output-monitor
+    manix
+    alejandra
   ];
 
   home-manager.sharedModules = [inputs.nix-index-database.homeModules.nix-index];
