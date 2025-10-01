@@ -52,7 +52,10 @@
         NIXOS_OZONE_WL = "1";
         ELECTRON_OZONE_PLATFORM_HINT = "wayland";
         QT_QPA_PLATFORM = "wayland";
-        DISPLAY = null;
+        #DISPLAY = null;
+        __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+        GBM_BACKEND = "nvidia-drm";
+        WLR_NO_HARDWARE_CURSORS = "1";
       };
       input = {
         focus-follows-mouse.enable = true;
