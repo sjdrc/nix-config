@@ -9,6 +9,10 @@
   ];
   programs.niri.enable = true;
   programs.niri.package = inputs.niri.packages.x86_64-linux.niri-unstable;
+  environment.systemPackages = with pkgs; [
+    wl-clipboard
+    wayland-utils
+  ];
   home-manager.users.sebastien = {config, ...}: {
     services = {
       swaync.enable = true;
@@ -47,7 +51,8 @@
     programs.niri.settings = {
       xwayland-satellite.path = lib.getExe inputs.niri.packages.x86_64-linux.xwayland-satellite-unstable;
       hotkey-overlay.skip-at-startup = true;
-      clipboard.disable-primary = true;
+      #clipboard.disable-primary = true;
+      prefer-no-csd = true;
       environment = {
         NIXOS_OZONE_WL = "1";
         ELECTRON_OZONE_PLATFORM_HINT = "wayland";
@@ -66,13 +71,12 @@
         size = 16;
       };
       layout = {
-        # Put this in host, varies with monitor
-        #preset-column-widths = [
-        #  {proportion = 1. / 3.;}
-        #  {proportion = 1. / 2.;}
-        #  {proportion = 2. / 3.;}
-        #  {proportion = 1.;}
-        #];
+        preset-column-widths = [
+          {proportion = 1. / 3.;}
+          {proportion = 1. / 2.;}
+          {proportion = 2. / 3.;}
+        ];
+        empty-workspace-above-first = true;
         always-center-single-column = true;
       };
       binds = with config.lib.niri.actions; {
