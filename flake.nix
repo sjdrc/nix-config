@@ -24,6 +24,7 @@
     nixarr.url = "github:rasmus-kirk/nixarr";
     disko.url = "github:nix-community/disko/latest";
     niri.url = "github:sodiboo/niri-flake";
+    declarative-jellyfin.url = "github:Sveske-Juice/declarative-jellyfin";
   };
   outputs = {
     self,

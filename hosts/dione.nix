@@ -10,4 +10,6 @@
   # Device hardware
   hardware.nvidia.open = true;
   hardware.nvidia.powerManagement.enable = true;
+
+  orca-slicer.enable = true;
 }

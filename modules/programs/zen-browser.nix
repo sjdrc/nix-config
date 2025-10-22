@@ -9,6 +9,10 @@ in {
     MOZ_ENABLE_WAYLAND = "1";
   };
   #home-manager.sharedModules = [inputs.zen-browser.homeModules.default];
+  environment.systemPackages = with pkgs; [
+    gnome-keyring # Implements the Secret Portal
+    nautilus # Required for File Chooser from xdg-desktop-portal-gnome 47.0+
+  ];
   home-manager.users.sebastien = {
     imports = [inputs.zen-browser.homeModules.default];
     stylix.targets.zen-browser.profileNames = ["sebastien"];
