@@ -9,5 +9,6 @@
   stylix.enable = true;
   stylix.image = config.lib.stylix.pixel "base02";
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/solarized-dark.yaml";
+  stylix.polarity = "dark";
   stylix.targets.gtk.enable = true;
 }

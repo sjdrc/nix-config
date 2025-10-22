@@ -88,8 +88,8 @@
         "XF86AudioMicMute".action.spawn = ["swayosd-client" "--input-volume" "mute-toggle"];
         "XF86MonBrightnessDown".action.spawn = ["swayosd-client" "--brightness" "lower"];
         "XF86MonBrightnessUp".action.spawn = ["swayosd-client" "--brightness" "raise"];
-        "Mod+Print".action = screenshot-window;
-        "Mod+Shift+Print".action = screenshot;
+        "Mod+Print".action.screenshot-window = [];
+        "Mod+Shift+Print".action.screenshot = [];
 
         # General Keycombos
         "Mod+F".action = fullscreen-window;
