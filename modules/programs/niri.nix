@@ -109,6 +109,7 @@
         "Mod+Space".action.spawn = ["rofi" "-show" "drun" "-show-icons"];
         "Mod+Return".action.spawn = ["kitty"];
         "Mod+Escape".action.spawn = ["loginctl" "lock-session"];
+        "Mod+Shift+E".action = quit;
 
         # Utility Keys
         "XF86AudioLowerVolume".action.spawn = ["swayosd-client" "--output-volume" "lower"];

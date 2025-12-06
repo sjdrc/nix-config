@@ -25,6 +25,7 @@
     disko.url = "github:nix-community/disko/latest";
     niri.url = "github:sodiboo/niri-flake";
     declarative-jellyfin.url = "github:Sveske-Juice/declarative-jellyfin";
+    inputs.jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
   };
   outputs = {
     self,

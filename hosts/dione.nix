@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
@@ -11,5 +15,7 @@
   hardware.nvidia.open = true;
   hardware.nvidia.powerManagement.enable = true;
 
-  orca-slicer.enable = true;
+  steam.enable = true;
+  bambu-studio.enable = true;
+  piracy.enable = true;
 }

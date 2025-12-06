@@ -10,6 +10,4 @@
 
   # Device programs
   steam.enable = true;
-  #piracy.enable = true;
-  orca-slicer.enable = true;
 }
