@@ -49,25 +49,24 @@
         enable = true;
         events = let
           command = "${pkgs.swaylock}/bin/swaylock -f";
-        in [
-          {
-            event = "before-sleep";
-            inherit command;
-          }
-          {
-            event = "lock";
-            command = "${pkgs.swaylock}/bin/swaylock -f";
-          }
-        ];
+        in {
+          before-sleep = command;
+          lock = command;
+        };
         timeouts = [
           {
-            timeout = 300;
-            command = "loginctl lock-session";
+            timeout = 600;
+            command = "${pkgs.systemd}/bin/loginctl lock-session";
           }
           {
-            timeout = 600;
-            command = "systemctl suspend";
+            timeout = 300;
+            command = "${pkgs.niri}/bin/niri msg action power-off-monitors";
+            resumeCommand = "${pkgs.niri}/bin/niri msg action power-on-monitors";
           }
+          #{
+          #  timeout = 600;
+          #  command = "${pkgs.systemd}/bin/systemctl suspend";
+          #}
         ];
       };
     };

@@ -10,11 +10,11 @@
   ];
 
   options = {
-    piracy.enable = lib.mkEnableOption "piracy";
+    arr.enable = lib.mkEnableOption "arr";
   };
 
   config =
-    lib.mkIf config.piracy.enable
+    lib.mkIf config.arr.enable
     {
       nixarr = {
         enable = true;
@@ -24,6 +24,7 @@
 
         # Media server
         jellyfin.enable = true;
+        jellyseerr.enable = true;
 
         # Media managers
         sonarr.enable = true;

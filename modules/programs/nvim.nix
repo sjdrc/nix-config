@@ -1,5 +1,4 @@
 {inputs, ...}: {
-  #home-manager.sharedModules = [inputs.nvf.homeManagerModules.default];
   home-manager.users.sebastien = {
     imports = [inputs.nvf.homeManagerModules.default];
     programs.nvf = {

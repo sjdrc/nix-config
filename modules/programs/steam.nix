@@ -6,7 +6,7 @@
   ...
 }: {
   imports = [
-    inputs.jovian.nixosModules.default
+    #inputs.jovian.nixosModules.default
   ];
   options = {
     steam.enable = lib.mkEnableOption "steam";
@@ -21,24 +21,24 @@
       enable = true;
     };
 
-    jovian.steam.enable = true;
-    jovian.steam.autoStart = true;
-    jovian.steam.desktopSession = "Niri";
+    #jovian.steam.enable = true;
+    #jovian.steam.autoStart = true;
+    #jovian.steam.desktopSession = "Niri";
 
-    jovian.decky-loader.enable = true;
-    jovian.devices.steamdeck.enableControllerUdevRules = true;
-    jovian.steam.user = "sebastien";
-    jovian.steamos.useSteamOSConfig = true;
+    #jovian.decky-loader.enable = true;
+    #jovian.devices.steamdeck.enableControllerUdevRules = true;
+    #jovian.steam.user = "sebastien";
+    #jovian.steamos.useSteamOSConfig = true;
 
     programs.steam = {
       enable = true;
       package = pkgs.steam.override {
         extraPkgs = pkgs':
           with pkgs'; [
-            xorg.libXcursor
-            xorg.libXi
-            xorg.libXinerama
-            xorg.libXScrnSaver
+            libxcursor
+            libxi
+            libxinerama
+            libxscrnsaver
             libpng
             libpulseaudio
             libvorbis

@@ -1,9 +1,10 @@
 {
   inputs,
   pkgs,
+  lib,
   ...
 }: let
-  addons = pkgs.callPackage inputs.firefox-addons {};
+  firefox-addons = pkgs.callPackage inputs.firefox-addons {};
 in {
   environment.sessionVariables = {
     MOZ_ENABLE_WAYLAND = "1";
@@ -42,56 +43,27 @@ in {
           Cryptomining = true;
           Fingerprinting = true;
         };
-        ExtensionSettings."*".installation_mode = "force_installed";
-        ExtensionSettings."*".updates_disabled = true;
       };
       profiles.sebastien = {
         id = 0;
-        settings = {
-          "browser.aboutConfig.showWarning" = false;
-          "browser.download.start_downloads_in_tmp_dir" = true;
-          "browser.fullscreen.autohide" = false;
-          "cookiebanners.service.mode" = 2;
-          "cookiebanners.service.mode.privateBrowsing" = 2;
-          "extensions.autoDisableScopes" = 0;
-          "zen.theme.color-prefs.use-workspace-colors" = true;
-          "zen.view.compact.hide-tabbar" = true;
-          "zen.view.compact.hide-toolbar" = false;
-          "zen.view.sidebar-expanded" = true;
-          "zen.view.use-single-toolbar" = false;
-          "zen.welcome-screen.seen" = true;
-          "zen.workspaces.container-specific-essentials-enabled" = true;
-          "zen.workspaces.force-container-workspace" = true;
-          "zen.workspaces.hide-deactivated-workspaces" = true;
-          "zen.workspaces.hide-default-container-indicator" = false;
-          "zen.workspaces.show-workspace-indicator" = false;
-          "zen.workspaces.individual-pinned-tabs" = true;
-          "zen.workspaces.show-icon-strip" = true;
-          "zen.splitView.change-on-hover" = true;
-          # Reduce File IO / SSD abuse
-          # Otherwise, Zen bombards the HD with writes. Not so nice for SSDs.
-          # This forces it to write every 30 minutes, rather than 15 seconds.
-          "browser.sessionstore.interval" = "1800000";
-          "browser.tabs.hoverPreview.enabled" = true;
-        };
         extensions = {
           force = true;
-          packages = with addons; [
+          packages = with firefox-addons; [
             ublock-origin
             sponsorblock
             behind-the-overlay-revival
             consent-o-matic
             decentraleyes
             dark-mode-website-switcher
-            gaoptout
+            #gaoptout
             multi-account-containers
             no-pdf-download
             old-reddit-redirect
             terms-of-service-didnt-read
-            faststream
+            #faststream
             localcdn
             unpaywall
-            onepassword-password-manager
+            #onepassword-password-manager
           ];
           settings = {
             "uBlock0@raymondhill.net" = {
@@ -116,6 +88,59 @@ in {
             };
           };
         };
+        mods = [
+        ];
+        search = {
+          force = true;
+          default = "google";
+          engines = {
+            mynixos = {
+              name = "My NixOS";
+              urls = [
+                {
+                  template = "https://mynixos.com/search?q={searchTerms}";
+                  params = [
+                    {
+                      name = "query";
+                      value = "searchTerms";
+                    }
+                  ];
+                }
+              ];
+              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              definedAliases = ["@nx"];
+            };
+          };
+        };
+        settings = {
+          "browser.aboutConfig.showWarning" = false;
+          "browser.download.start_downloads_in_tmp_dir" = true;
+          "browser.fullscreen.autohide" = false;
+          "cookiebanners.service.mode" = 2;
+          "cookiebanners.service.mode.privateBrowsing" = 2;
+          "extensions.autoDisableScopes" = 0;
+          "extensions.enabledScopes" = 15;
+          "extensions.autoUpdate" = false;
+          "extensions.update.enabled" = false;
+          "zen.theme.color-prefs.use-workspace-colors" = true;
+          "zen.view.compact.hide-tabbar" = true;
+          "zen.view.compact.hide-toolbar" = false;
+          "zen.view.sidebar-expanded" = true;
+          "zen.view.use-single-toolbar" = false;
+          "zen.welcome-screen.seen" = true;
+          "zen.workspaces.container-specific-essentials-enabled" = true;
+          "zen.workspaces.force-container-workspace" = true;
+          "zen.workspaces.hide-deactivated-workspaces" = true;
+          "zen.workspaces.hide-default-container-indicator" = false;
+          "zen.workspaces.show-workspace-indicator" = false;
+          "zen.workspaces.individual-pinned-tabs" = true;
+          "zen.workspaces.show-icon-strip" = true;
+          "zen.splitView.change-on-hover" = true;
+          "browser.tabs.hoverPreview.enabled" = true;
+          "browser.tabs.groups.enabled" = true;
+          "zen.tabs.select-recently-used-on-close" = false;
+        };
+        containersForce = true;
         containers = {
           Personal = {
             id = 1;
@@ -128,7 +153,6 @@ in {
             icon = "briefcase";
           };
         };
-        containersForce = true;
       };
     };
   };
