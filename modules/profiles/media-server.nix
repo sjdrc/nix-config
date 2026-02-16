@@ -1,21 +1,27 @@
-{
-  inputs,
-  lib,
-  config,
-  pkgs,
-  ...
-}: {
-  imports = [
-    inputs.nixarr.nixosModules.default
-  ];
+{inputs, ...}: let
+  homeModule = {
+    config,
+    lib,
+    ...
+  }: {
+    options.custom.profiles.media-server.enable = lib.mkEnableOption "media server suite";
 
-  options = {
-    arr.enable = lib.mkEnableOption "arr";
+    config = lib.mkIf config.custom.profiles.media-server.enable {
+      # Media server user tools can go here if needed
+    };
   };
+in {
+  nixosModule = {
+    inputs,
+    lib,
+    config,
+    ...
+  }: {
+    imports = [inputs.nixarr.nixosModules.default];
 
-  config =
-    lib.mkIf config.arr.enable
-    {
+    options.custom.profiles.media-server.enable = lib.mkEnableOption "media server suite";
+
+    config = lib.mkIf config.custom.profiles.media-server.enable {
       nixarr = {
         enable = true;
 
@@ -61,4 +67,7 @@
         };
       };
     };
+  };
+
+  inherit homeModule;
 }

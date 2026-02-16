@@ -1,5 +1,5 @@
 {
-  description = "NixOS configuration";
+  description = "NixOS configuration with nixos-unified";
 
   nixConfig = {
     extra-substituters = [
@@ -12,7 +12,15 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    nixos-unified.url = "github:srid/nixos-unified";
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Existing inputs
     determinate.url = "github:DeterminateSystems/determinate";
     nix-index-database.url = "github:nix-community/nix-index-database";
     nixos-hardware.url = "github:nixos/nixos-hardware";
@@ -32,43 +40,80 @@
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
     prismlauncher-cracked.url = "github:Diegiwg/PrismLauncher-Cracked";
   };
-  outputs = {
-    self,
-    nixpkgs,
-    ...
-  } @ inputs: let
-    lib = nixpkgs.lib.extend (self: super: {custom = import ./lib {inherit (nixpkgs) lib;};});
 
-    # Systems to support
-    forAllSystems = nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux"];
-  in {
-    # Define overlay first (not system-specific)
-    overlays.default = final: prev: {
-      bambu-studio = final.callPackage ./packages/bambu-studio {};
-      openlens = final.callPackage ./packages/openlens {};
-    };
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux" "aarch64-linux"];
 
-    # Export packages by applying overlay
-    packages = forAllSystems (system: let
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [self.overlays.default];
-      };
-    in {
-      inherit (pkgs) bambu-studio openlens;
-    });
+      imports = [
+        inputs.nixos-unified.flakeModule
+      ];
 
-    nixosConfigurations = nixpkgs.lib.genAttrs lib.custom.getHostsList (
-      host:
-        nixpkgs.lib.nixosSystem {
+      flake = {
+        # Custom lib (keep existing)
+        lib = inputs.nixpkgs.lib.extend (self: super: {
+          custom = import ./lib {inherit (inputs.nixpkgs) lib;};
+        });
+
+        # Overlays (keep existing)
+        overlays.default = final: prev: {
+          bambu-studio = final.callPackage ./packages/bambu-studio {};
+          openlens = final.callPackage ./packages/openlens {};
+        };
+
+        # Use loader module to import all our custom modules
+        nixosModules.default = ./modules-loader.nix;
+
+        # Home modules for standalone home-manager (also used in homeConfigurations)
+        homeModules.default = ./homeModules-loader.nix;
+
+        # Standalone home-manager configurations (for cross-platform IDE support)
+        homeConfigurations.sebastien = inputs.home-manager.lib.homeManagerConfiguration {
+          pkgs = import inputs.nixpkgs {system = "x86_64-linux";};
+          extraSpecialArgs = {inherit inputs;};
           modules = [
-            ./modules
-            ./hosts/${host}.nix
-            {networking.hostName = "${host}";}
-            {nixpkgs.overlays = [self.overlays.default];}
+            inputs.stylix.homeManagerModules.stylix
+            inputs.self.homeModules.default
+            {
+              home.username = "sebastien";
+              home.homeDirectory = "/home/sebastien";
+              home.stateVersion = "24.05";
+              programs.home-manager.enable = true;
+            }
           ];
-          specialArgs = {inherit inputs lib;};
-        }
-    );
-  };
+        };
+
+        # NixOS configurations
+        nixosConfigurations = let
+          hostsList = inputs.self.lib.custom.getHostsList;
+        in
+          inputs.nixpkgs.lib.genAttrs hostsList (
+            host:
+              inputs.nixpkgs.lib.nixosSystem {
+                system = "x86_64-linux";
+                modules = [
+                  inputs.self.nixosModules.default
+                  ./hosts/${host}.nix
+                  {networking.hostName = host;}
+                  {nixpkgs.overlays = [inputs.self.overlays.default];}
+                ];
+                specialArgs = {
+                  inherit inputs;
+                  lib = inputs.self.lib;
+                };
+              }
+          );
+      };
+
+      perSystem = {
+        pkgs,
+        system,
+        ...
+      }: {
+        packages = {
+          bambu-studio = pkgs.callPackage ./packages/bambu-studio {};
+          openlens = pkgs.callPackage ./packages/openlens {};
+        };
+      };
+    };
 }

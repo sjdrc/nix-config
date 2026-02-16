@@ -3,12 +3,9 @@
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-nano-gen1
   ];
 
-  # Device config
-  time.timeZone = "Australia/Melbourne";
+  # Hardware
+  custom.hardware.thinkpad-x1-nano.enable = true;
 
-  # Device hardware
-  services.fprintd.enable = true;
-
-  programs.captive-browser.enable = true;
-  programs.captive-browser.interface = "wlp1s0";
+  # Profiles
+  custom.profiles.laptop.enable = true;
 }

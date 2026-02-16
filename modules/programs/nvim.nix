@@ -1,17 +1,26 @@
 {inputs, ...}: {
-  home-manager.users.sebastien = {
+  homeModule = {
+    config,
+    lib,
+    ...
+  }: {
     imports = [inputs.nvf.homeManagerModules.default];
-    programs.nvf = {
-      enable = true;
-      settings = {
-        vim = {
-          viAlias = true;
-          vimAlias = true;
-          lsp.enable = false;
-          clipboard.registers = ["unnamedplus"];
-          searchCase = "ignore";
-          options = {
-            wrap = false;
+
+    options.custom.programs.nvim.enable = lib.mkEnableOption "neovim";
+
+    config = lib.mkIf config.custom.programs.nvim.enable {
+      programs.nvf = {
+        enable = true;
+        settings = {
+          vim = {
+            viAlias = true;
+            vimAlias = true;
+            lsp.enable = false;
+            clipboard.registers = ["unnamedplus"];
+            searchCase = "ignore";
+            options = {
+              wrap = false;
+            };
           };
         };
       };
