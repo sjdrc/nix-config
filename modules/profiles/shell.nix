@@ -1,13 +1,11 @@
 {...}: let
   homeModule = {
-    config,
     lib,
     pkgs,
+    osConfig,
     ...
   }: {
-    options.custom.profiles.shell.enable = lib.mkEnableOption "shell environment" // {default = true;};
-
-    config = lib.mkIf config.custom.profiles.shell.enable {
+    config = lib.mkIf osConfig.custom.profiles.shell.enable {
       # Enable custom terminal programs
       custom.programs.bash.enable = true;
       custom.programs.tmux.enable = true;

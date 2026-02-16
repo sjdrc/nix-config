@@ -96,6 +96,7 @@
                   ./hosts/${host}.nix
                   {networking.hostName = host;}
                   {nixpkgs.overlays = [inputs.self.overlays.default];}
+
                 ];
                 specialArgs = {
                   inherit inputs;

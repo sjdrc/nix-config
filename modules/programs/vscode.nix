@@ -40,6 +40,9 @@
             "workbench.enableExperiments" = false;
             "github.copilot.enable" = false;
             "github.copilot.inlineSuggest.enable" = false;
+
+            # Use system claude-code binary (has MCP servers configured)
+            "claudeCode.claudeProcessWrapper" = "${config.programs.claude-code.finalPackage}/bin/claude";
           };
         };
       };

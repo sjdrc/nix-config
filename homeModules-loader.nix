@@ -19,7 +19,7 @@
   # Get all .nix files from a directory and import their homeModules
   getHomeModules = dir: let
     files = builtins.attrNames (builtins.readDir dir);
-    # Filter out default.nix, user.nix (imported manually), and nixos-specific modules like niri
+    # Filter out default.nix and user.nix (imported manually)
     nixFiles =
       builtins.filter (
         f:
@@ -27,8 +27,6 @@
           != "default.nix"
           && f != "user.nix"
           && # user.nix homeModule is imported manually in user.nix nixosModule
-          f != "niri.nix"
-          && # niri requires NixOS-specific modules
           builtins.match ".*\\.nix" f != null
       )
       files;
@@ -36,6 +34,7 @@
     map (f: importHomeModule (dir + "/${f}")) nixFiles;
 in {
   imports =
-    (getHomeModules ./modules/profiles)
+    (getHomeModules ./modules/system)
+    ++ (getHomeModules ./modules/profiles)
     ++ (getHomeModules ./modules/programs);
 }

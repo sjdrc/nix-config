@@ -1,18 +1,19 @@
 {...}: let
   homeModule = {
-    config,
     lib,
+    osConfig,
     ...
   }: {
-    options.custom.profiles.desktop.enable = lib.mkEnableOption "desktop environment";
-
-    config = lib.mkIf config.custom.profiles.desktop.enable {
+    config = lib.mkIf osConfig.custom.profiles.desktop.enable {
       # Programs
       custom.programs.kitty.enable = true;
+      custom.programs.zen-browser.enable = true;
 
       # User configuration
       gtk.enable = true;
       qt.enable = true;
+
+      programs.mpv.enable = true;
     };
   };
 in {

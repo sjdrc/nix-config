@@ -4,11 +4,10 @@
     pkgs,
     lib,
     config,
+    osConfig,
     ...
   }: {
-    options.custom.programs.niri.enable = lib.mkEnableOption "Niri window manager";
-
-    config = lib.mkIf config.custom.programs.niri.enable {
+    config = lib.mkIf osConfig.custom.programs.niri.enable {
       # User-level niri config
       services = {
         swaync.enable = true;

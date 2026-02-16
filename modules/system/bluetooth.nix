@@ -2,11 +2,12 @@
   homeModule = {
     config,
     lib,
+    osConfig,
     ...
   }: {
-    config = lib.mkIf config.custom.system.bluetooth.enable {
+    config = lib.mkIf osConfig.custom.system.bluetooth.enable {
       # Bluetooth system tray applet (only if waybar is enabled)
-      services.blueman-applet.enable = lib.mkIf config.custom.programs.waybar.enable true;
+      services.blueman-applet.enable = lib.mkIf osConfig.custom.programs.waybar.enable true;
     };
   };
 in {

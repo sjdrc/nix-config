@@ -10,6 +10,7 @@
 
   # Profiles
   custom.profiles.desktop.enable = true;
+  custom.profiles.development.enable = true;
   custom.profiles.gaming.enable = true;
   custom.profiles.media-server.enable = true;
   custom.profiles."3d-printing".enable = true;

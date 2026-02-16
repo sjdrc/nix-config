@@ -1,13 +1,25 @@
 {...}: let
   homeModule = {
-    config,
     lib,
     pkgs,
+    osConfig,
     ...
   }: {
-    options.custom.profiles.development.enable = lib.mkEnableOption "development environment";
+    config = lib.mkIf osConfig.custom.profiles.development.enable {
+      # Custom programs
+      custom.programs.vscode.enable = true;
+      custom.programs.nvim.enable = true;
 
-    config = lib.mkIf config.custom.profiles.development.enable {
+      # Claude Code with MCP servers
+      programs.claude-code = {
+        enable = true;
+        mcpServers = {
+          nixos = {
+            command = "${pkgs.mcp-nixos}/bin/mcp-nixos";
+          };
+        };
+      };
+
       # User-level development tools
       programs.direnv = {
         enable = true;

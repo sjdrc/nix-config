@@ -2,11 +2,10 @@
   homeModule = {
     config,
     lib,
+    osConfig,
     ...
   }: {
-    options.custom.programs.waybar.enable = lib.mkEnableOption "Waybar status bar";
-
-    config = lib.mkIf config.custom.programs.waybar.enable {
+    config = lib.mkIf osConfig.custom.programs.waybar.enable {
       # System tray applets
       services.network-manager-applet.enable = true;
       services.pasystray.enable = true;

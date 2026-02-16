@@ -1,12 +1,10 @@
 {...}: let
   homeModule = {
-    config,
     lib,
+    osConfig,
     ...
   }: {
-    options.custom.profiles.gaming.enable = lib.mkEnableOption "gaming profile" // {default = false;};
-
-    config = lib.mkIf config.custom.profiles.gaming.enable {
+    config = lib.mkIf osConfig.custom.profiles.gaming.enable {
       # Future: gaming-specific user tools can go here
     };
   };

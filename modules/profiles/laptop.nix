@@ -2,13 +2,12 @@
   homeModule = {
     config,
     lib,
+    osConfig,
     ...
   }: {
-    options.custom.profiles.laptop.enable = lib.mkEnableOption "laptop profile" // {default = false;};
-
-    config = lib.mkIf config.custom.profiles.laptop.enable {
+    config = lib.mkIf osConfig.custom.profiles.laptop.enable {
       # Battery indicator applet (only if waybar is enabled)
-      services.cbatticon.enable = lib.mkIf config.custom.programs.waybar.enable true;
+      services.cbatticon.enable = lib.mkIf osConfig.custom.programs.waybar.enable true;
     };
   };
 in {

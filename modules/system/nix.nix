@@ -1,4 +1,15 @@
-{inputs, ...}: {
+{inputs, ...}: let
+  homeModule = {
+    lib,
+    osConfig,
+    ...
+  }: {
+    config = lib.mkIf osConfig.custom.system.nix.enable {
+      programs.nix-index-database.comma.enable = true;
+      programs.nix-index.enable = true;
+    };
+  };
+in {
   nixosModule = {
     inputs,
     pkgs,
@@ -58,4 +69,6 @@
       system.stateVersion = "24.05";
     };
   };
+
+  inherit homeModule;
 }
