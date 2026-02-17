@@ -14,10 +14,6 @@
       hardware.nvidia.open = true;
       hardware.nvidia.powerManagement.enable = true;
 
-      # Include NVIDIA modules in initrd for early KMS, but let udev load
-      # them on demand so Plymouth can use the EFI framebuffer for its splash
-      boot.initrd.availableKernelModules = ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
-
       # NVIDIA-specific environment variables for Wayland compositors
       environment.sessionVariables = {
         __GLX_VENDOR_LIBRARY_NAME = "nvidia";

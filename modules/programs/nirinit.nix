@@ -31,11 +31,16 @@
       # Fix nirinit service: add user PATH and wait for niri socket
       systemd.user.services.nirinit = {
         after = ["niri.service"];
+        path = [
+          "/etc/profiles/per-user/${userName}"
+          "/run/current-system/sw"
+        ];
         serviceConfig = {
-          Environment = lib.mkForce [
-            "PATH=/etc/profiles/per-user/${userName}/bin:/run/current-system/sw/bin"
-          ];
           ExecStartPre = waitForNiri;
+          # Kill immediately on stop — nirinit's exit handler does a final
+          # save_session, but by then niri is already dead so it saves an
+          # empty session, clobbering the good periodic save.
+          KillSignal = "SIGKILL";
         };
       };
     };

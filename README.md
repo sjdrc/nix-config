@@ -43,6 +43,35 @@ the upstream stylix PR for wlogout support.
 custom color/font/icon logic from `wlogout.nix` and enable the upstream target
 via `stylix.targets.wlogout.enable = true` (or whatever the final API is).
 
+## NVIDIA + Plymouth: low-res LUKS decryption prompt
+
+**Status:** Cosmetic, NVIDIA DRM limitation.
+
+The Plymouth boot splash during LUKS decryption renders at low resolution because
+it uses the EFI framebuffer (simpledrm), not the NVIDIA GPU. Loading NVIDIA modules
+in the initrd (`boot.initrd.kernelModules`) fixes the resolution but breaks Plymouth
+entirely — NVIDIA DRM doesn't support the dumb buffer API that Plymouth's renderer
+needs, causing it to fall back to text mode. Additionally, adding NVIDIA to initrd
+removes `plymouth-switch-root-initramfs.service` from the build.
+
+**Attempted fixes:**
+- `boot.initrd.kernelModules` with NVIDIA modules: fixes resolution but breaks Plymouth
+- `boot.initrd.availableKernelModules`: same result (udev loads NVIDIA during initrd)
+- `initcall_blacklist=simpledrm_platform_driver_init`: Plymouth has no device at all
+- `systemd.services.greetd.wants = ["dev-dri-card1.device"]`: device unit unreliable
+
+**To revisit:** Check if NVIDIA's open kernel modules gain dumb buffer support for
+Plymouth, or if Plymouth adds a renderer that works with NVIDIA DRM.
+
+## NVIDIA + tuigreet: brief misposition on first render
+
+**Status:** Cosmetic, accepted trade-off.
+
+tuigreet briefly renders in the top-left corner before snapping to center. This
+happens because greetd starts before the NVIDIA DRM device is ready, so the TTY
+is still at the simpledrm resolution. It corrects itself within ~1 second.
+Loading NVIDIA in the initrd fixes this but breaks Plymouth (see above).
+
 ## Niri session: "import-environment" deprecation warning
 
 **Status:** Cosmetic, waiting for upstream fix.
