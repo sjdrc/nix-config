@@ -20,6 +20,12 @@
       stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/solarized-dark.yaml";
       stylix.polarity = "dark";
       stylix.targets.gtk.enable = true;
+      stylix.icons = {
+        enable = true;
+        package = pkgs.papirus-icon-theme;
+        dark = "Papirus-Dark";
+        light = "Papirus-Light";
+      };
     };
   };
 }
