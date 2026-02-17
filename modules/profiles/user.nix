@@ -8,6 +8,7 @@
 
     config = lib.mkIf config.custom.profiles.user.enable {
       xdg = {
+        enable = true;
         configFile."mimeapps.list".force = true;
         mimeApps.enable = true;
 
