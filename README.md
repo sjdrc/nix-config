@@ -43,6 +43,22 @@ the upstream stylix PR for wlogout support.
 custom color/font/icon logic from `wlogout.nix` and enable the upstream target
 via `stylix.targets.wlogout.enable = true` (or whatever the final API is).
 
+## Niri session: "import-environment" deprecation warning
+
+**Status:** Cosmetic, waiting for upstream fix.
+
+On login, the message "calling import-environment without a list of variable names
+is deprecated" briefly appears. This comes from the upstream `niri-session` script
+calling `systemctl --user import-environment` without arguments, which systemd 258+
+warns about. No functional impact.
+
+**Upstream issues:**
+- https://github.com/YaLTeR/niri/issues/254
+- https://github.com/YaLTeR/niri/discussions/2780
+
+**To revisit:** Check if the niri-session script has been updated to either drop the
+call or pass explicit variable names.
+
 # Todo
 * clipboard
     * history

@@ -6,11 +6,8 @@
 
       "Read",
 
-      "Bash(ls *)",
-      "Bash(grep *)",
-      "Bash(head *)",
-      "Bash(tail *)",
       "Bash(wc *)",
+      "Bash(hostname *)",
 
       "Bash(git status *)",
       "Bash(git diff *)",
@@ -42,9 +39,20 @@
       "Bash(lsmod *)",
       "Bash(lspci *)",
       "Bash(which *)",
+      "Bash(readlink *)",
+      "Bash(strings *)",
 
       "mcp__nixos__nix",
       "mcp__nixos__nix_versions"
+    ],
+    "deny": [
+      "Bash(sudo *)",
+      "Bash(nixos-rebuild *)",
+      "Bash(nix profile *)",
+      "Bash(nix-store --delete *)",
+      "Bash(rm -rf *)",
+      "Bash(dd *)",
+      "Bash(mkfs *)"
     ]
   }
 }
