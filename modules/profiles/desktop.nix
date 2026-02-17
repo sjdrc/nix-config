@@ -30,6 +30,7 @@ in {
     config = lib.mkIf config.custom.profiles.desktop.enable {
       # Programs
       custom.programs.niri.enable = true;
+      custom.programs.nirinit.enable = true;
       custom.programs.tuigreet.enable = true;
       custom.programs.waybar.enable = true;
 
