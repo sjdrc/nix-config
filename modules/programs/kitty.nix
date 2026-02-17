@@ -1,6 +1,5 @@
 {
   homeModule = {
-    pkgs,
     config,
     lib,
     ...
@@ -15,7 +14,7 @@
           enable_audio_bell = false;
         };
       };
-      programs.rofi.terminal = "${pkgs.kitty}/bin/kitty";
+      custom.programs.niri.terminalCommand = ["kitty"];
     };
   };
 }

@@ -7,6 +7,17 @@
     osConfig,
     ...
   }: {
+    options.custom.programs.niri = {
+      launcherCommand = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        description = "Command to launch the application launcher";
+      };
+      terminalCommand = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        description = "Command to launch the terminal emulator";
+      };
+    };
+
     config = lib.mkIf osConfig.custom.programs.niri.enable {
       # User-level niri config
       services = {
@@ -38,7 +49,6 @@
       };
 
       programs.swaylock.enable = true;
-      programs.rofi.enable = true;
 
       programs.niri.settings = lib.mkIf (config.lib ? niri) {
         xwayland-satellite.path = lib.getExe inputs.niri.packages.x86_64-linux.xwayland-satellite-unstable;
@@ -68,8 +78,8 @@
         };
         binds = with config.lib.niri.actions; {
           # Program Hotkeys
-          "Mod+Space".action.spawn = ["rofi" "-show" "drun" "-show-icons"];
-          "Mod+Return".action.spawn = ["kitty"];
+          "Mod+Space".action.spawn = config.custom.programs.niri.launcherCommand;
+          "Mod+Return".action.spawn = config.custom.programs.niri.terminalCommand;
           "Mod+Escape".action.spawn = ["loginctl" "lock-session"];
           "Mod+Shift+E".action = quit;
 

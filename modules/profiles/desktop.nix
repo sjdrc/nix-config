@@ -7,6 +7,7 @@
     config = lib.mkIf osConfig.custom.profiles.desktop.enable {
       # Programs
       custom.programs.kitty.enable = true;
+      custom.programs.anyrun.enable = true;
       custom.programs.zen-browser.enable = true;
 
       # User configuration
