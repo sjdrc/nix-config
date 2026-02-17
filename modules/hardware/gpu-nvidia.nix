@@ -14,6 +14,9 @@
       hardware.nvidia.open = true;
       hardware.nvidia.powerManagement.enable = true;
 
+      # Early KMS for native resolution in Plymouth and TTYs
+      boot.initrd.kernelModules = ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
+
       # NVIDIA-specific environment variables for Wayland compositors
       environment.sessionVariables = {
         __GLX_VENDOR_LIBRARY_NAME = "nvidia";
