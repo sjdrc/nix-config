@@ -8,9 +8,21 @@
     options.custom.programs.anyrun.enable = lib.mkEnableOption "anyrun launcher";
 
     config = lib.mkIf config.custom.programs.anyrun.enable {
-      # Start anyrun in daemon mode at login so it stays resident in memory
+      # Run anyrun as a daemon so it stays resident in memory
       # and subsequent launches are instant (no cold-start plugin loading)
-      programs.niri.settings.spawn-at-startup = [{argv = ["anyrun" "daemon"];}];
+      systemd.user.services.anyrun = {
+        Unit = {
+          Description = "Anyrun launcher daemon";
+          PartOf = ["graphical-session.target"];
+          After = ["graphical-session.target"];
+        };
+        Service = {
+          ExecStart = "${pkgs.anyrun}/bin/anyrun daemon";
+          Restart = "on-failure";
+          RestartSec = 3;
+        };
+        Install.WantedBy = ["graphical-session.target"];
+      };
 
       programs.anyrun = {
         enable = true;
