@@ -1,0 +1,50 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch",
+      "WebSearch",
+
+      "Read",
+
+      "Bash(ls *)",
+      "Bash(grep *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(wc *)",
+
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch --list *)",
+      "Bash(git branch -a *)",
+      "Bash(git add *)",
+
+      "Bash(nix eval *)",
+      "Bash(nix build *)",
+      "Bash(nix search *)",
+      "Bash(nix flake show *)",
+      "Bash(nix flake check *)",
+      "Bash(nix flake metadata *)",
+      "Bash(nix flake lock *)",
+      "Bash(nix-instantiate *)",
+      "Bash(nix-store -q *)",
+      "Bash(nix-store --query *)",
+      "Bash(nix store diff-closures *)",
+      "Bash(nixos-version *)",
+
+      "Bash(alejandra *)",
+
+      "Bash(systemctl --user status *)",
+      "Bash(systemctl status *)",
+      "Bash(journalctl *)",
+
+      "Bash(lsmod *)",
+      "Bash(lspci *)",
+      "Bash(which *)",
+
+      "mcp__nixos__nix",
+      "mcp__nixos__nix_versions"
+    ]
+  }
+}
