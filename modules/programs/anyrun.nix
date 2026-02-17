@@ -8,6 +8,10 @@
     options.custom.programs.anyrun.enable = lib.mkEnableOption "anyrun launcher";
 
     config = lib.mkIf config.custom.programs.anyrun.enable {
+      # Start anyrun in daemon mode at login so it stays resident in memory
+      # and subsequent launches are instant (no cold-start plugin loading)
+      programs.niri.settings.spawn-at-startup = [{argv = ["anyrun" "daemon"];}];
+
       programs.anyrun = {
         enable = true;
 

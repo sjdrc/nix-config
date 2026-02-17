@@ -76,7 +76,7 @@
           pkgs = import inputs.nixpkgs {system = "x86_64-linux";};
           extraSpecialArgs = {inherit inputs;};
           modules = [
-            inputs.stylix.homeManagerModules.stylix
+            inputs.stylix.homeModules.stylix
             inputs.self.homeModules.default
             {
               home.username = "sebastien";

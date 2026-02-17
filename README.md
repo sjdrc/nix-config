@@ -27,6 +27,22 @@ ScreenCast back to the GNOME portal (`["gnome"]` instead of `["wlr"]` in
 The GNOME portal provides a proper window/monitor picker dialog and supports
 niri's Dynamic Cast Target for switching the shared window mid-stream.
 
+## Wlogout: custom stylix integration
+
+**Status:** Using custom implementation, waiting for upstream stylix support.
+
+`wlogout.nix` has a custom stylix integration that references base16 colors, fonts,
+and opacity from stylix config, and generates colored icons at build time using
+imagemagick (recoloring wlogout's bundled SVG assets). This approach is based on
+the upstream stylix PR for wlogout support.
+
+**Upstream PR:**
+- https://github.com/nix-community/stylix/pull/1645 (wlogout target)
+
+**To revisit:** Check if PR #1645 has been merged into stylix. If so, remove the
+custom color/font/icon logic from `wlogout.nix` and enable the upstream target
+via `stylix.targets.wlogout.enable = true` (or whatever the final API is).
+
 # Todo
 * clipboard
     * history

@@ -8,6 +8,7 @@
       # Programs
       custom.programs.kitty.enable = true;
       custom.programs.anyrun.enable = true;
+      custom.programs.wlogout.enable = true;
       custom.programs.zen-browser.enable = true;
 
       # User configuration
@@ -41,6 +42,12 @@ in {
       # Desktop services
       programs.dconf.enable = true;
       services.gnome.gnome-keyring.enable = true;
+
+      # Fonts for broad Unicode coverage (symbols, CJK, emoji)
+      fonts.packages = with pkgs; [
+        noto-fonts
+        noto-fonts-color-emoji
+      ];
 
       # Packages
       environment.systemPackages = with pkgs; [

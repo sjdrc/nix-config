@@ -48,6 +48,7 @@ in {
 
       environment.systemPackages = with pkgs; [
         glab
+        gh
         gdk
         kubectl
         freelens-bin

@@ -81,7 +81,7 @@
           "Mod+Space".action.spawn = config.custom.programs.niri.launcherCommand;
           "Mod+Return".action.spawn = config.custom.programs.niri.terminalCommand;
           "Mod+Escape".action.spawn = ["loginctl" "lock-session"];
-          "Mod+Shift+E".action = quit;
+          "Mod+Shift+Escape".action.spawn = ["wlogout" "-p" "layer-shell"];
 
           # Utility Keys
           "XF86AudioLowerVolume".action.spawn = ["swayosd-client" "--output-volume" "lower"];
@@ -99,7 +99,6 @@
           "Mod+Tab".action = toggle-overview;
           "Mod+Shift+Q".action = close-window;
           "Mod+Shift+F".action = toggle-window-floating;
-          "Mod+Shift+Escape".action = quit;
 
           # Focus Navigation
           "Mod+Up".action = focus-workspace-up;
