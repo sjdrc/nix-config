@@ -1,3 +1,32 @@
+# Known Issues
+
+## Niri screen sharing: no window-level selection in browsers
+
+**Status:** Workaround in place, waiting for upstream fix.
+
+Niri's GNOME portal screencast has a DMA-BUF format negotiation bug that causes
+PipeWire to fail with "no more input formats" when browsers (Firefox/Zen) try to
+consume the stream. This breaks screen sharing in Google Meet, etc.
+
+**Upstream issues:**
+- https://github.com/YaLTeR/niri/issues/455 (SHM screen capture support)
+- https://github.com/YaLTeR/niri/pull/1791 (SHM support PR - not yet merged)
+- https://github.com/YaLTeR/niri/issues/2808 (screen sharing inconsistencies)
+- https://github.com/YaLTeR/niri/issues/3145 (format negotiation failure)
+
+**Current workaround (`niri.nix`):**
+- ScreenCast portal routed to `xdg-desktop-portal-wlr` instead of GNOME portal.
+- WLR portal works but only supports full-monitor sharing (no window picker),
+  because niri doesn't implement `ext-foreign-toplevel-list-v1`.
+- Niri's Dynamic Cast Target feature (keybinds to switch shared window mid-stream)
+  only works through the GNOME portal, so it's not usable with this workaround.
+
+**To revisit:** Check if PR #1791 has been merged into niri. If so, switch
+ScreenCast back to the GNOME portal (`["gnome"]` instead of `["wlr"]` in
+`niri.nix` portal config) and remove `xdg-desktop-portal-wlr` from extraPortals.
+The GNOME portal provides a proper window/monitor picker dialog and supports
+niri's Dynamic Cast Target for switching the shared window mid-stream.
+
 # Todo
 * clipboard
     * history
@@ -5,49 +34,3 @@
 * launcher
     * rofi styling
     * other launchers
-* greeter
-    * regreet/gtkgreet
-        * gtk theme
-            * https://github.com/fufexan/dotfiles/blob/d37eb7e7e8ab731e8253cdbe0a6edaa265fc81f1/modules/greetd.nix
-* hyprland
-    * hyprcursor
-        * size
-        * invisible on hover?
-    * hyprscroller
-        * keybindings
-    * bar
-        * gbar
-    * hyprpaper
-
-# hyprland and monitor switching
-
-## kanshi
-* https://haseebmajid.dev/posts/2023-07-25-nixos-kanshi-and-hyprland/
-
-## shikane
-Kanshi replacement, early days
-https://github.com/hw0lff/shikane
-
-## hyprlock red screen on crash
-* https://github.com/hyprwm/hyprlock/issues/65
-* https://github.com/hyprwm/hyprlock/issues/434
-* https://github.com/hyprwm/hyprlock/issues/417
-* https://github.com/hyprwm/Hyprland/issues/7276
-* https://github.com/hyprwm/Hyprland/issues/6995
-
-## Crash on monitor switch
-Older instances:
-* https://github.com/hyprwm/Hyprland/issues/2586
-* https://github.com/hyprwm/Hyprland/issues/4725
-* https://github.com/hyprwm/Hyprland/issues/1274
-* https://github.com/hyprwm/Hyprland/pull/3718
-* 
-
-Current:
-* https://github.com/hyprwm/Hyprland/issues/7059
-* https://www.reddit.com/r/hyprland/comments/1eawz1k/hyprctl_reload_enables_monitor_which_has_been/
-
-
-, and crashing on monitor change
-Older issues:
-* 

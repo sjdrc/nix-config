@@ -132,24 +132,24 @@ in {
         wayland-utils
       ];
 
+      # The niri flake module handles xdg.portal enable, configPackages,
+      # xdg-desktop-portal-gnome, and gnome-keyring. Add GTK fallback and
+      # WLR portal for ScreenCast (niri's GNOME portal screencast has a
+      # DMA-BUF format negotiation bug with browsers: niri#455, niri#2808).
       xdg.portal = {
-        enable = true;
         extraPortals = with pkgs; [
           xdg-desktop-portal-gtk
-          xdg-desktop-portal-gnome
+          xdg-desktop-portal-wlr
         ];
-        config = {
-          common = {
-            default = ["gtk"];
-          };
-          niri = {
-            default = [
-              "gtk"
-              "gnome"
-            ];
-            "org.freedesktop.impl.portal.ScreenCast" = ["gnome"];
-            "org.freedesktop.impl.portal.Screenshot" = ["gnome"];
-          };
+        config.niri = {
+          default = ["gnome" "gtk"];
+          "org.freedesktop.impl.portal.Access" = ["gtk"];
+          "org.freedesktop.impl.portal.Notification" = ["gtk"];
+          "org.freedesktop.impl.portal.Secret" = ["gnome-keyring"];
+          # Use WLR portal for ScreenCast to work around niri's DMA-BUF
+          # format negotiation bug with browsers (niri#455, niri#2808).
+          "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
+          "org.freedesktop.impl.portal.Screenshot" = ["gnome"];
         };
       };
 

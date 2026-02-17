@@ -60,6 +60,7 @@ in {
         kubectl
         freelens-bin
         kubelogin-oidc
+        openlens
       ];
     };
   };
