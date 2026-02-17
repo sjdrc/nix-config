@@ -14,8 +14,9 @@
       hardware.nvidia.open = true;
       hardware.nvidia.powerManagement.enable = true;
 
-      # Early KMS for native resolution in Plymouth and TTYs
-      boot.initrd.kernelModules = ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
+      # Include NVIDIA modules in initrd for early KMS, but let udev load
+      # them on demand so Plymouth can use the EFI framebuffer for its splash
+      boot.initrd.availableKernelModules = ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
 
       # NVIDIA-specific environment variables for Wayland compositors
       environment.sessionVariables = {
