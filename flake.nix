@@ -39,6 +39,10 @@
     niri.url = "github:sodiboo/niri-flake";
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
     prismlauncher-cracked.url = "github:Diegiwg/PrismLauncher-Cracked";
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
@@ -95,7 +99,10 @@
                   inputs.self.nixosModules.default
                   ./hosts/${host}.nix
                   {networking.hostName = host;}
-                  {nixpkgs.overlays = [inputs.self.overlays.default];}
+                  {nixpkgs.overlays = [
+                    inputs.self.overlays.default
+                    inputs.nix-vscode-extensions.overlays.default
+                  ];}
 
                 ];
                 specialArgs = {

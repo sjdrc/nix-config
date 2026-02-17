@@ -31,6 +31,3 @@ niri's Dynamic Cast Target for switching the shared window mid-stream.
 * clipboard
     * history
     * manager
-* launcher
-    * rofi styling
-    * other launchers

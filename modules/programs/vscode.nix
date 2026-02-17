@@ -17,14 +17,18 @@
         enable = true;
         mutableExtensionsDir = false;
         profiles.default = {
-          extensions = with pkgs.vscode-extensions; [
-            asvetliakov.vscode-neovim
-            vadimcn.vscode-lldb
-            mhutchie.git-graph
-            jnoortheen.nix-ide
-            mkhl.direnv
-            anthropic.claude-code
-          ];
+          extensions =
+            (with pkgs.vscode-marketplace; [
+              asvetliakov.vscode-neovim
+              mhutchie.git-graph
+              jnoortheen.nix-ide
+              mkhl.direnv
+              anthropic.claude-code
+              es6kr.claude-sessions
+            ])
+            ++ (with pkgs.vscode-marketplace-universal; [
+              vadimcn.vscode-lldb
+            ]);
           userSettings = {
             "extensions.experimental.affinity" = {
               "asvetliakov.vscode-neovim" = 1;

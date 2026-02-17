@@ -10,15 +10,7 @@
       custom.programs.vscode.enable = true;
       custom.programs.nvim.enable = true;
 
-      # Claude Code with MCP servers
-      programs.claude-code = {
-        enable = true;
-        mcpServers = {
-          nixos = {
-            command = "${pkgs.mcp-nixos}/bin/mcp-nixos";
-          };
-        };
-      };
+      custom.programs.claude-code.enable = true;
 
       # User-level development tools
       programs.direnv = {
