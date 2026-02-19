@@ -66,6 +66,7 @@
         # Overlays (keep existing)
         overlays.default = final: prev: {
           bambu-studio = final.callPackage ./packages/bambu-studio {};
+          orca-slicer = final.callPackage ./packages/orca-slicer {};
           openlens = final.callPackage ./packages/openlens {};
         };
 
@@ -124,6 +125,7 @@
       }: {
         packages = {
           bambu-studio = pkgs.callPackage ./packages/bambu-studio {};
+          orca-slicer = pkgs.callPackage ./packages/orca-slicer {};
           openlens = pkgs.callPackage ./packages/openlens {};
         };
       };

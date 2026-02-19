@@ -18,6 +18,14 @@
         nix-direnv.enable = true;
       };
 
+      programs.btop = {
+        enable = true;
+        package = pkgs.btop.override {cudaSupport = true;};
+        settings = {
+          show_gpu = true;
+        };
+      };
+
       home.packages = with pkgs; [
         lazydocker
         dive
@@ -54,6 +62,7 @@ in {
         freelens-bin
         kubelogin-oidc
         openlens
+        (peakperf.override {enableCuda = true;})
       ];
     };
   };
