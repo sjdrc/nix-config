@@ -7,7 +7,7 @@
   }: {
     config = lib.mkIf osConfig.custom.profiles.development.enable {
       # Custom programs
-      custom.programs.vscode.enable = true;
+      custom.programs.code-server.enable = true;
       custom.programs.nvim.enable = true;
 
       custom.programs.claude-code.enable = true;
@@ -47,6 +47,10 @@ in {
     options.custom.profiles.development.enable = lib.mkEnableOption "development environment";
 
     config = lib.mkIf config.custom.profiles.development.enable {
+      # Remote development
+      custom.programs.code-server.enable = true;
+      custom.system.tailscale.enable = true;
+
       # System-level development setup
       virtualisation.docker.enable = true;
       hardware.nvidia-container-toolkit.enable = lib.mkDefault (config.hardware.nvidia.enabled or false);
