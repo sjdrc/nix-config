@@ -57,6 +57,8 @@
     osConfig,
     ...
   }: {
+    imports = [inputs.niri.homeModules.niri];
+
     options.custom.programs.niri = {
       launcherCommand = lib.mkOption {
         type = lib.types.listOf lib.types.str;
@@ -68,7 +70,7 @@
       };
     };
 
-    config = lib.mkIf osConfig.custom.programs.niri.enable {
+    config = lib.mkIf (osConfig != null && osConfig.custom.programs.niri.enable) {
       # User-level niri config
       services = {
         swaync.enable = true;

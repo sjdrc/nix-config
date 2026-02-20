@@ -52,7 +52,7 @@
     osConfig,
     ...
   }: {
-    config = lib.mkIf osConfig.custom.profiles.gaming.enable {
+    config = lib.mkIf (osConfig != null && osConfig.custom.profiles.gaming.enable) {
       # Future: gaming-specific user tools can go here
     };
   };

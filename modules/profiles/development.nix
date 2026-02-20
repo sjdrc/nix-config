@@ -42,7 +42,7 @@
     osConfig,
     ...
   }: {
-    config = lib.mkIf osConfig.custom.profiles.development.enable {
+    config = lib.mkIf (osConfig != null && osConfig.custom.profiles.development.enable) {
       # Custom programs
       custom.programs.code-server.enable = true;
       custom.programs.vscode.enable = true;

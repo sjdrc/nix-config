@@ -31,7 +31,7 @@
     osConfig,
     ...
   }: {
-    config = lib.mkIf osConfig.custom.system.bluetooth.enable {
+    config = lib.mkIf (osConfig != null && osConfig.custom.system.bluetooth.enable) {
       # Bluetooth system tray applet (only if waybar is enabled)
       services.blueman-applet.enable = lib.mkIf osConfig.custom.programs.waybar.enable true;
     };

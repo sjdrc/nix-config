@@ -59,11 +59,14 @@
   };
 
   flake.homeModules.nix = {
+    inputs,
     lib,
     osConfig,
     ...
   }: {
-    config = lib.mkIf osConfig.custom.system.nix.enable {
+    imports = [inputs.nix-index-database.homeModules.nix-index];
+
+    config = lib.mkIf (osConfig != null && osConfig.custom.system.nix.enable) {
       programs.nix-index-database.comma.enable = true;
       programs.nix-index.enable = true;
     };

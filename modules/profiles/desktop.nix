@@ -47,7 +47,7 @@
     osConfig,
     ...
   }: {
-    config = lib.mkIf osConfig.custom.profiles.desktop.enable {
+    config = lib.mkIf (osConfig != null && osConfig.custom.profiles.desktop.enable) {
       # Programs
       custom.programs.kitty.enable = true;
       custom.programs.anyrun.enable = true;
