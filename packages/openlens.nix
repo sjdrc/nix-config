@@ -1,5 +1,7 @@
 {...}: {
-  perSystem = {pkgs, ...}: {
-    packages.openlens = pkgs.callPackage ./openlens {};
+  perSystem = {pkgs, system, ...}: {
+    packages = pkgs.lib.optionalAttrs (system == "x86_64-linux") {
+      openlens = pkgs.callPackage ./openlens {};
+    };
   };
 }

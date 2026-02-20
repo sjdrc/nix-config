@@ -13,7 +13,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    nixos-unified.url = "github:srid/nixos-unified";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -54,7 +53,6 @@
 
       imports =
         [
-          inputs.nixos-unified.flakeModule
           # Declare homeModules as a mergeable option so multiple modules can
           # each contribute flake.homeModules.<name> (not a standard flake output)
           ({lib, ...}: {
