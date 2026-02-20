@@ -7,8 +7,8 @@
   }: {
     config = lib.mkIf osConfig.custom.profiles.development.enable {
       # Custom programs
-      custom.programs.code-server.enable = true;
       custom.programs.vscode.enable = true;
+      custom.programs.code-server.enable = true;
       custom.programs.nvim.enable = true;
 
       custom.programs.claude-code.enable = true;
