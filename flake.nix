@@ -53,9 +53,20 @@
 
       imports =
         [
-          # Declare homeModules as a mergeable option so multiple modules can
-          # each contribute flake.homeModules.<name> (not a standard flake output)
+          # Declare mergeable options so multiple module files can each
+          # contribute flake.<output>.<name> without conflicting.
+          # flake-parts' freeform type (lazyAttrsOf raw) cannot merge when
+          # more than one module sets the same top-level key, so we need
+          # explicit option declarations for any key set by multiple files.
           ({lib, ...}: {
+            options.flake.nixosModules = lib.mkOption {
+              type = lib.types.lazyAttrsOf lib.types.raw;
+              default = {};
+            };
+            options.flake.nixosConfigurations = lib.mkOption {
+              type = lib.types.lazyAttrsOf lib.types.raw;
+              default = {};
+            };
             options.flake.homeModules = lib.mkOption {
               type = lib.types.lazyAttrsOf lib.types.raw;
               default = {};
