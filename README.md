@@ -70,10 +70,14 @@ This repo follows the [dendritic nix pattern](https://github.com/mightyiam/dendr
 │       ├── gpd-pocket-3.nix     # → nixosModules.gpd-pocket-3 + homeModules.gpd-pocket-3
 │       ├── gpu-nvidia.nix       # → nixosModules.gpu-nvidia
 │       └── thinkpad-x1-nano.nix # → nixosModules.thinkpad-x1-nano
-└── packages/                    # Custom packages
-    ├── bambu-studio/
-    ├── openlens/
-    └── orca-slicer/
+└── packages/                    # Custom packages (flake-parts modules)
+    ├── bambu-studio.nix         # → perSystem.packages.bambu-studio
+    ├── openlens.nix             # → perSystem.packages.openlens
+    ├── orca-slicer.nix          # → perSystem.packages.orca-slicer
+    ├── overlay.nix              # → flake.overlays.default
+    ├── bambu-studio/            # Package derivation
+    ├── openlens/                # Package derivation
+    └── orca-slicer/             # Package derivation
 ```
 
 ### Module Anatomy

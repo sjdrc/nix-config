@@ -48,39 +48,25 @@
     };
   };
 
-  outputs = inputs: let
-    # Auto-discover all .nix files in a directory and return their paths
-    importModules = dir: let
-      files = builtins.attrNames (builtins.readDir dir);
-      nixFiles = builtins.filter (f: f != "default.nix" && builtins.match ".*\\.nix" f != null) files;
-    in
-      map (f: dir + "/${f}") nixFiles;
-  in
+  outputs = inputs:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} ({config, ...}: {
       systems = ["x86_64-linux" "aarch64-linux"];
 
       imports =
         [inputs.nixos-unified.flakeModule]
-        # Auto-import all module files as flake-parts modules (dendritic pattern)
-        ++ importModules ./modules/system
-        ++ importModules ./modules/programs
-        ++ importModules ./modules/profiles
-        ++ importModules ./modules/hardware
-        # Auto-import all host files as flake-parts modules
-        ++ importModules ./hosts;
+        # Auto-import all .nix files from these directories (dendritic pattern)
+        ++ builtins.concatMap
+        (dir:
+          builtins.map (f: dir + "/${f}")
+          (builtins.filter (f: f != "default.nix" && builtins.match ".*\\.nix" f != null)
+            (builtins.attrNames (builtins.readDir dir))))
+        [./modules/system ./modules/programs ./modules/profiles ./modules/hardware ./hosts ./packages];
 
       flake = {
         # Custom lib
         lib = inputs.nixpkgs.lib.extend (self: super: {
           custom = import ./lib {inherit (inputs.nixpkgs) lib;};
         });
-
-        # Overlays
-        overlays.default = final: prev: {
-          bambu-studio = final.callPackage ./packages/bambu-studio {};
-          orca-slicer = final.callPackage ./packages/orca-slicer {};
-          openlens = final.callPackage ./packages/openlens {};
-        };
 
         # Aggregate all named nixosModules into a single default module
         nixosModules.default = {...}: {
@@ -106,18 +92,6 @@
               programs.home-manager.enable = true;
             }
           ];
-        };
-      };
-
-      perSystem = {
-        pkgs,
-        system,
-        ...
-      }: {
-        packages = {
-          bambu-studio = pkgs.callPackage ./packages/bambu-studio {};
-          orca-slicer = pkgs.callPackage ./packages/orca-slicer {};
-          openlens = pkgs.callPackage ./packages/openlens {};
         };
       };
     });

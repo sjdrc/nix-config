@@ -17,6 +17,7 @@ This repo uses the **dendritic flake-parts pattern**: every `.nix` file is a fla
 
 - **Module files** live in `modules/{system,programs,profiles,hardware}/` and define `flake.nixosModules.<name>` and/or `flake.homeModules.<name>`.
 - **Host files** live in `hosts/` and define `flake.nixosConfigurations.<hostname>`.
+- **Package files** live in `packages/` and define `perSystem.packages.<name>` and `flake.overlays`.
 - **Auto-import**: `flake.nix` auto-discovers and imports all `.nix` files from these directories. Adding a new module requires no changes to import lists.
 - **Aggregation**: `nixosModules.default` and `homeModules.default` aggregate all named modules so hosts get all options.
 - **Profiles** enable groups of programs via `custom.*.enable` options.
