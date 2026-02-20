@@ -14,7 +14,13 @@
       # User-level shell programs
       programs = {
         fzf.enable = true;
-        atuin.enable = true;
+        atuin = {
+          enable = true;
+          settings = {
+            filter_mode = "global";
+            search_mode = "prefix";
+          };
+        };
         htop.enable = true;
         starship.enable = true;
         eza = {
