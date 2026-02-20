@@ -53,7 +53,17 @@
       systems = ["x86_64-linux" "aarch64-linux"];
 
       imports =
-        [inputs.nixos-unified.flakeModule]
+        [
+          inputs.nixos-unified.flakeModule
+          # Declare homeModules as a mergeable option so multiple modules can
+          # each contribute flake.homeModules.<name> (not a standard flake output)
+          ({lib, ...}: {
+            options.flake.homeModules = lib.mkOption {
+              type = lib.types.lazyAttrsOf lib.types.raw;
+              default = {};
+            };
+          })
+        ]
         # Auto-import all .nix files from these directories (dendritic pattern)
         ++ builtins.concatMap
         (dir:
