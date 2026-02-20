@@ -1,16 +1,5 @@
-{inputs, ...}: let
-  homeModule = {
-    lib,
-    osConfig,
-    ...
-  }: {
-    config = lib.mkIf osConfig.custom.system.nix.enable {
-      programs.nix-index-database.comma.enable = true;
-      programs.nix-index.enable = true;
-    };
-  };
-in {
-  nixosModule = {
+{inputs, ...}: {
+  flake.nixosModules.nix = {
     inputs,
     pkgs,
     lib,
@@ -62,7 +51,6 @@ in {
       ];
 
       # Home-manager integration for nix-index
-      # Note: The home-manager user-specific config is in programs/nix-tools.nix
       home-manager.sharedModules = [inputs.nix-index-database.homeModules.nix-index];
 
       # WARNING: Do not change
@@ -70,5 +58,14 @@ in {
     };
   };
 
-  inherit homeModule;
+  flake.homeModules.nix = {
+    lib,
+    osConfig,
+    ...
+  }: {
+    config = lib.mkIf osConfig.custom.system.nix.enable {
+      programs.nix-index-database.comma.enable = true;
+      programs.nix-index.enable = true;
+    };
+  };
 }

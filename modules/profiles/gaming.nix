@@ -1,15 +1,5 @@
-{...}: let
-  homeModule = {
-    lib,
-    osConfig,
-    ...
-  }: {
-    config = lib.mkIf osConfig.custom.profiles.gaming.enable {
-      # Future: gaming-specific user tools can go here
-    };
-  };
-in {
-  nixosModule = {
+{...}: {
+  flake.nixosModules.gaming = {
     config,
     lib,
     pkgs,
@@ -57,5 +47,13 @@ in {
     };
   };
 
-  inherit homeModule;
+  flake.homeModules.gaming = {
+    lib,
+    osConfig,
+    ...
+  }: {
+    config = lib.mkIf osConfig.custom.profiles.gaming.enable {
+      # Future: gaming-specific user tools can go here
+    };
+  };
 }

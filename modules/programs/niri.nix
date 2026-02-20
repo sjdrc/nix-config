@@ -1,5 +1,55 @@
-{inputs, ...}: let
-  homeModule = {
+{inputs, ...}: {
+  flake.nixosModules.niri = {
+    inputs,
+    pkgs,
+    lib,
+    config,
+    ...
+  }: {
+    imports = [inputs.niri.nixosModules.niri];
+
+    options.custom.programs.niri.enable = lib.mkEnableOption "Niri window manager";
+
+    config = lib.mkIf config.custom.programs.niri.enable {
+      # System-level niri setup
+      programs.niri.enable = true;
+      programs.niri.package = inputs.niri.packages.x86_64-linux.niri-unstable;
+
+      environment.systemPackages = with pkgs; [
+        wl-clipboard
+        wayland-utils
+      ];
+
+      # The niri flake module handles xdg.portal enable, configPackages,
+      # xdg-desktop-portal-gnome, and gnome-keyring. Add GTK fallback and
+      # WLR portal for ScreenCast (niri's GNOME portal screencast has a
+      # DMA-BUF format negotiation bug with browsers: niri#455, niri#2808).
+      xdg.portal = {
+        extraPortals = with pkgs; [
+          xdg-desktop-portal-gtk
+          xdg-desktop-portal-wlr
+        ];
+        config.niri = {
+          default = ["gnome" "gtk"];
+          "org.freedesktop.impl.portal.Access" = ["gtk"];
+          "org.freedesktop.impl.portal.Notification" = ["gtk"];
+          "org.freedesktop.impl.portal.Secret" = ["gnome-keyring"];
+          # Use WLR portal for ScreenCast to work around niri's DMA-BUF
+          # format negotiation bug with browsers (niri#455, niri#2808).
+          "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
+          "org.freedesktop.impl.portal.Screenshot" = ["gnome"];
+        };
+      };
+
+      environment.sessionVariables = {
+        XDG_CURRENT_DESKTOP = "niri";
+        XDG_SESSION_TYPE = "wayland";
+        XDG_SESSION_DESKTOP = "niri";
+      };
+    };
+  };
+
+  flake.homeModules.niri = {
     inputs,
     pkgs,
     lib,
@@ -119,56 +169,4 @@
       };
     };
   };
-in {
-  nixosModule = {
-    inputs,
-    pkgs,
-    lib,
-    config,
-    ...
-  }: {
-    imports = [inputs.niri.nixosModules.niri];
-
-    options.custom.programs.niri.enable = lib.mkEnableOption "Niri window manager";
-
-    config = lib.mkIf config.custom.programs.niri.enable {
-      # System-level niri setup
-      programs.niri.enable = true;
-      programs.niri.package = inputs.niri.packages.x86_64-linux.niri-unstable;
-
-      environment.systemPackages = with pkgs; [
-        wl-clipboard
-        wayland-utils
-      ];
-
-      # The niri flake module handles xdg.portal enable, configPackages,
-      # xdg-desktop-portal-gnome, and gnome-keyring. Add GTK fallback and
-      # WLR portal for ScreenCast (niri's GNOME portal screencast has a
-      # DMA-BUF format negotiation bug with browsers: niri#455, niri#2808).
-      xdg.portal = {
-        extraPortals = with pkgs; [
-          xdg-desktop-portal-gtk
-          xdg-desktop-portal-wlr
-        ];
-        config.niri = {
-          default = ["gnome" "gtk"];
-          "org.freedesktop.impl.portal.Access" = ["gtk"];
-          "org.freedesktop.impl.portal.Notification" = ["gtk"];
-          "org.freedesktop.impl.portal.Secret" = ["gnome-keyring"];
-          # Use WLR portal for ScreenCast to work around niri's DMA-BUF
-          # format negotiation bug with browsers (niri#455, niri#2808).
-          "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
-          "org.freedesktop.impl.portal.Screenshot" = ["gnome"];
-        };
-      };
-
-      environment.sessionVariables = {
-        XDG_CURRENT_DESKTOP = "niri";
-        XDG_SESSION_TYPE = "wayland";
-        XDG_SESSION_DESKTOP = "niri";
-      };
-    };
-  };
-
-  inherit homeModule;
 }

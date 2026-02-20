@@ -1,25 +1,5 @@
-{...}: let
-  homeModule = {
-    config,
-    lib,
-    ...
-  }: {
-    options.custom.hardware.gpd-pocket-3.enable = lib.mkEnableOption "GPD Pocket 3 hardware tweaks";
-
-    config = lib.mkIf config.custom.hardware.gpd-pocket-3.enable {
-      # Niri display settings for portrait mode
-      programs.niri.settings = {
-        outputs = {
-          DSI-1 = {
-            transform.rotation = 270;
-            scale = 1.5;
-          };
-        };
-      };
-    };
-  };
-in {
-  nixosModule = {
+{...}: {
+  flake.nixosModules.gpd-pocket-3 = {
     config,
     lib,
     pkgs,
@@ -48,5 +28,23 @@ in {
     };
   };
 
-  inherit homeModule;
+  flake.homeModules.gpd-pocket-3 = {
+    config,
+    lib,
+    ...
+  }: {
+    options.custom.hardware.gpd-pocket-3.enable = lib.mkEnableOption "GPD Pocket 3 hardware tweaks";
+
+    config = lib.mkIf config.custom.hardware.gpd-pocket-3.enable {
+      # Niri display settings for portrait mode
+      programs.niri.settings = {
+        outputs = {
+          DSI-1 = {
+            transform.rotation = 270;
+            scale = 1.5;
+          };
+        };
+      };
+    };
+  };
 }

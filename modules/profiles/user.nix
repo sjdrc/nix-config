@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  homeModule = {
+  userHomeModule = {
     config,
     lib,
     ...
@@ -31,7 +31,7 @@
     };
   };
 in {
-  nixosModule = {
+  flake.nixosModules.user = {
     config,
     lib,
     ...
@@ -68,7 +68,7 @@ in {
         # Configure home-manager for this user
         users.${config.custom.profiles.user.name} = {
           imports = [
-            homeModule
+            userHomeModule
             inputs.self.homeModules.default
           ];
 
@@ -85,5 +85,5 @@ in {
     };
   };
 
-  inherit homeModule;
+  flake.homeModules.user = userHomeModule;
 }

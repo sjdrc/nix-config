@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  homeModule = {
+  flake.homeModules.nvim = {
     config,
     lib,
     ...

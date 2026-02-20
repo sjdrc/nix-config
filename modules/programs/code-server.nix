@@ -1,43 +1,5 @@
-{...}: let
-  homeModule = {
-    pkgs,
-    config,
-    lib,
-    ...
-  }: {
-    options.custom.programs.code-server.enable =
-      lib.mkEnableOption "code-server (VS Code in the browser)";
-
-    config = lib.mkIf config.custom.programs.code-server.enable {
-      home.packages = with pkgs; [
-        nixd
-        alejandra
-      ];
-
-      # Write VS Code settings for code-server
-      home.file.".local/share/code-server/User/settings.json".text = builtins.toJSON {
-        "extensions.experimental.affinity" = {
-          "asvetliakov.vscode-neovim" = 1;
-        };
-        "git.confirmSync" = true;
-        "cmake.showConfigureWithDebuggerNotification" = false;
-        "C_Cpp.intelliSenseEngine" = "disabled";
-
-        # Disable all AI/Copilot features
-        "chat.disableAIFeatures" = true;
-        "extensions.ignoreRecommendations" = true;
-        "workbench.tips.enabled" = false;
-        "workbench.enableExperiments" = false;
-        "github.copilot.enable" = false;
-        "github.copilot.inlineSuggest.enable" = false;
-
-        # Use system claude-code binary (has MCP servers configured)
-        "claudeCode.claudeProcessWrapper" = "${config.programs.claude-code.finalPackage}/bin/claude";
-      };
-    };
-  };
-in {
-  nixosModule = {
+{...}: {
+  flake.nixosModules.code-server = {
     config,
     lib,
     pkgs,
@@ -91,5 +53,41 @@ in {
     };
   };
 
-  inherit homeModule;
+  flake.homeModules.code-server = {
+    pkgs,
+    config,
+    lib,
+    ...
+  }: {
+    options.custom.programs.code-server.enable =
+      lib.mkEnableOption "code-server (VS Code in the browser)";
+
+    config = lib.mkIf config.custom.programs.code-server.enable {
+      home.packages = with pkgs; [
+        nixd
+        alejandra
+      ];
+
+      # Write VS Code settings for code-server
+      home.file.".local/share/code-server/User/settings.json".text = builtins.toJSON {
+        "extensions.experimental.affinity" = {
+          "asvetliakov.vscode-neovim" = 1;
+        };
+        "git.confirmSync" = true;
+        "cmake.showConfigureWithDebuggerNotification" = false;
+        "C_Cpp.intelliSenseEngine" = "disabled";
+
+        # Disable all AI/Copilot features
+        "chat.disableAIFeatures" = true;
+        "extensions.ignoreRecommendations" = true;
+        "workbench.tips.enabled" = false;
+        "workbench.enableExperiments" = false;
+        "github.copilot.enable" = false;
+        "github.copilot.inlineSuggest.enable" = false;
+
+        # Use system claude-code binary (has MCP servers configured)
+        "claudeCode.claudeProcessWrapper" = "${config.programs.claude-code.finalPackage}/bin/claude";
+      };
+    };
+  };
 }

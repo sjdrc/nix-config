@@ -1,5 +1,5 @@
 {
-  description = "NixOS configuration with nixos-unified";
+  description = "NixOS configuration — dendritic flake-parts modules";
 
   nixConfig = {
     extra-substituters = [
@@ -20,7 +20,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Existing inputs
     determinate.url = "github:DeterminateSystems/determinate";
     nix-index-database.url = "github:nix-community/nix-index-database";
     nixos-hardware.url = "github:nixos/nixos-hardware";
@@ -49,32 +48,49 @@
     };
   };
 
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+  outputs = inputs: let
+    # Auto-discover all .nix files in a directory and return their paths
+    importModules = dir: let
+      files = builtins.attrNames (builtins.readDir dir);
+      nixFiles = builtins.filter (f: f != "default.nix" && builtins.match ".*\\.nix" f != null) files;
+    in
+      map (f: dir + "/${f}") nixFiles;
+  in
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} ({config, ...}: {
       systems = ["x86_64-linux" "aarch64-linux"];
 
-      imports = [
-        inputs.nixos-unified.flakeModule
-      ];
+      imports =
+        [inputs.nixos-unified.flakeModule]
+        # Auto-import all module files as flake-parts modules (dendritic pattern)
+        ++ importModules ./modules/system
+        ++ importModules ./modules/programs
+        ++ importModules ./modules/profiles
+        ++ importModules ./modules/hardware
+        # Auto-import all host files as flake-parts modules
+        ++ importModules ./hosts;
 
       flake = {
-        # Custom lib (keep existing)
+        # Custom lib
         lib = inputs.nixpkgs.lib.extend (self: super: {
           custom = import ./lib {inherit (inputs.nixpkgs) lib;};
         });
 
-        # Overlays (keep existing)
+        # Overlays
         overlays.default = final: prev: {
           bambu-studio = final.callPackage ./packages/bambu-studio {};
           orca-slicer = final.callPackage ./packages/orca-slicer {};
           openlens = final.callPackage ./packages/openlens {};
         };
 
-        # Use loader module to import all our custom modules
-        nixosModules.default = ./modules-loader.nix;
+        # Aggregate all named nixosModules into a single default module
+        nixosModules.default = {...}: {
+          imports = builtins.attrValues (builtins.removeAttrs config.flake.nixosModules ["default"]);
+        };
 
-        # Home modules for standalone home-manager (also used in homeConfigurations)
-        homeModules.default = ./homeModules-loader.nix;
+        # Aggregate all named homeModules into a single default module
+        homeModules.default = {...}: {
+          imports = builtins.attrValues (builtins.removeAttrs config.flake.homeModules ["default"]);
+        };
 
         # Standalone home-manager configurations (for cross-platform IDE support)
         homeConfigurations.sebastien = inputs.home-manager.lib.homeManagerConfiguration {
@@ -82,7 +98,7 @@
           extraSpecialArgs = {inherit inputs;};
           modules = [
             inputs.stylix.homeModules.stylix
-            inputs.self.homeModules.default
+            config.flake.homeModules.default
             {
               home.username = "sebastien";
               home.homeDirectory = "/home/sebastien";
@@ -91,31 +107,6 @@
             }
           ];
         };
-
-        # NixOS configurations
-        nixosConfigurations = let
-          hostsList = inputs.self.lib.custom.getHostsList;
-        in
-          inputs.nixpkgs.lib.genAttrs hostsList (
-            host:
-              inputs.nixpkgs.lib.nixosSystem {
-                system = "x86_64-linux";
-                modules = [
-                  inputs.self.nixosModules.default
-                  ./hosts/${host}.nix
-                  {networking.hostName = host;}
-                  {nixpkgs.overlays = [
-                    inputs.self.overlays.default
-                    inputs.nix-vscode-extensions.overlays.default
-                  ];}
-
-                ];
-                specialArgs = {
-                  inherit inputs;
-                  lib = inputs.self.lib;
-                };
-              }
-          );
       };
 
       perSystem = {
@@ -129,5 +120,5 @@
           openlens = pkgs.callPackage ./packages/openlens {};
         };
       };
-    };
+    });
 }

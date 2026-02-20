@@ -1,5 +1,19 @@
-{...}: let
-  homeModule = {
+{...}: {
+  flake.nixosModules.waybar = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: {
+    options.custom.programs.waybar.enable = lib.mkEnableOption "Waybar status bar";
+
+    config = lib.mkIf config.custom.programs.waybar.enable {
+      # System-level waybar setup
+      fonts.packages = [pkgs.font-awesome];
+    };
+  };
+
+  flake.homeModules.waybar = {
     config,
     lib,
     osConfig,
@@ -36,20 +50,4 @@
       };
     };
   };
-in {
-  nixosModule = {
-    config,
-    lib,
-    pkgs,
-    ...
-  }: {
-    options.custom.programs.waybar.enable = lib.mkEnableOption "Waybar status bar";
-
-    config = lib.mkIf config.custom.programs.waybar.enable {
-      # System-level waybar setup
-      fonts.packages = [pkgs.font-awesome];
-    };
-  };
-
-  inherit homeModule;
 }

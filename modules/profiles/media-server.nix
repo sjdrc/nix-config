@@ -1,17 +1,5 @@
-{inputs, ...}: let
-  homeModule = {
-    config,
-    lib,
-    ...
-  }: {
-    options.custom.profiles.media-server.enable = lib.mkEnableOption "media server suite";
-
-    config = lib.mkIf config.custom.profiles.media-server.enable {
-      # Media server user tools can go here if needed
-    };
-  };
-in {
-  nixosModule = {
+{inputs, ...}: {
+  flake.nixosModules.media-server = {
     inputs,
     lib,
     config,
@@ -69,5 +57,15 @@ in {
     };
   };
 
-  inherit homeModule;
+  flake.homeModules.media-server = {
+    config,
+    lib,
+    ...
+  }: {
+    options.custom.profiles.media-server.enable = lib.mkEnableOption "media server suite";
+
+    config = lib.mkIf config.custom.profiles.media-server.enable {
+      # Media server user tools can go here if needed
+    };
+  };
 }

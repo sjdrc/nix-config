@@ -1,5 +1,5 @@
 {...}: {
-  homeModule = {
+  flake.homeModules.anyrun = {
     pkgs,
     config,
     lib,

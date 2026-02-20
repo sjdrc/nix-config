@@ -1,25 +1,5 @@
-{...}: let
-  homeModule = {
-    lib,
-    osConfig,
-    ...
-  }: {
-    config = lib.mkIf osConfig.custom.profiles.desktop.enable {
-      # Programs
-      custom.programs.kitty.enable = true;
-      custom.programs.anyrun.enable = true;
-      custom.programs.wlogout.enable = true;
-      custom.programs.zen-browser.enable = true;
-
-      # User configuration
-      gtk.enable = true;
-      qt.enable = true;
-
-      programs.mpv.enable = true;
-    };
-  };
-in {
-  nixosModule = {
+{...}: {
+  flake.nixosModules.desktop = {
     config,
     lib,
     pkgs,
@@ -62,5 +42,23 @@ in {
     };
   };
 
-  inherit homeModule;
+  flake.homeModules.desktop = {
+    lib,
+    osConfig,
+    ...
+  }: {
+    config = lib.mkIf osConfig.custom.profiles.desktop.enable {
+      # Programs
+      custom.programs.kitty.enable = true;
+      custom.programs.anyrun.enable = true;
+      custom.programs.wlogout.enable = true;
+      custom.programs.zen-browser.enable = true;
+
+      # User configuration
+      gtk.enable = true;
+      qt.enable = true;
+
+      programs.mpv.enable = true;
+    };
+  };
 }

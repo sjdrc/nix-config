@@ -1,5 +1,5 @@
-{
-  homeModule = {
+{...}: {
+  flake.homeModules.bash = {
     config,
     lib,
     ...

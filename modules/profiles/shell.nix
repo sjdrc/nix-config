@@ -1,5 +1,25 @@
-{...}: let
-  homeModule = {
+{...}: {
+  flake.nixosModules.shell = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: {
+    options.custom.profiles.shell.enable = lib.mkEnableOption "shell environment" // {default = true;};
+
+    config = lib.mkIf config.custom.profiles.shell.enable {
+      # System-level shell configuration
+      fonts.packages = with pkgs.nerd-fonts; [fira-code];
+      users.defaultUserShell = pkgs.bash;
+
+      environment.systemPackages = with pkgs; [
+        systemctl-tui
+        lnav
+      ];
+    };
+  };
+
+  flake.homeModules.shell = {
     lib,
     pkgs,
     osConfig,
@@ -43,26 +63,4 @@
       ];
     };
   };
-in {
-  nixosModule = {
-    config,
-    lib,
-    pkgs,
-    ...
-  }: {
-    options.custom.profiles.shell.enable = lib.mkEnableOption "shell environment" // {default = true;};
-
-    config = lib.mkIf config.custom.profiles.shell.enable {
-      # System-level shell configuration
-      fonts.packages = with pkgs.nerd-fonts; [fira-code];
-      users.defaultUserShell = pkgs.bash;
-
-      environment.systemPackages = with pkgs; [
-        systemctl-tui
-        lnav
-      ];
-    };
-  };
-
-  inherit homeModule;
 }

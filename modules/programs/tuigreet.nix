@@ -1,5 +1,5 @@
 {...}: {
-  nixosModule = {
+  flake.nixosModules.tuigreet = {
     pkgs,
     config,
     lib,

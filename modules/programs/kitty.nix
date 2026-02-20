@@ -1,5 +1,5 @@
-{
-  homeModule = {
+{...}: {
+  flake.homeModules.kitty = {
     config,
     lib,
     ...
