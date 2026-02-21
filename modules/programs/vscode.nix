@@ -25,19 +25,28 @@ flakeArgs @ {...}: {
           "extensions.experimental.affinity" = {
             "asvetliakov.vscode-neovim" = 1;
           };
+          "[nix]" = {
+            "editor.formatOnPaste" = true;
+            "editor.formatOnSave" = false;
+            "editor.formatOnType" = true;
+          };
           "nix.enableLanguageServer" = true;
           "nix.serverPath" = "nixd";
+          "nix.formatterPath" = "alejandra";
           "nix.serverSettings" = {
             "nixd" = {
               "nixpkgs" = {
                 "expr" = "import (builtins.getFlake \"/etc/nixos\").inputs.nixpkgs {}";
+              };
+              "formatting" = {
+                "command" = ["alejandra"];
               };
               "options" = {
                 "nixos" = {
                   "expr" = "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.dione.options";
                 };
                 "home-manager" = {
-                  "expr" = "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.dione.config.home-manager.users.sebastien.options";
+                  "expr" = "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.dione.options.home-manager.users.type.getSubOptions []";
                 };
               };
             };
