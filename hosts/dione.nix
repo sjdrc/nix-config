@@ -28,11 +28,9 @@
       url = "https://github.com/thesofproject/linux-firmware/raw/master/iwlwifi-9000-pu-b0-jf-b0-43.ucode";
       hash = "sha256-EELn0gX5GuUJqK6ApAYAfES+Mfx0ISeX5Wh88h2C45Q=";
     };
-    iwlwifi-fixed = pkgs.runCommand "iwlwifi-firmware-v43" {
-      nativeBuildInputs = [pkgs.zstd];
-    } ''
+    iwlwifi-fixed = pkgs.runCommand "iwlwifi-firmware-v43" {} ''
       mkdir -p $out/lib/firmware
-      zstd -19 ${iwlwifi-v43} -o $out/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-46.ucode.zst
+      cp ${iwlwifi-v43} $out/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-46.ucode
     '';
   in
     lib.mkBefore [iwlwifi-fixed];
