@@ -1,5 +1,5 @@
 {
-  description = "NixOS configuration with nixos-unified";
+  description = "NixOS configuration";
 
   nixConfig = {
     extra-substituters = [
@@ -13,8 +13,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    nixos-unified.url = "github:srid/nixos-unified";
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -54,7 +52,6 @@
       systems = ["x86_64-linux" "aarch64-linux"];
 
       imports = [
-        inputs.nixos-unified.flakeModule
         ./hosts
       ];
 

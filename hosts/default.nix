@@ -1,4 +1,11 @@
-{...}: {
+{lib, ...}: {
+  # flake-parts declares flake.nixosModules but not flake.homeModules,
+  # so we declare it here to allow multiple modules to merge their homeModules.
+  options.flake.homeModules = lib.mkOption {
+    type = lib.types.lazyAttrsOf lib.types.raw;
+    default = {};
+  };
+
   imports = [
     # Module tree (composition modules import their children)
     ../modules/system
