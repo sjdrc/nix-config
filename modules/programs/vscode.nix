@@ -27,6 +27,21 @@ flakeArgs @ {...}: {
           };
           "nix.enableLanguageServer" = true;
           "nix.serverPath" = "nixd";
+          "nix.serverSettings" = {
+            "nixd" = {
+              "nixpkgs" = {
+                "expr" = "import (builtins.getFlake \"/etc/nixos\").inputs.nixpkgs {}";
+              };
+              "options" = {
+                "nixos" = {
+                  "expr" = "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.dione.options";
+                };
+                "home-manager" = {
+                  "expr" = "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.dione.config.home-manager.users.sebastien.options";
+                };
+              };
+            };
+          };
           "git.confirmSync" = false;
           "git.enableSmartCommit" = true;
           "cmake.showConfigureWithDebuggerNotification" = false;
