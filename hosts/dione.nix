@@ -21,13 +21,16 @@
     options = ["noatime" "nodiratime" "discard"];
   };
 
-  # Intel AC 9560 wifi stability fix — downgrade from buggy firmware v46 to v38
-  boot.extraModprobeConfig = "options iwlwifi uapsd_disable=1 power_save=0";
+  # Intel AC 9560 wifi stability fix — downgrade from buggy firmware v46 to v43
   hardware.firmware = let
-    iwlwifi-fixed = pkgs.runCommand "iwlwifi-firmware-v38" {} ''
+    iwlwifi-v43 = pkgs.fetchurl {
+      url = "https://github.com/thesofproject/linux-firmware/raw/master/iwlwifi-9000-pu-b0-jf-b0-43.ucode";
+      hash = "sha256-EELn0gX5GuUJqK6ApAYAfES+Mfx0ISeX5Wh88h2C45Q=";
+    };
+    iwlwifi-fixed = pkgs.runCommand "iwlwifi-firmware-v43" {} ''
       mkdir -p $out/lib/firmware
-      cp ${pkgs.linux-firmware}/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-38.ucode $out/lib/firmware/
-      ln -s iwlwifi-9000-pu-b0-jf-b0-38.ucode $out/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-46.ucode
+      cp ${iwlwifi-v43} $out/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-43.ucode
+      ln -s iwlwifi-9000-pu-b0-jf-b0-43.ucode $out/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-46.ucode
     '';
   in
     lib.mkBefore [iwlwifi-fixed];
