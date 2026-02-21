@@ -1,24 +1,8 @@
-{...}: let
-  homeModule = {
-    lib,
-    osConfig,
-    ...
-  }: {
-    config = lib.mkIf osConfig.custom.profiles.gaming.enable {
-      # Future: gaming-specific user tools can go here
-    };
-  };
-in {
-  nixosModule = {
-    config,
-    lib,
-    pkgs,
-    ...
-  }: {
-    options.custom.profiles.gaming.enable = lib.mkEnableOption "gaming profile" // {default = false;};
+{...}: {
+  flake.nixosModules.gaming = {config, lib, pkgs, ...}: {
+    options.custom.gaming.enable = lib.mkEnableOption "gaming profile";
 
-    config = lib.mkIf config.custom.profiles.gaming.enable {
-      # Gaming system setup
+    config = lib.mkIf config.custom.gaming.enable {
       programs.gamescope = {
         enable = true;
         capSysNice = true;
@@ -56,6 +40,4 @@ in {
       hardware.uinput.enable = true;
     };
   };
-
-  inherit homeModule;
 }

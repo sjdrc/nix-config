@@ -1,11 +1,6 @@
 {inputs, ...}: {
-  nixosModule = {
-    pkgs,
-    config,
-    lib,
-    ...
-  }: let
-    userName = config.custom.profiles.user.name;
+  flake.nixosModules.nirinit = {pkgs, config, lib, ...}: let
+    userName = config.custom.user.name;
     waitForNiri = pkgs.writeShellScript "wait-for-niri" ''
       for i in $(seq 1 50); do
         [ -S "$XDG_RUNTIME_DIR"/niri.*.sock ] && exit 0
@@ -17,9 +12,9 @@
   in {
     imports = [inputs.nirinit.nixosModules.nirinit];
 
-    options.custom.programs.nirinit.enable = lib.mkEnableOption "nirinit session persistence";
+    options.custom.nirinit.enable = lib.mkEnableOption "nirinit session persistence";
 
-    config = lib.mkIf config.custom.programs.nirinit.enable {
+    config = lib.mkIf config.custom.nirinit.enable {
       services.nirinit = {
         enable = true;
         settings = {

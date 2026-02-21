@@ -1,20 +1,14 @@
 {inputs, ...}: {
-  nixosModule = {
-    inputs,
-    config,
-    pkgs,
-    lib,
-    ...
-  }: {
+  flake.nixosModules.stylix = {config, pkgs, lib, ...}: {
     imports = [inputs.stylix.nixosModules.stylix];
 
-    options.custom.system.stylix.enable =
+    options.custom.stylix.enable =
       lib.mkEnableOption "stylix theming"
       // {
         default = true;
       };
 
-    config = lib.mkIf config.custom.system.stylix.enable {
+    config = lib.mkIf config.custom.stylix.enable {
       stylix.enable = true;
       stylix.image = config.lib.stylix.pixel "base02";
       stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/solarized-dark.yaml";

@@ -55,67 +55,15 @@
 
       imports = [
         inputs.nixos-unified.flakeModule
+        ./hosts
       ];
 
       flake = {
-        # Custom lib (keep existing)
-        lib = inputs.nixpkgs.lib.extend (self: super: {
-          custom = import ./lib {inherit (inputs.nixpkgs) lib;};
-        });
-
-        # Overlays (keep existing)
         overlays.default = final: prev: {
           bambu-studio = final.callPackage ./packages/bambu-studio {};
           orca-slicer = final.callPackage ./packages/orca-slicer {};
           openlens = final.callPackage ./packages/openlens {};
         };
-
-        # Use loader module to import all our custom modules
-        nixosModules.default = ./modules-loader.nix;
-
-        # Home modules for standalone home-manager (also used in homeConfigurations)
-        homeModules.default = ./homeModules-loader.nix;
-
-        # Standalone home-manager configurations (for cross-platform IDE support)
-        homeConfigurations.sebastien = inputs.home-manager.lib.homeManagerConfiguration {
-          pkgs = import inputs.nixpkgs {system = "x86_64-linux";};
-          extraSpecialArgs = {inherit inputs;};
-          modules = [
-            inputs.stylix.homeModules.stylix
-            inputs.self.homeModules.default
-            {
-              home.username = "sebastien";
-              home.homeDirectory = "/home/sebastien";
-              home.stateVersion = "24.05";
-              programs.home-manager.enable = true;
-            }
-          ];
-        };
-
-        # NixOS configurations
-        nixosConfigurations = let
-          hostsList = inputs.self.lib.custom.getHostsList;
-        in
-          inputs.nixpkgs.lib.genAttrs hostsList (
-            host:
-              inputs.nixpkgs.lib.nixosSystem {
-                system = "x86_64-linux";
-                modules = [
-                  inputs.self.nixosModules.default
-                  ./hosts/${host}.nix
-                  {networking.hostName = host;}
-                  {nixpkgs.overlays = [
-                    inputs.self.overlays.default
-                    inputs.nix-vscode-extensions.overlays.default
-                  ];}
-
-                ];
-                specialArgs = {
-                  inherit inputs;
-                  lib = inputs.self.lib;
-                };
-              }
-          );
       };
 
       perSystem = {

@@ -1,16 +1,12 @@
-{
-  nixosModule = {
-    config,
-    lib,
-    ...
-  }: {
-    options.custom.system.boot.enable =
+{...}: {
+  flake.nixosModules.boot = {config, lib, ...}: {
+    options.custom.boot.enable =
       lib.mkEnableOption "boot configuration"
       // {
         default = true;
       };
 
-    config = lib.mkIf config.custom.system.boot.enable {
+    config = lib.mkIf config.custom.boot.enable {
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
 

@@ -1,32 +1,18 @@
-{...}: let
-  homeModule = {
-    config,
-    lib,
-    ...
-  }: {
-    options.custom.programs.code-server.enable =
-      lib.mkEnableOption "code-server (VS Code in the browser)";
-
+flakeArgs @ {...}: {
+  flake.homeModules.code-server = {config, ...}: {
     # Symlink VS Code settings into code-server's data dir
-    config = lib.mkIf config.custom.programs.code-server.enable {
-      home.file.".local/share/code-server/User/settings.json".source =
-        config.lib.file.mkOutOfStoreSymlink
-        "/home/${config.home.username}/.config/Code/User/settings.json";
-    };
+    home.file.".local/share/code-server/User/settings.json".source =
+      config.lib.file.mkOutOfStoreSymlink
+      "/home/${config.home.username}/.config/Code/User/settings.json";
   };
-in {
-  nixosModule = {
-    config,
-    lib,
-    pkgs,
-    ...
-  }: let
-    user = config.custom.profiles.user.name;
+
+  flake.nixosModules.code-server = {config, lib, pkgs, ...}: let
+    user = config.custom.user.name;
   in {
-    options.custom.programs.code-server.enable =
+    options.custom.code-server.enable =
       lib.mkEnableOption "code-server (VS Code in the browser)";
 
-    config = lib.mkIf config.custom.programs.code-server.enable {
+    config = lib.mkIf config.custom.code-server.enable {
       services.code-server = {
         enable = true;
         user = user;
@@ -51,8 +37,7 @@ in {
           "--disable-getting-started-override"
         ];
       };
+      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.code-server];
     };
   };
-
-  inherit homeModule;
 }

@@ -1,16 +1,12 @@
-{
-  nixosModule = {
-    lib,
-    config,
-    ...
-  }: {
-    options.custom.system.nixpkgs.enable =
+{...}: {
+  flake.nixosModules.nixpkgs = {config, lib, ...}: {
+    options.custom.nixpkgs.enable =
       lib.mkEnableOption "nixpkgs configuration"
       // {
         default = true;
       };
 
-    config = lib.mkIf config.custom.system.nixpkgs.enable {
+    config = lib.mkIf config.custom.nixpkgs.enable {
       nixpkgs.config.allowUnfree = true;
       nixpkgs.config.allowBroken = true;
     };

@@ -1,28 +1,14 @@
-{...}: let
-  homeModule = {
-    config,
-    lib,
-    osConfig,
-    ...
-  }: {
-    config = lib.mkIf osConfig.custom.profiles.laptop.enable {
-      # Battery indicator applet (only if waybar is enabled)
-      services.cbatticon.enable = lib.mkIf osConfig.custom.programs.waybar.enable true;
-    };
+flakeArgs @ {...}: {
+  flake.homeModules.laptop = {...}: {
+    services.cbatticon.enable = true;
   };
-in {
-  nixosModule = {
-    config,
-    lib,
-    ...
-  }: {
-    options.custom.profiles.laptop.enable = lib.mkEnableOption "laptop profile" // {default = false;};
 
-    config = lib.mkIf config.custom.profiles.laptop.enable {
-      # Captive portal browser for WiFi login pages
+  flake.nixosModules.laptop = {config, lib, ...}: {
+    options.custom.laptop.enable = lib.mkEnableOption "laptop profile";
+
+    config = lib.mkIf config.custom.laptop.enable {
       programs.captive-browser.enable = true;
 
-      # Laptop power management
       services.tlp = {
         enable = true;
         settings = {
@@ -45,8 +31,8 @@ in {
       };
 
       services.thermald.enable = true;
+
+      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.laptop];
     };
   };
-
-  inherit homeModule;
 }

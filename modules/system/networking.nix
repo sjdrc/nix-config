@@ -1,17 +1,12 @@
-{
-  nixosModule = {
-    lib,
-    config,
-    ...
-  }: {
-    options.custom.system.networking.enable =
+{...}: {
+  flake.nixosModules.networking = {config, lib, ...}: {
+    options.custom.networking.enable =
       lib.mkEnableOption "networking configuration"
       // {
         default = true;
       };
 
-    config = lib.mkIf config.custom.system.networking.enable {
-      # Networking
+    config = lib.mkIf config.custom.networking.enable {
       networking.useDHCP = lib.mkDefault true;
       networking.networkmanager.enable = true;
     };

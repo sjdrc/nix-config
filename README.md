@@ -1,3 +1,136 @@
+# Architecture
+
+This NixOS configuration uses a **dendritic (tree-shaped) flake-parts module** pattern.
+Every `.nix` file is a self-contained flake-parts module that registers its outputs
+(`flake.nixosModules.*`, `flake.homeModules.*`, or `flake.nixosConfigurations.*`)
+in a flat namespace. There are no auto-loaders — the import tree is explicit.
+
+## Key concepts
+
+### Module layers
+
+There are two module systems at play, and every file participates in one or both:
+
+| Layer | Purpose | Registered as |
+|-------|---------|---------------|
+| **Flake-parts** | Wires the flake together | `imports = [./foo.nix]` in another flake-parts module |
+| **NixOS** | Configures a machine | `flake.nixosModules.<name>` |
+| **Home Manager** | Configures a user session | `flake.homeModules.<name>` |
+
+### The `flakeArgs @` pattern
+
+NixOS modules and flake-parts modules both receive a `config` argument, but they
+refer to different things. To reference flake-level outputs (like `homeModules`)
+from inside a NixOS module definition, we capture the flake-parts args:
+
+```nix
+flakeArgs @ {...}: {                              # flake-parts module args
+  flake.homeModules.foo = {...}: { /* HM config */ };
+
+  flake.nixosModules.foo = {config, lib, ...}: {  # NixOS module args
+    options.custom.foo.enable = lib.mkEnableOption "foo";
+    config = lib.mkIf config.custom.foo.enable {
+      # 'config' here is NixOS config
+      # 'flakeArgs.config' is flake-parts config
+      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.foo];
+    };
+  };
+}
+```
+
+This is safe because Nix evaluates lazily — the `flakeArgs.config.flake.homeModules.foo`
+thunk isn't forced until `nixosSystem` processes it, by which point all flake-parts
+modules have been evaluated.
+
+### Option namespace
+
+All custom options live under `custom.<name>.enable` in a flat namespace:
+
+| Old path | New path |
+|----------|----------|
+| `custom.profiles.desktop.enable` | `custom.desktop.enable` |
+| `custom.programs.niri.enable` | `custom.niri.enable` |
+| `custom.system.boot.enable` | `custom.boot.enable` |
+| `custom.hardware.cpu.intel.enable` | `custom.cpu-intel.enable` |
+| `custom.profiles.user.name` | `custom.user.name` |
+
+## File structure
+
+```
+flake.nix                        # Entry point — imports ./hosts
+hosts/
+  default.nix                    # Aggregator: imports all modules + host files
+  dione.nix                      # flake.nixosConfigurations.dione
+  ariel.nix                      # flake.nixosConfigurations.ariel
+  ...
+modules/
+  system/
+    default.nix                  # Aggregator: imports children, exports flake.nixosModules.system
+    boot.nix                     # flake.nixosModules.boot
+    nix.nix                      # flake.nixosModules.nix + flake.homeModules.nix
+    ...
+  programs/
+    niri.nix                     # flake.nixosModules.niri + flake.homeModules.niri
+    kitty.nix                    # flake.nixosModules.kitty + flake.homeModules.kitty
+    ...
+  hardware/
+    cpu-intel.nix                # flake.nixosModules.cpu-intel
+    gpd-pocket-3.nix             # flake.nixosModules.gpd-pocket-3 + flake.homeModules.gpd-pocket-3
+    ...
+  desktop.nix                    # Composition: imports programs/*, exports desktop nixos+home modules
+  development.nix                # Composition: imports programs/*, exports development modules
+  shell.nix                      # Composition: imports programs/*, exports shell modules
+  laptop.nix                     # Composition: exports laptop modules
+  user.nix                       # Sets up home-manager and the primary user
+  ...
+```
+
+## Module categories
+
+### Leaf modules (`modules/programs/`, `modules/system/`, `modules/hardware/`)
+
+Self-contained units. Each registers one or both of:
+- `flake.nixosModules.<name>` — NixOS config with an `options.custom.<name>.enable`
+- `flake.homeModules.<name>` — Home Manager config, injected via `home-manager.sharedModules`
+
+### Composition modules (`modules/*.nix` — desktop, shell, development, etc.)
+
+Import their children at the flake-parts level, then compose them:
+- At the **flake-parts level**: `imports = [./programs/niri.nix ./programs/kitty.nix ...]`
+- At the **NixOS level**: `imports = with flakeArgs.config.flake.nixosModules; [niri kitty ...]`
+- Enable children: `custom.niri.enable = true; custom.kitty.enable = true;`
+- Inject own homeModule: `home-manager.sharedModules = [flakeArgs.config.flake.homeModules.desktop]`
+
+### System aggregator (`modules/system/default.nix`)
+
+Imports all system children and creates `flake.nixosModules.system` which bundles them.
+All system modules default to `enable = true`.
+
+### Host modules (`hosts/*.nix`)
+
+Define `flake.nixosConfigurations.<hostname>` using `nixosSystem`. Each host:
+1. Lists its NixOS modules: `modules = with flakeArgs.config.flake.nixosModules; [system user shell desktop ...]`
+2. Sets enables and host-specific config in an inline module
+3. Imports hardware-specific third-party modules from `nixos-hardware`
+
+## Design decisions
+
+- **No auto-loaders**: The old `modules-loader.nix` / `homeModules-loader.nix` pattern
+  was replaced with explicit imports. This makes the dependency tree visible and
+  ensures unused modules aren't loaded.
+
+- **homeModules injected via sharedModules**: Instead of a global home-module auto-loader,
+  each NixOS module injects its homeModule via `home-manager.sharedModules` when enabled.
+  This means home config is only applied for modules that are actually enabled.
+
+- **NixOS module deduplication**: NixOS deduplicates modules by identity, so if multiple
+  composition modules import the same child (e.g., both desktop and development import
+  `nvim`), it's safely deduplicated.
+
+- **Flat option namespace**: Eliminates the old `profiles`/`programs`/`system`/`hardware`
+  hierarchy. Every option is `custom.<name>.enable`, making references shorter and
+  removing the need to know which category a module belongs to.
+
 # Known Issues
 
 ## Niri screen sharing: no window-level selection in browsers

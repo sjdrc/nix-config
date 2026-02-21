@@ -1,20 +1,14 @@
 {...}: {
-  nixosModule = {
-    config,
-    lib,
-    ...
-  }: {
-    options.custom.hardware.gpu.nvidia.enable = lib.mkEnableOption "NVIDIA GPU support";
+  flake.nixosModules.gpu-nvidia = {config, lib, ...}: {
+    options.custom.gpu-nvidia.enable = lib.mkEnableOption "NVIDIA GPU support";
 
-    config = lib.mkIf config.custom.hardware.gpu.nvidia.enable {
-      # NVIDIA driver configuration
+    config = lib.mkIf config.custom.gpu-nvidia.enable {
       services.xserver.videoDrivers = ["nvidia"];
       hardware.graphics.enable = true;
       hardware.nvidia.modesetting.enable = lib.mkDefault true;
       hardware.nvidia.open = true;
       hardware.nvidia.powerManagement.enable = true;
 
-      # NVIDIA-specific environment variables for Wayland compositors
       environment.sessionVariables = {
         __GLX_VENDOR_LIBRARY_NAME = "nvidia";
         GBM_BACKEND = "nvidia-drm";

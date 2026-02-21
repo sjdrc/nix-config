@@ -1,13 +1,8 @@
 {...}: {
-  nixosModule = {
-    pkgs,
-    config,
-    lib,
-    ...
-  }: {
-    options.custom.programs.tuigreet.enable = lib.mkEnableOption "tuigreet display manager";
+  flake.nixosModules.tuigreet = {pkgs, config, lib, ...}: {
+    options.custom.tuigreet.enable = lib.mkEnableOption "tuigreet display manager";
 
-    config = lib.mkIf config.custom.programs.tuigreet.enable {
+    config = lib.mkIf config.custom.tuigreet.enable {
       services.greetd = {
         enable = true;
         greeterManagesPlymouth = true;

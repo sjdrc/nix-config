@@ -1,20 +1,13 @@
-{
-  nixosModule = {
-    lib,
-    config,
-    ...
-  }: {
-    options.custom.system.locale.enable =
+{...}: {
+  flake.nixosModules.locale = {config, lib, ...}: {
+    options.custom.locale.enable =
       lib.mkEnableOption "locale configuration"
       // {
         default = true;
       };
 
-    config = lib.mkIf config.custom.system.locale.enable {
-      # Localisation
+    config = lib.mkIf config.custom.locale.enable {
       i18n.defaultLocale = "en_AU.UTF-8";
-
-      # Default timezone (can be overridden per-host)
       time.timeZone = lib.mkDefault "Australia/Melbourne";
     };
   };

@@ -1,16 +1,12 @@
-{
-  nixosModule = {
-    lib,
-    config,
-    ...
-  }: {
-    options.custom.system.disks.enable =
+{...}: {
+  flake.nixosModules.disks = {config, lib, ...}: {
+    options.custom.disks.enable =
       lib.mkEnableOption "disk configuration"
       // {
         default = true;
       };
 
-    config = lib.mkIf config.custom.system.disks.enable {
+    config = lib.mkIf config.custom.disks.enable {
       # Root filesystem
       # lsblk -o name,mountpoint,label,size,uuid
       # sudo cryptsetup config <disk> --label nixos-luks

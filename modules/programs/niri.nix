@@ -1,13 +1,11 @@
-{inputs, ...}: let
-  homeModule = {
-    inputs,
+flakeArgs @ {inputs, ...}: {
+  flake.homeModules.niri = {
     pkgs,
     lib,
     config,
-    osConfig,
     ...
   }: {
-    options.custom.programs.niri = {
+    options.custom.niri = {
       launcherCommand = lib.mkOption {
         type = lib.types.listOf lib.types.str;
         description = "Command to launch the application launcher";
@@ -18,7 +16,7 @@
       };
     };
 
-    config = lib.mkIf osConfig.custom.programs.niri.enable {
+    config = lib.mkIf (config.lib ? niri) {
       # User-level niri config
       services = {
         swaync.enable = true;
@@ -50,7 +48,7 @@
 
       programs.swaylock.enable = true;
 
-      programs.niri.settings = lib.mkIf (config.lib ? niri) {
+      programs.niri.settings = {
         xwayland-satellite.path = lib.getExe inputs.niri.packages.x86_64-linux.xwayland-satellite-unstable;
         hotkey-overlay.skip-at-startup = true;
         prefer-no-csd = true;
@@ -78,8 +76,8 @@
         };
         binds = with config.lib.niri.actions; {
           # Program Hotkeys
-          "Mod+Space".action.spawn = config.custom.programs.niri.launcherCommand;
-          "Mod+Return".action.spawn = config.custom.programs.niri.terminalCommand;
+          "Mod+Space".action.spawn = config.custom.niri.launcherCommand;
+          "Mod+Return".action.spawn = config.custom.niri.terminalCommand;
           "Mod+Escape".action.spawn = ["loginctl" "lock-session"];
           "Mod+Shift+Escape".action.spawn = ["wlogout" "-p" "layer-shell"];
 
@@ -119,20 +117,18 @@
       };
     };
   };
-in {
-  nixosModule = {
-    inputs,
-    pkgs,
-    lib,
+
+  flake.nixosModules.niri = {
     config,
+    lib,
+    pkgs,
     ...
   }: {
     imports = [inputs.niri.nixosModules.niri];
 
-    options.custom.programs.niri.enable = lib.mkEnableOption "Niri window manager";
+    options.custom.niri.enable = lib.mkEnableOption "Niri window manager";
 
-    config = lib.mkIf config.custom.programs.niri.enable {
-      # System-level niri setup
+    config = lib.mkIf config.custom.niri.enable {
       programs.niri.enable = true;
       programs.niri.package = inputs.niri.packages.x86_64-linux.niri-unstable;
 
@@ -167,8 +163,8 @@ in {
         XDG_SESSION_TYPE = "wayland";
         XDG_SESSION_DESKTOP = "niri";
       };
+
+      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.niri];
     };
   };
-
-  inherit homeModule;
 }

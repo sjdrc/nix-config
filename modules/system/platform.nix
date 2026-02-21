@@ -1,23 +1,14 @@
-{
-  nixosModule = {
-    lib,
-    config,
-    ...
-  }: {
-    options.custom.system.platform.enable =
+{...}: {
+  flake.nixosModules.platform = {config, lib, ...}: {
+    options.custom.platform.enable =
       lib.mkEnableOption "platform configuration"
       // {
         default = true;
       };
 
-    config = lib.mkIf config.custom.system.platform.enable {
-      # Host platform architecture
+    config = lib.mkIf config.custom.platform.enable {
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
-      # Enable proprietary firmware
       hardware.enableRedistributableFirmware = true;
-
-      # Power management
       services.upower.enable = true;
       services.upower.criticalPowerAction = "Hibernate";
     };

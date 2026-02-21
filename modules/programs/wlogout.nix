@@ -1,11 +1,10 @@
-{
-  homeModule = {
+flakeArgs @ {...}: {
+  flake.homeModules.wlogout = {
     pkgs,
     config,
     lib,
     ...
   }: let
-    cfg = config.custom.programs.wlogout;
     colors = config.lib.stylix.colors.withHashtag;
     fonts = config.stylix.fonts;
     opacity = config.stylix.opacity;
@@ -29,80 +28,83 @@
       }
     '';
   in {
-    options.custom.programs.wlogout.enable = lib.mkEnableOption "wlogout power menu";
+    programs.wlogout = {
+      enable = true;
+      layout = [
+        {
+          label = "lock";
+          action = "loginctl lock-session";
+          text = "Lock";
+          keybind = "l";
+        }
+        {
+          label = "logout";
+          action = "niri msg action quit";
+          text = "Logout";
+          keybind = "e";
+        }
+        {
+          label = "suspend";
+          action = "systemctl suspend";
+          text = "Suspend";
+          keybind = "u";
+        }
+        {
+          label = "hibernate";
+          action = "systemctl hibernate";
+          text = "Hibernate";
+          keybind = "h";
+        }
+        {
+          label = "reboot";
+          action = "systemctl reboot";
+          text = "Reboot";
+          keybind = "r";
+        }
+        {
+          label = "shutdown";
+          action = "systemctl poweroff";
+          text = "Shutdown";
+          keybind = "s";
+        }
+      ];
+      style = ''
+        * {
+          background-image: none;
+          box-shadow: none;
+          font-family: "${fonts.sansSerif.name}";
+          font-size: ${toString fonts.sizes.desktop}pt;
+        }
 
-    config = lib.mkIf cfg.enable {
-      programs.wlogout = {
-        enable = true;
-        layout = [
-          {
-            label = "lock";
-            action = "loginctl lock-session";
-            text = "Lock";
-            keybind = "l";
-          }
-          {
-            label = "logout";
-            action = "niri msg action quit";
-            text = "Logout";
-            keybind = "e";
-          }
-          {
-            label = "suspend";
-            action = "systemctl suspend";
-            text = "Suspend";
-            keybind = "u";
-          }
-          {
-            label = "hibernate";
-            action = "systemctl hibernate";
-            text = "Hibernate";
-            keybind = "h";
-          }
-          {
-            label = "reboot";
-            action = "systemctl reboot";
-            text = "Reboot";
-            keybind = "r";
-          }
-          {
-            label = "shutdown";
-            action = "systemctl poweroff";
-            text = "Shutdown";
-            keybind = "s";
-          }
-        ];
-        style = ''
-          * {
-            background-image: none;
-            box-shadow: none;
-            font-family: "${fonts.sansSerif.name}";
-            font-size: ${toString fonts.sizes.desktop}pt;
-          }
+        window {
+          background-color: alpha(${colors.base00}, ${toString opacity.popups});
+        }
 
-          window {
-            background-color: alpha(${colors.base00}, ${toString opacity.popups});
-          }
+        button {
+          color: ${colors.base05};
+          background-color: ${colors.base01};
+          border: 1px solid ${colors.base03};
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 25%;
+          border-radius: 16px;
+          margin: 8px;
+        }
 
-          button {
-            color: ${colors.base05};
-            background-color: ${colors.base01};
-            border: 1px solid ${colors.base03};
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: 25%;
-            border-radius: 16px;
-            margin: 8px;
-          }
+        button:focus, button:active, button:hover {
+          background-color: ${colors.base02};
+          outline-style: none;
+        }
 
-          button:focus, button:active, button:hover {
-            background-color: ${colors.base02};
-            outline-style: none;
-          }
+        ${lib.concatStringsSep "\n" (map mkIconStyle iconNames)}
+      '';
+    };
+  };
 
-          ${lib.concatStringsSep "\n" (map mkIconStyle iconNames)}
-        '';
-      };
+  flake.nixosModules.wlogout = {config, lib, ...}: {
+    options.custom.wlogout.enable = lib.mkEnableOption "wlogout power menu";
+    config = lib.mkIf config.custom.wlogout.enable {
+      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.wlogout];
     };
   };
 }

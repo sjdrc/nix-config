@@ -1,35 +1,22 @@
-{inputs, ...}: let
-  homeModule = {
-    lib,
-    osConfig,
-    ...
-  }: {
-    config = lib.mkIf osConfig.custom.system.nix.enable {
-      programs.nix-index-database.comma.enable = true;
-      programs.nix-index.enable = true;
-    };
+flakeArgs @ {inputs, ...}: {
+  flake.homeModules.nix = {...}: {
+    programs.nix-index-database.comma.enable = true;
+    programs.nix-index.enable = true;
   };
-in {
-  nixosModule = {
-    inputs,
-    pkgs,
-    lib,
-    config,
-    ...
-  }: {
+
+  flake.nixosModules.nix = {config, pkgs, lib, ...}: {
     imports = [
       inputs.determinate.nixosModules.default
       inputs.nix-index-database.nixosModules.nix-index
     ];
 
-    options.custom.system.nix.enable =
+    options.custom.nix.enable =
       lib.mkEnableOption "nix configuration"
       // {
         default = true;
       };
 
-    config = lib.mkIf config.custom.system.nix.enable {
-      # NixOS configuration
+    config = lib.mkIf config.custom.nix.enable {
       nix.settings.experimental-features = ["nix-command" "flakes" "pipe-operators"];
       nix.settings.auto-optimise-store = true;
       nix.settings.trusted-users = ["@wheel" "root"];
@@ -39,7 +26,6 @@ in {
         accept-flake-config = true
       '';
 
-      # Nix helper
       programs.nh = {
         enable = true;
         flake = "/etc/nixos";
@@ -53,7 +39,6 @@ in {
         # here, NOT in environment.systemPackages
       ];
 
-      # Flake config inspection tools
       environment.systemPackages = with pkgs; [
         nix-inspect
         nix-output-monitor
@@ -61,14 +46,13 @@ in {
         alejandra
       ];
 
-      # Home-manager integration for nix-index
-      # Note: The home-manager user-specific config is in programs/nix-tools.nix
-      home-manager.sharedModules = [inputs.nix-index-database.homeModules.nix-index];
+      home-manager.sharedModules = [
+        inputs.nix-index-database.homeModules.nix-index
+        flakeArgs.config.flake.homeModules.nix
+      ];
 
       # WARNING: Do not change
       system.stateVersion = "24.05";
     };
   };
-
-  inherit homeModule;
 }
