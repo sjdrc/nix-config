@@ -72,6 +72,7 @@
             {proportion = 1. / 3.;}
             {proportion = 1. / 2.;}
             {proportion = 2. / 3.;}
+            {proportion = 1.;}
           ];
           empty-workspace-above-first = true;
           always-center-single-column = true;
