@@ -22,15 +22,17 @@
   };
 
   # Intel AC 9560 wifi stability fix — downgrade from buggy firmware v46 to v43
+  # v46 crashes with NMI_INTERRUPT_UMAC_FATAL under network load
   hardware.firmware = let
     iwlwifi-v43 = pkgs.fetchurl {
       url = "https://github.com/thesofproject/linux-firmware/raw/master/iwlwifi-9000-pu-b0-jf-b0-43.ucode";
       hash = "sha256-EELn0gX5GuUJqK6ApAYAfES+Mfx0ISeX5Wh88h2C45Q=";
     };
-    iwlwifi-fixed = pkgs.runCommand "iwlwifi-firmware-v43" {} ''
+    iwlwifi-fixed = pkgs.runCommand "iwlwifi-firmware-v43" {
+      nativeBuildInputs = [pkgs.zstd];
+    } ''
       mkdir -p $out/lib/firmware
-      cp ${iwlwifi-v43} $out/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-43.ucode
-      ln -s iwlwifi-9000-pu-b0-jf-b0-43.ucode $out/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-46.ucode
+      zstd -19 ${iwlwifi-v43} -o $out/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-46.ucode.zst
     '';
   in
     lib.mkBefore [iwlwifi-fixed];
