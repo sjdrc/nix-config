@@ -10,11 +10,14 @@
 
   # Data SSD
   # sudo e2label <disk> data
-  #fileSystems."/data" = {
-  #  label = "data";
-  #  fsType = "ext4";
-  #  options = ["noatime" "nodiratime" "discard"];
-  #};
+  fileSystems."/data" = {
+    label = "data";
+    fsType = "ext4";
+    options = ["noatime" "nodiratime" "discard"];
+  };
+
+  # Intel AC 9560 wifi stability fix (firmware v46 is buggy)
+  boot.extraModprobeConfig = "options iwlwifi uapsd_disable=1 power_save=0";
 
   # Profiles
   custom.profiles.desktop.enable = true;
