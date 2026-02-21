@@ -33,7 +33,8 @@
             "extensions.experimental.affinity" = {
               "asvetliakov.vscode-neovim" = 1;
             };
-            "git.confirmSync" = true;
+            "git.confirmSync" = false;
+            "git.enableSmartCommit" = true;
             "cmake.showConfigureWithDebuggerNotification" = false;
             "C_Cpp.intelliSenseEngine" = "disabled";
 
@@ -47,6 +48,7 @@
 
             # Use system claude-code binary (has MCP servers configured)
             "claudeCode.claudeProcessWrapper" = "${config.programs.claude-code.finalPackage}/bin/claude";
+
           };
         };
       };
