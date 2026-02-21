@@ -40,6 +40,7 @@
 
             # Nuclear option: Disable all AI/Copilot features
             "chat.disableAIFeatures" = true;
+            "update.mode" = "none";
             "extensions.ignoreRecommendations" = true;
             "workbench.tips.enabled" = false;
             "workbench.enableExperiments" = false;
