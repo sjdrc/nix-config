@@ -1,7 +1,5 @@
 {
   inputs,
-  pkgs,
-  lib,
   ...
 }: {
   imports = [
@@ -21,19 +19,10 @@
     options = ["noatime" "nodiratime" "discard"];
   };
 
-  # Intel AC 9560 wifi stability fix — downgrade from buggy firmware v46 to v43
-  # v46 crashes with NMI_INTERRUPT_UMAC_FATAL under network load
-  hardware.firmware = let
-    iwlwifi-v43 = pkgs.fetchurl {
-      url = "https://github.com/thesofproject/linux-firmware/raw/master/iwlwifi-9000-pu-b0-jf-b0-43.ucode";
-      hash = "sha256-EELn0gX5GuUJqK6ApAYAfES+Mfx0ISeX5Wh88h2C45Q=";
-    };
-    iwlwifi-fixed = pkgs.runCommand "iwlwifi-firmware-v43" {} ''
-      mkdir -p $out/lib/firmware
-      cp ${iwlwifi-v43} $out/lib/firmware/iwlwifi-9000-pu-b0-jf-b0-46.ucode
-    '';
-  in
-    lib.mkBefore [iwlwifi-fixed];
+  # Intel AC 9560: v46 firmware crashes (NMI_INTERRUPT_UMAC_FATAL) under network
+  # load, but older versions (v43/v38/v34) don't support this hardware revision.
+  # Disable 802.11n TX aggregation to reduce firmware stress.
+  boot.extraModprobeConfig = "options iwlwifi 11n_disable=8";
 
   # Profiles
   custom.profiles.desktop.enable = true;
