@@ -3,6 +3,9 @@
     options.custom.gaming.enable = lib.mkEnableOption "gaming profile";
 
     config = lib.mkIf config.custom.gaming.enable {
+      hardware.steam-hardware.enable = true;
+      hardware.xpadneo.enable = true;
+
       programs.gamescope = {
         enable = true;
         capSysNice = true;
@@ -10,6 +13,7 @@
 
       programs.steam = {
         enable = true;
+        extest.enable = true;
         gamescopeSession.enable = true;
         package = pkgs.steam.override {
           extraPkgs = pkgs':
