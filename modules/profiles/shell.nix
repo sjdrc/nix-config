@@ -26,6 +26,9 @@
         eza = {
           enable = true;
           extraOptions = [
+            "--long"
+            "--all"
+            "--binary"
             "--group-directories-first"
             "--header"
           ];
