@@ -19,12 +19,6 @@
         custom.profiles.desktop.enable = true;
         custom.profiles.gaming.enable = true;
       }
-      {
-        nixpkgs.overlays = [
-          inputs.self.overlays.default
-          inputs.nix-vscode-extensions.overlays.default
-        ];
-      }
     ];
     specialArgs = {
       inherit inputs;

@@ -1,4 +1,5 @@
-{inputs, ...}: let
+{inputs, config, ...}: let
+  flakeConfig = config.flake;
   userHomeModule = {
     config,
     lib,
@@ -69,7 +70,7 @@ in {
         users.${config.custom.profiles.user.name} = {
           imports = [
             userHomeModule
-            inputs.self.homeModules.default
+            flakeConfig.homeModules.default
           ];
 
           home = {

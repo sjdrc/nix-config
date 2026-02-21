@@ -16,12 +16,6 @@
         # Profiles
         custom.profiles.laptop.enable = true;
       }
-      {
-        nixpkgs.overlays = [
-          inputs.self.overlays.default
-          inputs.nix-vscode-extensions.overlays.default
-        ];
-      }
     ];
     specialArgs = {
       inherit inputs;

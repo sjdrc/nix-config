@@ -30,12 +30,6 @@
         custom.profiles.media-server.enable = true;
         custom.profiles."3d-printing".enable = true;
       }
-      {
-        nixpkgs.overlays = [
-          inputs.self.overlays.default
-          inputs.nix-vscode-extensions.overlays.default
-        ];
-      }
     ];
     specialArgs = {
       inherit inputs;
