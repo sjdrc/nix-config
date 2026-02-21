@@ -25,6 +25,8 @@ flakeArgs @ {...}: {
           "extensions.experimental.affinity" = {
             "asvetliakov.vscode-neovim" = 1;
           };
+          "nix.enableLanguageServer" = true;
+          "nix.serverPath" = "nixd";
           "git.confirmSync" = false;
           "git.enableSmartCommit" = true;
           "cmake.showConfigureWithDebuggerNotification" = false;
