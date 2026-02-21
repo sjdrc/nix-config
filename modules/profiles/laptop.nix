@@ -1,17 +1,5 @@
-{...}: let
-  homeModule = {
-    config,
-    lib,
-    osConfig,
-    ...
-  }: {
-    config = lib.mkIf osConfig.custom.profiles.laptop.enable {
-      # Battery indicator applet (only if waybar is enabled)
-      services.cbatticon.enable = lib.mkIf osConfig.custom.programs.waybar.enable true;
-    };
-  };
-in {
-  nixosModule = {
+{...}: {
+  flake.nixosModules.laptop = {
     config,
     lib,
     ...
@@ -48,5 +36,15 @@ in {
     };
   };
 
-  inherit homeModule;
+  flake.homeModules.laptop = {
+    config,
+    lib,
+    osConfig,
+    ...
+  }: {
+    config = lib.mkIf (osConfig != null && osConfig.custom.profiles.laptop.enable) {
+      # Battery indicator applet (only if waybar is enabled)
+      services.cbatticon.enable = lib.mkIf osConfig.custom.programs.waybar.enable true;
+    };
+  };
 }

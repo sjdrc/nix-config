@@ -1,5 +1,22 @@
-{inputs, ...}: let
-  homeModule = {
+{inputs, ...}: {
+  flake.nixosModules.zen-browser = {
+    inputs,
+    config,
+    lib,
+    pkgs,
+    ...
+  }: {
+    options.custom.programs.zen-browser.enable = lib.mkEnableOption "Zen Browser";
+
+    config = lib.mkIf config.custom.programs.zen-browser.enable {
+      # System-level browser setup
+      environment.sessionVariables = {
+        MOZ_ENABLE_WAYLAND = "1";
+      };
+    };
+  };
+
+  flake.homeModules.zen-browser = {
     inputs,
     config,
     lib,
@@ -151,25 +168,4 @@
       };
     };
   };
-in {
-  nixosModule = {
-    inputs,
-    config,
-    lib,
-    pkgs,
-    ...
-  }: {
-    options.custom.programs.zen-browser.enable = lib.mkEnableOption "Zen Browser";
-
-    config = lib.mkIf config.custom.programs.zen-browser.enable {
-      # System-level browser setup
-      environment.sessionVariables = {
-        MOZ_ENABLE_WAYLAND = "1";
-      };
-
-      # Note: gnome-keyring and nautilus are now in desktop.nix
-    };
-  };
-
-  inherit homeModule;
 }

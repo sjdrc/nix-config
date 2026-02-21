@@ -1,11 +1,25 @@
-{...}: let
-  homeModule = {
+{...}: {
+  flake.nixosModules.waybar = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: {
+    options.custom.programs.waybar.enable = lib.mkEnableOption "Waybar status bar";
+
+    config = lib.mkIf config.custom.programs.waybar.enable {
+      # System-level waybar setup
+      fonts.packages = [pkgs.font-awesome];
+    };
+  };
+
+  flake.homeModules.waybar = {
     config,
     lib,
     osConfig,
     ...
   }: {
-    config = lib.mkIf osConfig.custom.programs.waybar.enable {
+    config = lib.mkIf (osConfig != null && osConfig.custom.programs.waybar.enable) {
       # System tray applets
       services.network-manager-applet.enable = true;
       services.pasystray.enable = true;
@@ -36,20 +50,4 @@
       };
     };
   };
-in {
-  nixosModule = {
-    config,
-    lib,
-    pkgs,
-    ...
-  }: {
-    options.custom.programs.waybar.enable = lib.mkEnableOption "Waybar status bar";
-
-    config = lib.mkIf config.custom.programs.waybar.enable {
-      # System-level waybar setup
-      fonts.packages = [pkgs.font-awesome];
-    };
-  };
-
-  inherit homeModule;
 }

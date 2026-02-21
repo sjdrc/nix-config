@@ -1,5 +1,5 @@
-{
-  homeModule = {
+{...}: {
+  flake.homeModules.sshrc = {
     pkgs,
     config,
     lib,

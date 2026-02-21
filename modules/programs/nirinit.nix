@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  nixosModule = {
+  flake.nixosModules.nirinit = {
     pkgs,
     config,
     lib,

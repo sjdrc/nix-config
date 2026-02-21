@@ -1,11 +1,31 @@
-{...}: let
-  homeModule = {
+{...}: {
+  flake.nixosModules.shell = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: {
+    options.custom.profiles.shell.enable = lib.mkEnableOption "shell environment" // {default = true;};
+
+    config = lib.mkIf config.custom.profiles.shell.enable {
+      # System-level shell configuration
+      fonts.packages = with pkgs.nerd-fonts; [fira-code];
+      users.defaultUserShell = pkgs.bash;
+
+      environment.systemPackages = with pkgs; [
+        systemctl-tui
+        lnav
+      ];
+    };
+  };
+
+  flake.homeModules.shell = {
     lib,
     pkgs,
     osConfig,
     ...
   }: {
-    config = lib.mkIf osConfig.custom.profiles.shell.enable {
+    config = lib.mkIf (osConfig != null && osConfig.custom.profiles.shell.enable) {
       # Enable custom terminal programs
       custom.programs.bash.enable = true;
       custom.programs.tmux.enable = true;
@@ -43,26 +63,4 @@
       ];
     };
   };
-in {
-  nixosModule = {
-    config,
-    lib,
-    pkgs,
-    ...
-  }: {
-    options.custom.profiles.shell.enable = lib.mkEnableOption "shell environment" // {default = true;};
-
-    config = lib.mkIf config.custom.profiles.shell.enable {
-      # System-level shell configuration
-      fonts.packages = with pkgs.nerd-fonts; [fira-code];
-      users.defaultUserShell = pkgs.bash;
-
-      environment.systemPackages = with pkgs; [
-        systemctl-tui
-        lnav
-      ];
-    };
-  };
-
-  inherit homeModule;
 }

@@ -1,5 +1,5 @@
-{
-  homeModule = {
+{...}: {
+  flake.homeModules.vscode = {
     pkgs,
     config,
     lib,

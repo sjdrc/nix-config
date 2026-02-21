@@ -1,14 +1,28 @@
-{inputs, ...}: {
-  imports = [
-    inputs.nixos-hardware.nixosModules.common-cpu-amd
-    inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
-  ];
+{inputs, config, ...}: {
+  flake.nixosConfigurations.ariel = inputs.nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    modules = [
+      config.flake.nixosModules.default
+      {
+        imports = [
+          inputs.nixos-hardware.nixosModules.common-cpu-amd
+          inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
+        ];
 
-  # Hardware
-  custom.hardware.cpu.amd.enable = true;
-  custom.hardware.gpu.nvidia.enable = true;
+        networking.hostName = "ariel";
 
-  # Profiles
-  custom.profiles.desktop.enable = true;
-  custom.profiles.gaming.enable = true;
+        # Hardware
+        custom.hardware.cpu.amd.enable = true;
+        custom.hardware.gpu.nvidia.enable = true;
+
+        # Profiles
+        custom.profiles.desktop.enable = true;
+        custom.profiles.gaming.enable = true;
+      }
+    ];
+    specialArgs = {
+      inherit inputs;
+      lib = config.flake.lib;
+    };
+  };
 }

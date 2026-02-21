@@ -1,41 +1,5 @@
-{...}: let
-  homeModule = {
-    lib,
-    pkgs,
-    osConfig,
-    ...
-  }: {
-    config = lib.mkIf osConfig.custom.profiles.development.enable {
-      # Custom programs
-      custom.programs.code-server.enable = true;
-      custom.programs.vscode.enable = true;
-      custom.programs.nvim.enable = true;
-
-      custom.programs.claude-code.enable = true;
-
-      # User-level development tools
-      programs.direnv = {
-        enable = true;
-        nix-direnv.enable = true;
-      };
-
-      programs.btop = {
-        enable = true;
-        package = pkgs.btop.override {cudaSupport = true;};
-        settings = {
-          show_gpu = true;
-        };
-      };
-
-      home.packages = with pkgs; [
-        lazydocker
-        dive
-        librealsense-gui
-      ];
-    };
-  };
-in {
-  nixosModule = {
+{...}: {
+  flake.nixosModules.development = {
     config,
     lib,
     pkgs,
@@ -72,5 +36,39 @@ in {
     };
   };
 
-  inherit homeModule;
+  flake.homeModules.development = {
+    lib,
+    pkgs,
+    osConfig,
+    ...
+  }: {
+    config = lib.mkIf (osConfig != null && osConfig.custom.profiles.development.enable) {
+      # Custom programs
+      custom.programs.code-server.enable = true;
+      custom.programs.vscode.enable = true;
+      custom.programs.nvim.enable = true;
+
+      custom.programs.claude-code.enable = true;
+
+      # User-level development tools
+      programs.direnv = {
+        enable = true;
+        nix-direnv.enable = true;
+      };
+
+      programs.btop = {
+        enable = true;
+        package = pkgs.btop.override {cudaSupport = true;};
+        settings = {
+          show_gpu = true;
+        };
+      };
+
+      home.packages = with pkgs; [
+        lazydocker
+        dive
+        librealsense-gui
+      ];
+    };
+  };
 }

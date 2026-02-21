@@ -1,5 +1,5 @@
-{
-  homeModule = {
+{...}: {
+  flake.homeModules.wlogout = {
     pkgs,
     config,
     lib,

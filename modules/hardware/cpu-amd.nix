@@ -1,5 +1,5 @@
 {...}: {
-  nixosModule = {
+  flake.nixosModules.cpu-amd = {
     config,
     lib,
     ...

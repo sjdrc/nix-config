@@ -1,5 +1,5 @@
 {...}: {
-  nixosModule = {
+  flake.nixosModules.thinkpad-x1-nano = {
     config,
     lib,
     ...

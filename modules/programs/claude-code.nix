@@ -1,5 +1,5 @@
-{
-  homeModule = {
+{...}: {
+  flake.homeModules.claude-code = {
     pkgs,
     config,
     lib,
