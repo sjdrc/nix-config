@@ -18,7 +18,7 @@
       services.nirinit = {
         enable = true;
         settings = {
-          skip.apps = [];
+          skip.apps = ["steam"];
           launch = {};
         };
       };
@@ -32,6 +32,10 @@
         ];
         serviceConfig = {
           ExecStartPre = waitForNiri;
+          ExecStart = let
+            configFile = (pkgs.formats.toml {}).generate "nirinit-config.toml" config.services.nirinit.settings;
+          in
+            lib.mkForce "${lib.getExe config.services.nirinit.package} --config ${configFile} --save-interval 60";
           # Kill immediately on stop — nirinit's exit handler does a final
           # save_session, but by then niri is already dead so it saves an
           # empty session, clobbering the good periodic save.

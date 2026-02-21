@@ -25,12 +25,14 @@ flakeArgs @ {...}: {
           "extensions.experimental.affinity" = {
             "asvetliakov.vscode-neovim" = 1;
           };
-          "git.confirmSync" = true;
+          "git.confirmSync" = false;
+          "git.enableSmartCommit" = true;
           "cmake.showConfigureWithDebuggerNotification" = false;
           "C_Cpp.intelliSenseEngine" = "disabled";
 
           # Nuclear option: Disable all AI/Copilot features
           "chat.disableAIFeatures" = true;
+          "update.mode" = "none";
           "extensions.ignoreRecommendations" = true;
           "workbench.tips.enabled" = false;
           "workbench.enableExperiments" = false;

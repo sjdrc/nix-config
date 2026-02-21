@@ -16,6 +16,7 @@
     ../modules/laptop.nix
     ../modules/gaming.nix
     ../modules/media-server.nix
+    ../modules/media-server-docker.nix
     ../modules/_3d-printing.nix
 
     # Hardware modules (standalone, not children of composition modules)
