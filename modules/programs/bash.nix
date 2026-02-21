@@ -12,11 +12,6 @@
         enableCompletion = true;
         enableVteIntegration = true;
 
-        initExtra = ''
-          col="$(echo -n ''${HOSTNAME} | od | awk '{total = total + $1}END{print 31 + (total % 7)}')"
-          PS1="\u@\[\e[''${col}m\]\h\[\e[m\]:\w\n\$ "
-        '';
-
         shellOptions = [
           "autocd"
           "cdspell"
