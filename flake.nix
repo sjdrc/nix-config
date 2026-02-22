@@ -53,25 +53,5 @@ zen-browser = {
       imports = [
         ./hosts
       ];
-
-      flake = {
-        overlays.default = final: prev: {
-          bambu-studio = final.callPackage ./packages/bambu-studio {};
-          orca-slicer = final.callPackage ./packages/orca-slicer {};
-          openlens = final.callPackage ./packages/openlens {};
-        };
-      };
-
-      perSystem = {
-        pkgs,
-        system,
-        ...
-      }: {
-        packages = {
-          bambu-studio = pkgs.callPackage ./packages/bambu-studio {};
-          orca-slicer = pkgs.callPackage ./packages/orca-slicer {};
-          openlens = pkgs.callPackage ./packages/openlens {};
-        };
-      };
     };
 }
