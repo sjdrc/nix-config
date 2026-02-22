@@ -21,8 +21,7 @@
     # Existing inputs
     determinate.url = "github:DeterminateSystems/determinate";
     nix-index-database.url = "github:nix-community/nix-index-database";
-    nixos-hardware.url = "github:nixos/nixos-hardware";
-    zen-browser = {
+zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs = {
         nixpkgs.follows = "nixpkgs";

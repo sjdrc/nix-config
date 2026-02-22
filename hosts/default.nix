@@ -1,10 +1,37 @@
-{lib, ...}: {
+{lib, inputs, config, ...}: {
   # flake-parts declares flake.nixosModules but not flake.homeModules,
   # so we declare it here to allow multiple modules to merge their homeModules.
   options.flake.homeModules = lib.mkOption {
     type = lib.types.lazyAttrsOf lib.types.raw;
     default = {};
   };
+
+  # Helper to create a NixOS host with all modules auto-included.
+  # Hosts only need to set custom.*.enable for the features they want.
+  options.mkHost = lib.mkOption {
+    type = lib.types.raw;
+    readOnly = true;
+  };
+
+  config.mkHost = {
+    system ? "x86_64-linux",
+    hostModule,
+  }:
+    inputs.nixpkgs.lib.nixosSystem {
+      inherit system;
+      modules =
+        builtins.attrValues config.flake.nixosModules
+        ++ [
+          {
+            nixpkgs.overlays = [
+              inputs.self.overlays.default
+              inputs.nix-vscode-extensions.overlays.default
+            ];
+          }
+          hostModule
+        ];
+      specialArgs = {inherit inputs;};
+    };
 
   imports = [
     # Module tree (composition modules import their children)
@@ -23,6 +50,7 @@
     ../modules/hardware/cpu-intel.nix
     ../modules/hardware/cpu-amd.nix
     ../modules/hardware/gpu-nvidia.nix
+    ../modules/hardware/gpu-intel.nix
     ../modules/hardware/thinkpad-x1-nano.nix
     ../modules/hardware/gpd-pocket-3.nix
 

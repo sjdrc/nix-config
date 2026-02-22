@@ -32,10 +32,6 @@ flakeArgs @ {...}: {
       gke-gcloud-auth-plugin
     ]);
   in {
-    imports = with flakeArgs.config.flake.nixosModules; [
-      vscode code-server nvim claude-code
-    ];
-
     options.custom.development.enable = lib.mkEnableOption "development environment";
 
     config = lib.mkIf config.custom.development.enable {

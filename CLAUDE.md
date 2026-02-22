@@ -4,6 +4,7 @@
 - Always use the **Glob** tool instead of `bash find/ls`.
 - Always use the **Read** tool instead of `bash cat/head/tail`.
 - Never use compound bash commands that chain multiple operations. Use the dedicated tools individually.
+- Run git commands from the working directory directly. Never use `git -C`.
 
 # Safety
 

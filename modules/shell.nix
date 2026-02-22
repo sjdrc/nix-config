@@ -41,10 +41,6 @@ flakeArgs @ {...}: {
   };
 
   flake.nixosModules.shell = {config, lib, pkgs, ...}: {
-    imports = with flakeArgs.config.flake.nixosModules; [
-      bash tmux sshrc
-    ];
-
     options.custom.shell.enable = lib.mkEnableOption "shell environment" // {default = true;};
 
     config = lib.mkIf config.custom.shell.enable {

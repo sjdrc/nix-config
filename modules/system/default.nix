@@ -1,4 +1,4 @@
-flakeArgs @ {...}: {
+{...}: {
   imports = [
     ./audio.nix
     ./bluetooth.nix
@@ -13,19 +13,6 @@ flakeArgs @ {...}: {
     ./tailscale.nix
   ];
 
-  flake.nixosModules.system = {...}: {
-    imports = with flakeArgs.config.flake.nixosModules; [
-      audio
-      bluetooth
-      boot
-      disks
-      locale
-      networking
-      nix
-      nixpkgs
-      platform
-      stylix
-      tailscale
-    ];
-  };
+  # Children are auto-included via mkHost autowiring.
+  flake.nixosModules.system = {...}: {};
 }

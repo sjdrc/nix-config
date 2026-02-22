@@ -19,10 +19,6 @@ flakeArgs @ {...}: {
   };
 
   flake.nixosModules.desktop = {config, lib, pkgs, ...}: {
-    imports = with flakeArgs.config.flake.nixosModules; [
-      niri nirinit tuigreet waybar kitty anyrun wlogout zen-browser
-    ];
-
     options.custom.desktop.enable = lib.mkEnableOption "desktop environment";
 
     config = lib.mkIf config.custom.desktop.enable {
