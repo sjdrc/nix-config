@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ./programs/atuin.nix
     ./programs/bash.nix
     ./programs/tmux.nix
     ./programs/sshrc.nix
@@ -8,13 +9,6 @@
   flake.homeModules.shell = {osConfig, lib, pkgs, ...}: lib.mkIf osConfig.custom.shell.enable {
     programs = {
       fzf.enable = true;
-      atuin = {
-        enable = true;
-        settings = {
-          filter_mode = "session";
-          search_mode = "prefix";
-        };
-      };
       htop.enable = true;
       starship.enable = true;
       eza = {
@@ -44,6 +38,7 @@
     options.custom.shell.enable = lib.mkEnableOption "shell environment" // {default = true;};
 
     config = lib.mkIf config.custom.shell.enable {
+      custom.atuin.enable = true;
       custom.bash.enable = true;
       custom.tmux.enable = true;
       custom.sshrc.enable = true;

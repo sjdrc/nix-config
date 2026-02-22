@@ -51,6 +51,7 @@
               };
             };
           };
+          "terminal.integrated.fontFamily" = "'DejaVu Sans Mono', 'FiraCode Nerd Font Mono'";
           "git.confirmSync" = false;
           "git.enableSmartCommit" = true;
           "cmake.showConfigureWithDebuggerNotification" = false;

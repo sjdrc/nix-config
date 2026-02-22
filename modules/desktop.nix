@@ -5,6 +5,7 @@
     ./programs/tuigreet.nix
     ./programs/waybar.nix
     ./programs/kitty.nix
+    ./programs/foot.nix
     ./programs/anyrun.nix
     ./programs/wlogout.nix
     ./programs/zen-browser.nix
@@ -27,6 +28,7 @@
       custom.tuigreet.enable = true;
       custom.waybar.enable = true;
       custom.kitty.enable = true;
+      custom.foot.enable = true;
       custom.anyrun.enable = true;
       custom.wlogout.enable = true;
       custom.zen-browser.enable = true;
