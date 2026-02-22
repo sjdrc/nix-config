@@ -1,11 +1,11 @@
-flakeArgs @ {...}: {
+{...}: {
   imports = [
     ./programs/bash.nix
     ./programs/tmux.nix
     ./programs/sshrc.nix
   ];
 
-  flake.homeModules.shell = {pkgs, ...}: {
+  flake.homeModules.shell = {osConfig, lib, pkgs, ...}: lib.mkIf osConfig.custom.shell.enable {
     programs = {
       fzf.enable = true;
       atuin = {
@@ -56,7 +56,6 @@ flakeArgs @ {...}: {
         lnav
       ];
 
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.shell];
     };
   };
 }

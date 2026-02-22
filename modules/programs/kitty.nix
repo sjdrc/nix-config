@@ -1,5 +1,5 @@
-flakeArgs @ {...}: {
-  flake.homeModules.kitty = {...}: {
+{...}: {
+  flake.homeModules.kitty = {osConfig, lib, ...}: lib.mkIf osConfig.custom.kitty.enable {
     programs.kitty = {
       enable = true;
       settings = {
@@ -10,10 +10,7 @@ flakeArgs @ {...}: {
     custom.niri.terminalCommand = ["kitty"];
   };
 
-  flake.nixosModules.kitty = {config, lib, ...}: {
+  flake.nixosModules.kitty = {lib, ...}: {
     options.custom.kitty.enable = lib.mkEnableOption "kitty terminal";
-    config = lib.mkIf config.custom.kitty.enable {
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.kitty];
-    };
   };
 }

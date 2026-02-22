@@ -1,5 +1,5 @@
-flakeArgs @ {...}: {
-  flake.homeModules.vscode = {pkgs, config, ...}: {
+{...}: {
+  flake.homeModules.vscode = {osConfig, lib, pkgs, config, ...}: lib.mkIf osConfig.custom.vscode.enable {
     home.packages = with pkgs; [
       nixd
       alejandra
@@ -72,10 +72,7 @@ flakeArgs @ {...}: {
     };
   };
 
-  flake.nixosModules.vscode = {config, lib, ...}: {
+  flake.nixosModules.vscode = {lib, ...}: {
     options.custom.vscode.enable = lib.mkEnableOption "Visual Studio Code";
-    config = lib.mkIf config.custom.vscode.enable {
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.vscode];
-    };
   };
 }

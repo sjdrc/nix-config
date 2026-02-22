@@ -1,5 +1,5 @@
-flakeArgs @ {...}: {
-  flake.homeModules.tmux = {...}: {
+{...}: {
+  flake.homeModules.tmux = {osConfig, lib, ...}: lib.mkIf osConfig.custom.tmux.enable {
     programs.tmux = {
       enable = true;
       clock24 = true;
@@ -14,10 +14,7 @@ flakeArgs @ {...}: {
     programs.fzf.tmux.enableShellIntegration = true;
   };
 
-  flake.nixosModules.tmux = {config, lib, ...}: {
+  flake.nixosModules.tmux = {lib, ...}: {
     options.custom.tmux.enable = lib.mkEnableOption "tmux terminal multiplexer";
-    config = lib.mkIf config.custom.tmux.enable {
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.tmux];
-    };
   };
 }

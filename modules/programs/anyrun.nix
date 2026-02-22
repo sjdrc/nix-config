@@ -1,5 +1,5 @@
-flakeArgs @ {...}: {
-  flake.homeModules.anyrun = {pkgs, ...}: {
+{...}: {
+  flake.homeModules.anyrun = {osConfig, lib, pkgs, ...}: lib.mkIf osConfig.custom.anyrun.enable {
     # Run anyrun as a daemon so it stays resident in memory
     # and subsequent launches are instant (no cold-start plugin loading)
     systemd.user.services.anyrun = {
@@ -152,10 +152,7 @@ flakeArgs @ {...}: {
     custom.niri.launcherCommand = ["anyrun"];
   };
 
-  flake.nixosModules.anyrun = {config, lib, ...}: {
+  flake.nixosModules.anyrun = {lib, ...}: {
     options.custom.anyrun.enable = lib.mkEnableOption "anyrun launcher";
-    config = lib.mkIf config.custom.anyrun.enable {
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.anyrun];
-    };
   };
 }

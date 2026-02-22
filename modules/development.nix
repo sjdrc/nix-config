@@ -1,4 +1,4 @@
-flakeArgs @ {...}: {
+{...}: {
   imports = [
     ./programs/vscode.nix
     ./programs/code-server.nix
@@ -6,7 +6,7 @@ flakeArgs @ {...}: {
     ./programs/claude-code.nix
   ];
 
-  flake.homeModules.development = {pkgs, ...}: {
+  flake.homeModules.development = {osConfig, lib, pkgs, ...}: lib.mkIf osConfig.custom.development.enable {
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
@@ -57,7 +57,6 @@ flakeArgs @ {...}: {
         (peakperf.override {enableCuda = true;})
       ];
 
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.development];
     };
   };
 }

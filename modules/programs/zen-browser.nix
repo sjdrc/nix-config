@@ -1,5 +1,7 @@
-flakeArgs @ {inputs, ...}: {
+{inputs, ...}: {
   flake.homeModules.zen-browser = {
+    osConfig,
+    lib,
     pkgs,
     ...
   }: let
@@ -7,9 +9,10 @@ flakeArgs @ {inputs, ...}: {
   in {
     imports = [inputs.zen-browser.homeModules.default];
 
-    stylix.targets.zen-browser.profileNames = ["sebastien"];
+    config = lib.mkIf osConfig.custom.zen-browser.enable {
+      stylix.targets.zen-browser.profileNames = ["sebastien"];
 
-    programs.zen-browser = {
+      programs.zen-browser = {
       enable = true;
       nativeMessagingHosts = [pkgs.firefoxpwa];
       policies = {
@@ -142,6 +145,7 @@ flakeArgs @ {inputs, ...}: {
         };
       };
     };
+    };
   };
 
   flake.nixosModules.zen-browser = {config, lib, ...}: {
@@ -150,7 +154,6 @@ flakeArgs @ {inputs, ...}: {
       environment.sessionVariables = {
         MOZ_ENABLE_WAYLAND = "1";
       };
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.zen-browser];
     };
   };
 }

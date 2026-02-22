@@ -1,5 +1,5 @@
-flakeArgs @ {...}: {
-  flake.homeModules.gpd-pocket-3 = {...}: {
+{...}: {
+  flake.homeModules.gpd-pocket-3 = {osConfig, lib, ...}: lib.mkIf (osConfig.custom.gpd-pocket-3.enable && (osConfig.custom.niri.enable or false)) {
     programs.niri.settings = {
       outputs = {
         DSI-1 = {
@@ -16,8 +16,7 @@ flakeArgs @ {...}: {
   in {
     options.custom.gpd-pocket-3.enable = lib.mkEnableOption "GPD Pocket 3 hardware tweaks";
 
-    config = lib.mkIf config.custom.gpd-pocket-3.enable (lib.mkMerge [
-      {
+    config = lib.mkIf config.custom.gpd-pocket-3.enable {
         # Initrd modules (from upstream gpd/pocket-3)
         boot.initrd.availableKernelModules = [
           "nvme"
@@ -75,11 +74,6 @@ flakeArgs @ {...}: {
         services.udev.packages = [pkgs.iio-sensor-proxy];
         hardware.sensor.iio.enable = lib.mkDefault true;
         programs.captive-browser.interface = "wlp174s0";
-      }
-      # Only inject niri display settings when desktop/niri is enabled
-      (lib.mkIf (config.custom.niri.enable or false) {
-        home-manager.sharedModules = [flakeArgs.config.flake.homeModules.gpd-pocket-3];
-      })
-    ]);
+    };
   };
 }

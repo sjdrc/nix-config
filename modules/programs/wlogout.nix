@@ -1,10 +1,11 @@
-flakeArgs @ {...}: {
+{...}: {
   flake.homeModules.wlogout = {
+    osConfig,
     pkgs,
     config,
     lib,
     ...
-  }: let
+  }: lib.mkIf osConfig.custom.wlogout.enable (let
     colors = config.lib.stylix.colors.withHashtag;
     fonts = config.stylix.fonts;
     opacity = config.stylix.opacity;
@@ -99,12 +100,9 @@ flakeArgs @ {...}: {
         ${lib.concatStringsSep "\n" (map mkIconStyle iconNames)}
       '';
     };
-  };
+  });
 
-  flake.nixosModules.wlogout = {config, lib, ...}: {
+  flake.nixosModules.wlogout = {lib, ...}: {
     options.custom.wlogout.enable = lib.mkEnableOption "wlogout power menu";
-    config = lib.mkIf config.custom.wlogout.enable {
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.wlogout];
-    };
   };
 }

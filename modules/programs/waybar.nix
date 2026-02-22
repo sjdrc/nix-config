@@ -1,5 +1,5 @@
-flakeArgs @ {...}: {
-  flake.homeModules.waybar = {...}: {
+{...}: {
+  flake.homeModules.waybar = {osConfig, lib, ...}: lib.mkIf osConfig.custom.waybar.enable {
     # System tray applets
     services.network-manager-applet.enable = true;
     services.pasystray.enable = true;
@@ -34,7 +34,6 @@ flakeArgs @ {...}: {
     options.custom.waybar.enable = lib.mkEnableOption "Waybar status bar";
     config = lib.mkIf config.custom.waybar.enable {
       fonts.packages = [pkgs.font-awesome];
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.waybar];
     };
   };
 }

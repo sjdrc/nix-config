@@ -1,5 +1,5 @@
-flakeArgs @ {...}: {
-  flake.homeModules.claude-code = {pkgs, ...}: {
+{...}: {
+  flake.homeModules.claude-code = {osConfig, lib, pkgs, ...}: lib.mkIf osConfig.custom.claude-code.enable {
     programs.claude-code = {
       enable = true;
       settings = {
@@ -18,10 +18,7 @@ flakeArgs @ {...}: {
     };
   };
 
-  flake.nixosModules.claude-code = {config, lib, ...}: {
+  flake.nixosModules.claude-code = {lib, ...}: {
     options.custom.claude-code.enable = lib.mkEnableOption "Claude Code";
-    config = lib.mkIf config.custom.claude-code.enable {
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.claude-code];
-    };
   };
 }

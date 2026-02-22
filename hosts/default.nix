@@ -1,6 +1,5 @@
 {lib, inputs, config, ...}: {
-  # flake-parts declares flake.nixosModules but not flake.homeModules,
-  # so we declare it here to allow multiple modules to merge their homeModules.
+  # flake-parts doesn't declare flake.homeModules, so we declare it here.
   options.flake.homeModules = lib.mkOption {
     type = lib.types.lazyAttrsOf lib.types.raw;
     default = {};
@@ -27,6 +26,7 @@
               inputs.self.overlays.default
               inputs.nix-vscode-extensions.overlays.default
             ];
+            home-manager.sharedModules = builtins.attrValues config.flake.homeModules;
           }
           hostModule
         ];

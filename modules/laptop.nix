@@ -1,5 +1,5 @@
-flakeArgs @ {...}: {
-  flake.homeModules.laptop = {...}: {
+{...}: {
+  flake.homeModules.laptop = {osConfig, lib, ...}: lib.mkIf osConfig.custom.laptop.enable {
     services.cbatticon.enable = true;
   };
 
@@ -32,7 +32,6 @@ flakeArgs @ {...}: {
 
       services.thermald.enable = true;
 
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.laptop];
     };
   };
 }

@@ -1,5 +1,5 @@
-flakeArgs @ {inputs, ...}: {
-  flake.homeModules.nix = {...}: {
+{inputs, ...}: {
+  flake.homeModules.nix = {osConfig, lib, ...}: lib.mkIf osConfig.custom.nix.enable {
     programs.nix-index-database.comma.enable = true;
     programs.nix-index.enable = true;
   };
@@ -48,7 +48,6 @@ flakeArgs @ {inputs, ...}: {
 
       home-manager.sharedModules = [
         inputs.nix-index-database.homeModules.nix-index
-        flakeArgs.config.flake.homeModules.nix
       ];
 
       # WARNING: Do not change

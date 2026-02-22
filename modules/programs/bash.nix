@@ -1,5 +1,5 @@
-flakeArgs @ {...}: {
-  flake.homeModules.bash = {...}: {
+{...}: {
+  flake.homeModules.bash = {osConfig, lib, ...}: lib.mkIf osConfig.custom.bash.enable {
     programs.bash = {
       enable = true;
       enableCompletion = true;
@@ -38,10 +38,7 @@ flakeArgs @ {...}: {
     };
   };
 
-  flake.nixosModules.bash = {config, lib, ...}: {
+  flake.nixosModules.bash = {lib, ...}: {
     options.custom.bash.enable = lib.mkEnableOption "bash configuration";
-    config = lib.mkIf config.custom.bash.enable {
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.bash];
-    };
   };
 }

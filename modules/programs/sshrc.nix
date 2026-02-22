@@ -1,5 +1,5 @@
-flakeArgs @ {...}: {
-  flake.homeModules.sshrc = {pkgs, ...}: {
+{...}: {
+  flake.homeModules.sshrc = {osConfig, lib, pkgs, ...}: lib.mkIf osConfig.custom.sshrc.enable {
     home.file = {
       ".sshrc".text = ''
         HISTFILESIZE=100000
@@ -44,10 +44,7 @@ flakeArgs @ {...}: {
     ];
   };
 
-  flake.nixosModules.sshrc = {config, lib, ...}: {
+  flake.nixosModules.sshrc = {lib, ...}: {
     options.custom.sshrc.enable = lib.mkEnableOption "sshrc SSH wrapper";
-    config = lib.mkIf config.custom.sshrc.enable {
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.sshrc];
-    };
   };
 }

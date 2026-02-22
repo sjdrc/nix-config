@@ -1,4 +1,4 @@
-flakeArgs @ {...}: {
+{...}: {
   imports = [
     ./programs/niri.nix
     ./programs/nirinit.nix
@@ -10,7 +10,7 @@ flakeArgs @ {...}: {
     ./programs/zen-browser.nix
   ];
 
-  flake.homeModules.desktop = {...}: {
+  flake.homeModules.desktop = {osConfig, lib, ...}: lib.mkIf osConfig.custom.desktop.enable {
     gtk.enable = true;
     qt.enable = true;
     programs.mpv.enable = true;
@@ -53,7 +53,6 @@ flakeArgs @ {...}: {
         gnome-keyring
       ];
 
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.desktop];
     };
   };
 }

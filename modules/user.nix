@@ -1,5 +1,5 @@
-flakeArgs @ {inputs, ...}: {
-  flake.homeModules.user = {...}: {
+{inputs, ...}: {
+  flake.homeModules.user = {osConfig, lib, ...}: lib.mkIf osConfig.custom.user.enable {
     xdg = {
       enable = true;
       configFile."mimeapps.list".force = true;
@@ -49,8 +49,6 @@ flakeArgs @ {inputs, ...}: {
         useUserPackages = true;
         extraSpecialArgs = {inherit inputs;};
         backupFileExtension = "backup";
-
-        sharedModules = [flakeArgs.config.flake.homeModules.user];
 
         users.${config.custom.user.name} = {
           home = {

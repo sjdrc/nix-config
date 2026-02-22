@@ -1,5 +1,6 @@
-flakeArgs @ {inputs, ...}: {
+{inputs, ...}: {
   flake.homeModules.niri = {
+    osConfig,
     pkgs,
     lib,
     config,
@@ -16,7 +17,7 @@ flakeArgs @ {inputs, ...}: {
       };
     };
 
-    config = lib.mkIf (config.lib ? niri) {
+    config = lib.mkIf (osConfig.custom.niri.enable && (config.lib ? niri)) {
       # User-level niri config
       services = {
         swaync.enable = true;
@@ -165,7 +166,6 @@ flakeArgs @ {inputs, ...}: {
         XDG_SESSION_DESKTOP = "niri";
       };
 
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.niri];
     };
   };
 }

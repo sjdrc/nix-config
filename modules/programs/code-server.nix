@@ -1,5 +1,5 @@
-flakeArgs @ {...}: {
-  flake.homeModules.code-server = {config, ...}: {
+{...}: {
+  flake.homeModules.code-server = {osConfig, lib, config, ...}: lib.mkIf osConfig.custom.code-server.enable {
     # Symlink VS Code settings into code-server's data dir
     home.file.".local/share/code-server/User/settings.json".source =
       config.lib.file.mkOutOfStoreSymlink
@@ -37,7 +37,6 @@ flakeArgs @ {...}: {
           "--disable-getting-started-override"
         ];
       };
-      home-manager.sharedModules = [flakeArgs.config.flake.homeModules.code-server];
     };
   };
 }
