@@ -11,7 +11,7 @@
       atuin = {
         enable = true;
         settings = {
-          filter_mode = "global";
+          filter_mode = "session";
           search_mode = "prefix";
         };
       };
