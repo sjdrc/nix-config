@@ -1,10 +1,4 @@
 {lib, inputs, config, ...}: {
-  # flake-parts doesn't declare flake.homeModules, so we declare it here.
-  options.flake.homeModules = lib.mkOption {
-    type = lib.types.lazyAttrsOf lib.types.raw;
-    default = {};
-  };
-
   # Helper to create a NixOS host with all modules auto-included.
   # Hosts only need to set custom.*.enable for the features they want.
   options.mkHost = lib.mkOption {
@@ -53,6 +47,7 @@
     ../modules/hardware/gpu-intel.nix
     ../modules/hardware/thinkpad-x1-nano.nix
     ../modules/hardware/gpd-pocket-3.nix
+    ../modules/hardware/gpd-win-4.nix
 
     # Host definitions
     ./dione.nix

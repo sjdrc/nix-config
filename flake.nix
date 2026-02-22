@@ -21,7 +21,7 @@
     # Existing inputs
     determinate.url = "github:DeterminateSystems/determinate";
     nix-index-database.url = "github:nix-community/nix-index-database";
-zen-browser = {
+    zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs = {
         nixpkgs.follows = "nixpkgs";
@@ -51,6 +51,8 @@ zen-browser = {
       systems = ["x86_64-linux" "aarch64-linux"];
 
       imports = [
+        inputs.home-manager.flakeModules.home-manager
+        ./packages
         ./hosts
       ];
     };
